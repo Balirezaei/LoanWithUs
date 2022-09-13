@@ -61,12 +61,12 @@ namespace LoanWithUs.Persistense.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoanWithUsFile");
+                    b.ToTable("LoanWithUsFile", (string)null);
                 });
 
             modelBuilder.Entity("LoanWithUs.Domain.UserAggregate.Applicant", b =>
                 {
-                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.AddressInformation", "AddressInformation", b1 =>
+                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.Applicant.AddressInformation#LoanWithUs.Domain.UserAggregate.AddressInformation", "AddressInformation", b1 =>
                         {
                             b1.Property<int>("ApplicantId")
                                 .HasColumnType("int");
@@ -105,7 +105,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("ApplicantId");
                         });
 
-                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.EducationalInformation", "EducationalInformation", b1 =>
+                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.Applicant.EducationalInformation#LoanWithUs.Domain.UserAggregate.EducationalInformation", "EducationalInformation", b1 =>
                         {
                             b1.Property<int>("ApplicantId")
                                 .HasColumnType("int");
@@ -126,36 +126,41 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("ApplicantId");
                         });
 
-                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.IdentityInformation", "IdentityInformation", b1 =>
+                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.Applicant.IdentityInformation#LoanWithUs.Domain.UserAggregate.IdentityInformation", "IdentityInformation", b1 =>
                         {
                             b1.Property<int>("ApplicantId")
                                 .HasColumnType("int");
 
                             b1.Property<string>("EmailAddress")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(150)
+                                .HasColumnType("nvarchar(150)")
+                                .HasColumnName("EmailAddress");
 
                             b1.Property<string>("MobileNumber")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(11)
+                                .HasColumnType("nvarchar(11)")
+                                .HasColumnName("MobileNumber");
 
                             b1.Property<string>("NationalCode")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
+                                .HasColumnName("NationalCode");
 
                             b1.Property<string>("Password")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("Password");
 
                             b1.HasKey("ApplicantId");
 
-                            b1.ToTable("IdentityInformation", (string)null);
+                            b1.ToTable("Applicant", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ApplicantId");
                         });
 
-                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.PersonalInformation", "PersonalInformation", b1 =>
+                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.Applicant.PersonalInformation#LoanWithUs.Domain.UserAggregate.PersonalInformation", "PersonalInformation", b1 =>
                         {
                             b1.Property<int>("ApplicantId")
                                 .HasColumnType("int");
@@ -195,7 +200,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("ApplicantId");
                         });
 
-                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.UserConfirmation", "UserConfirmation", b1 =>
+                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.Applicant.UserConfirmation#LoanWithUs.Domain.UserAggregate.UserConfirmation", "UserConfirmation", b1 =>
                         {
                             b1.Property<int>("ApplicantId")
                                 .HasColumnType("int");
@@ -226,7 +231,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("ApplicantId");
                         });
 
-                    b.OwnsMany("LoanWithUs.Domain.UserAggregate.UserDocument", "UserDocuments", b1 =>
+                    b.OwnsMany("LoanWithUs.Domain.UserAggregate.Applicant.UserDocuments#LoanWithUs.Domain.UserAggregate.UserDocument", "UserDocuments", b1 =>
                         {
                             b1.Property<int>("ApplicantId")
                                 .HasColumnType("int");
@@ -261,7 +266,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                             b1.Navigation("File");
                         });
 
-                    b.OwnsMany("LoanWithUs.Domain.UserAggregate.UserLogin", "UserLogins", b1 =>
+                    b.OwnsMany("LoanWithUs.Domain.UserAggregate.Applicant.UserLogins#LoanWithUs.Domain.UserAggregate.UserLogin", "UserLogins", b1 =>
                         {
                             b1.Property<int>("ApplicantId")
                                 .HasColumnType("int");

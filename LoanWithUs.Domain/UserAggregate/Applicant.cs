@@ -8,5 +8,10 @@
             this.IdentityInformation = new IdentityInformation(mobileNumber);
             this.UserLogins?.Add(new UserLogin(DateTime.Now.AddMinutes(2)));
         }
+
+        public void AddNewLogin() {
+
+            this.UserLogins?.Add(new UserLogin(DateTime.Now.AddMinutes(2)));
+        }
     }
 }

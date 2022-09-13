@@ -14,7 +14,11 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NationalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    MobileNumber = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    EmailAddress = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -74,27 +78,6 @@ namespace LoanWithUs.Persistense.EF.Migrations
                     table.PrimaryKey("PK_EducationalInformation", x => x.ApplicantId);
                     table.ForeignKey(
                         name: "FK_EducationalInformation_Applicant_ApplicantId",
-                        column: x => x.ApplicantId,
-                        principalTable: "Applicant",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "IdentityInformation",
-                columns: table => new
-                {
-                    ApplicantId = table.Column<int>(type: "int", nullable: false),
-                    NationalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MobileNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IdentityInformation", x => x.ApplicantId);
-                    table.ForeignKey(
-                        name: "FK_IdentityInformation_Applicant_ApplicantId",
                         column: x => x.ApplicantId,
                         principalTable: "Applicant",
                         principalColumn: "Id",
@@ -209,9 +192,6 @@ namespace LoanWithUs.Persistense.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "EducationalInformation");
-
-            migrationBuilder.DropTable(
-                name: "IdentityInformation");
 
             migrationBuilder.DropTable(
                 name: "PersonalInformation");

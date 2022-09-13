@@ -1,5 +1,4 @@
-﻿
-namespace LoanWithUs.Exceptions
+﻿namespace LoanWithUs.Exceptions
 {
     public class ExceptionThrowingListener : IValidationListener
     {
@@ -8,4 +7,11 @@ namespace LoanWithUs.Exceptions
             throw reason;
         }
     }
+
+
+    public class DomainException : Exception
+    {
+        public DomainException(string message) : base(message) { }
+    }
+
 }

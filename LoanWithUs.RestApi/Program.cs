@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using LoanWithUs.ApplicationService;
 using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.Common;
@@ -6,11 +7,14 @@ using LoanWithUs.MediatR.PreRequest;
 using LoanWithUs.Persistense.EF.ContextContainer;
 using LoanWithUs.Persistense.EF.Repository;
 using LoanWithUs.Persistense.EF.UnitOfWork;
+using LoanWithUs.RestApi.Bootstrap;
+using LoanWithUs.RestApi.Filter;
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration Configuration = builder.Configuration;
@@ -18,46 +22,41 @@ IWebHostEnvironment environment = builder.Environment;
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+
+builder.Services.AddControllersWithViews(options =>
+    options.Filters.Add<ApiExceptionFilterAttribute>())
+        .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMediatR(typeof(CreateApplicantCommand).Assembly);
-builder.Services.AddMediatR(typeof(CreateUserCommandHandler).Assembly);
-//LoggingHandlerDecorator
-
-builder.Services.AddMediatR(typeof(LoggingHandlerDecorator<>).Assembly);
-
-//builder.Services.AddMediatR(typeof(IRequestHandler<>), typeof(LoggingHandlerDecorator<>));
-//builder.Services.AddMediatR(typeof(IRequestHandler<>), typeof(LoggingHandlerDecorator<>));
-//builder.Services.AddTransient(typeof(IRequestHandler<>), typeof(LoggingHandlerDecorator<>));
-
-//builder.Services.Dec(typeof(IRequestPreProcessor<>), typeof(LoggingHandlerDecorator<>));
-
-//builder.Services.AddMediatR(typeof(LoggingHandlerDecorator<>).Assembly);
+builder.Services.AddApplicationServices();
 
 builder.Services.AddDbContext<LoanWithUsContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("LoanWithUsContext")));
 
 
 builder.Services.AddScoped<IUnitOfWork, LoanWithUsUnitOfWork>();
-builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>(); 
+builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
 builder.Services.AddScoped<IApplicantReadRepository, ApplicantReadRepository>();
-//var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy(name: MyAllowSpecificOrigins,
-//                      policy =>
-//                      {
-//                          policy.WithOrigins("http://localhost:7201/");
-//                      });
-//});
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("*")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .WithHeaders(HeaderNames.ContentType, "x-custom-header")
+                            .WithExposedHeaders("Token-Expired");
+                      });
+});
 
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -65,8 +64,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+//app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();

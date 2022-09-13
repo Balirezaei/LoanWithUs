@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoanWithUs.Persistense.EF.Migrations
 {
     [DbContext(typeof(LoanWithUsContext))]
-    [Migration("20220904114159_init")]
+    [Migration("20220908145916_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -134,24 +134,29 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasColumnType("int");
 
                             b1.Property<string>("EmailAddress")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(150)
+                                .HasColumnType("nvarchar(150)")
+                                .HasColumnName("EmailAddress");
 
                             b1.Property<string>("MobileNumber")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(11)
+                                .HasColumnType("nvarchar(11)")
+                                .HasColumnName("MobileNumber");
 
                             b1.Property<string>("NationalCode")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
+                                .HasColumnName("NationalCode");
 
                             b1.Property<string>("Password")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("Password");
 
                             b1.HasKey("ApplicantId");
 
-                            b1.ToTable("IdentityInformation", (string)null);
+                            b1.ToTable("Applicant");
 
                             b1.WithOwner()
                                 .HasForeignKey("ApplicantId");

@@ -5,7 +5,7 @@ namespace LoanWithUs.Exceptions
     public class MobileValidator
     {
 
-        private static string Mobile_PATTERN = @"\+989\d{9}";
+        private static string Mobile_PATTERN = @"09\d{9}";
 
         private IValidationListener listener;
 
@@ -18,7 +18,7 @@ namespace LoanWithUs.Exceptions
         {
             if (!Regex.Matches(mobile, Mobile_PATTERN, RegexOptions.IgnorePatternWhitespace).Any())
             {
-                listener.reject(new InvalidDomainInputException(mobile));
+                listener.reject(new InvalidDomainInputException("شماره تلفن"));
             }
         }
     }

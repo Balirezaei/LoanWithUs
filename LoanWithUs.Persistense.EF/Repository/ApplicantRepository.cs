@@ -39,5 +39,11 @@ namespace LoanWithUs.Persistense.EF.Repository
                 .Where(m => m.IdentityInformation.MobileNumber == mobile && m.UserLogins.Any(z => z.Code == code && z.ExpireDate > DateTime.Now))
                 .AnyAsync();
         }
+
+        public Task<Applicant> FindApplicantByMobile(string mobile)
+        {
+            return _context.Applicants
+                 .FirstOrDefaultAsync(m => m.IdentityInformation.MobileNumber == mobile);
+        }
     }
 }

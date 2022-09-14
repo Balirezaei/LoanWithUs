@@ -20,5 +20,7 @@ namespace LoanWithUs.Persistense.EF.ContextContainer
         }
 
         public DbSet<Applicant> Applicants { get; set; }
+
+        public DbSet<Supporter> Supporters { get; set; }
     }
 }

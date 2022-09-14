@@ -11,22 +11,23 @@ namespace LoanWithUs.ApplicationService.Command
         private readonly IApplicantRepository _applicantRepository;
         private readonly IApplicantReadRepository _applicantReadRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IApplicantDomainService _applicantDomainService;
 
-        public CreateUserCommandHandler(IApplicantRepository applicantRepository, IUnitOfWork unitOfWork, IApplicantReadRepository applicantReadRepository)
+        public CreateUserCommandHandler(IApplicantRepository applicantRepository, IUnitOfWork unitOfWork, IApplicantReadRepository applicantReadRepository, IApplicantDomainService applicantDomainService)
         {
             _applicantRepository = applicantRepository;
             _unitOfWork = unitOfWork;
             _applicantReadRepository = applicantReadRepository;
+            _applicantDomainService = applicantDomainService;
         }
 
         public async Task<ApplicantCreatedCommandResult> Handle(CreateApplicantCommand request, CancellationToken cancellationToken)
         {
             var mobile = request.Mobile.RecheckMobileNumber();
             var savedApplicant =await _applicantReadRepository.FindApplicantByMobile(mobile);
-
             if (savedApplicant == null)
             {
-                var applicant = new Applicant(mobile);
+                var applicant = new Applicant(mobile, _applicantDomainService);
                 await _applicantRepository.CreateApplicant(applicant);
             }
             else

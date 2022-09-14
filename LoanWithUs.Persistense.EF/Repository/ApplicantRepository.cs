@@ -40,6 +40,11 @@ namespace LoanWithUs.Persistense.EF.Repository
                 .AnyAsync();
         }
 
+        public Task<bool> CheckUserMobileAvailibilityWithAllUserType(string mobile)
+        {
+            return _context.Supporters.AnyAsync(m => m.IdentityInformation.MobileNumber == mobile);
+        }
+
         public Task<Applicant> FindApplicantByMobile(string mobile)
         {
             return _context.Applicants

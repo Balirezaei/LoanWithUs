@@ -3,6 +3,7 @@ using LoanWithUs.ApplicationService;
 using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.Common;
 using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.DomainService;
 using LoanWithUs.MediatR.PreRequest;
 using LoanWithUs.Persistense.EF.ContextContainer;
 using LoanWithUs.Persistense.EF.Repository;
@@ -40,6 +41,8 @@ builder.Services.AddDbContext<LoanWithUsContext>(options =>
 builder.Services.AddScoped<IUnitOfWork, LoanWithUsUnitOfWork>();
 builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
 builder.Services.AddScoped<IApplicantReadRepository, ApplicantReadRepository>();
+builder.Services.AddScoped<IApplicantDomainService, ApplicantDomainService>();
+
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Services.AddCors(options =>

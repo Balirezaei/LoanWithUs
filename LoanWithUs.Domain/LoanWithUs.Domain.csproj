@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LoanWithUs.Common\LoanWithUs.Common.csproj" />
     <ProjectReference Include="..\LoanWithUs.Exceptions\LoanWithUs.Exceptions.csproj" />
   </ItemGroup>
 

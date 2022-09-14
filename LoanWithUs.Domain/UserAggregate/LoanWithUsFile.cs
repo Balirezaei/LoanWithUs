@@ -1,4 +1,4 @@
-﻿namespace LoanWithUs.Domain.UserAggregate
+﻿namespace LoanWithUs.Domain
 {
     public class LoanWithUsFile
     {

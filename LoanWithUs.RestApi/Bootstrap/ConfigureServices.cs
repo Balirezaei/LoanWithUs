@@ -7,7 +7,7 @@ using MediatR;
 
 namespace LoanWithUs.RestApi.Bootstrap
 {
-    public static class ConfigureServices
+    public static class ConfigureServicesForMediatR
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
@@ -19,7 +19,6 @@ namespace LoanWithUs.RestApi.Bootstrap
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
-
             return services;
         }
     }

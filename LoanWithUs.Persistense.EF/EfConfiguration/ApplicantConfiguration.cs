@@ -27,12 +27,15 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
                     sa.Property(p => p.EmailAddress).HasMaxLength(150).IsRequired(false).HasColumnName("EmailAddress");
                     sa.Property(p => p.Password).HasMaxLength(50).IsRequired(false).HasColumnName("Password");
                     sa.Property(p => p.NationalCode).HasMaxLength(10).IsRequired(false).HasColumnName("NationalCode");
-                });//.HasIndex(z=>z.IdentityInformation.MobileNumber).IsUnique();
+                    sa.HasIndex(p => p.MobileNumber).IsUnique();
+                });
+
             builder.OwnsOne(m => m.EducationalInformation).ToTable("EducationalInformation");
             builder.OwnsOne(m => m.UserConfirmation).ToTable("UserConfirmation");
             builder.OwnsOne(m => m.AddressInformation).ToTable("AddressInformation");
             builder.OwnsOne(m => m.PersonalInformation).ToTable("PersonalInformation");
             builder.OwnsMany(m => m.UserDocuments).ToTable("UserDocument");
+            builder.OwnsMany(m => m.BankAccountInformations).ToTable("BankAccountInformation");
             builder.OwnsMany(m => m.UserLogins).ToTable("UserLogin");
         }
     }

@@ -1,11 +1,13 @@
 ﻿using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.Common;
 using LoanWithUs.Common.ExtentionMethod;
+using LoanWithUs.Domain;
 using LoanWithUs.Domain.UserAggregate;
 using MediatR;
 
 namespace LoanWithUs.ApplicationService.Command
 {
+
     public class CreateUserCommandHandler : IRequestHandler<CreateApplicantCommand, ApplicantCreatedCommandResult>
     {
         private readonly IApplicantRepository _applicantRepository;

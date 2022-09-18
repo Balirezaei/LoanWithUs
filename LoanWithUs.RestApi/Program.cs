@@ -33,6 +33,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplicationServices();
+builder.Services.AddFrameworkConfigurationService(Configuration);
 
 builder.Services.AddDbContext<LoanWithUsContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("LoanWithUsContext")));

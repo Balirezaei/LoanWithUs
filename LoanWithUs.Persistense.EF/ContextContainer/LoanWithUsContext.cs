@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Domain.UserAggregate;
+﻿using LoanWithUs.Domain.BasicInfo;
+using LoanWithUs.Domain.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,5 +23,7 @@ namespace LoanWithUs.Persistense.EF.ContextContainer
         public DbSet<Applicant> Applicants { get; set; }
 
         public DbSet<Supporter> Supporters { get; set; }
+
+        public DbSet<LoanWithUsFile> LoanWithUsFiles { get; set; }
     }
 }

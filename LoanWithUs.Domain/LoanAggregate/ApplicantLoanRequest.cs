@@ -1,4 +1,5 @@
 ﻿using LoanWithUs.Common;
+using LoanWithUs.Domain.BasicInfo;
 using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Exceptions;
 

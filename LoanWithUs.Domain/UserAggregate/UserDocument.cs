@@ -1,4 +1,6 @@
-﻿namespace LoanWithUs.Domain.UserAggregate
+﻿using LoanWithUs.Domain.BasicInfo;
+
+namespace LoanWithUs.Domain.UserAggregate
 {
     public class UserDocument
     {

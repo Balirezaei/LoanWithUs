@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,18 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
-    <PackageReference Include="FluentValidation" Version="11.2.1" />
-    <PackageReference Include="MediatR" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LoanWithUs.ApplicationService.Contract\LoanWithUs.ApplicationService.Contract.csproj" />
-    <ProjectReference Include="..\LoanWithUs.Common\LoanWithUs.Common.csproj" />
     <ProjectReference Include="..\LoanWithUs.Domain\LoanWithUs.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Query\Applicant\" />
   </ItemGroup>
 
 </Project>

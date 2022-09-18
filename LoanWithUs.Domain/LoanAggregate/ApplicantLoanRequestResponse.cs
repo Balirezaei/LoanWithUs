@@ -1,4 +1,6 @@
-﻿namespace LoanWithUs.Domain
+﻿using LoanWithUs.Domain.BasicInfo;
+
+namespace LoanWithUs.Domain
 {
     public class ApplicantLoanRequestResponse
     {

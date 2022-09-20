@@ -10,8 +10,8 @@ namespace LoanWithUs.Domain.UserAggregate
         protected Applicant() { }
         public Applicant(string mobileNumber, IApplicantDomainService domainService)
         {
-            var isAvailable = domainService.MobileAvailabilityWithOtherUserType(mobileNumber).Result;
-            if (!isAvailable)
+            var isAvailable = domainService.IsMobileReservedWithOtherUserType(mobileNumber).Result;
+            if (isAvailable)
             {
                 throw new InvalidDomainInputException("امکان ثبت نام شماره تلفن به عنوان درخواستگر فراهم نمی باشد.لطفن با مدیر سامانه تماس بگیرید.");
             }
@@ -23,6 +23,18 @@ namespace LoanWithUs.Domain.UserAggregate
         public void AddNewLogin()
         {
             this.UserLogins.Add(new UserLogin(DateTime.Now.AddMinutes(2)));
+        }
+
+        public void UpdateEducationalInformation(string educationalSubject, string lastEducationTitle)
+        {
+            if (this.EducationalInformation==null)
+            {
+                this.EducationalInformation = new EducationalInformation(educationalSubject, lastEducationTitle);
+            }
+            else
+            {
+                this.EducationalInformation.UpdateInformation(educationalSubject, lastEducationTitle);
+            }
         }
     }
 

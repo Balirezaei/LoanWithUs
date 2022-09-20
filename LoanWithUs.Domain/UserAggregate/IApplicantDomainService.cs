@@ -2,7 +2,7 @@
 {
     public interface IApplicantDomainService
     {
-        Task<bool> MobileAvailabilityWithOtherUserType(string mobileNumber);
+        Task<bool> IsMobileReservedWithOtherUserType(string mobileNumber);
     }
 
 }

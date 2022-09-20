@@ -1,6 +1,6 @@
 ﻿using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.Common;
-using LoanWithUs.Domain.BasicInfo;
+using LoanWithUs.Domain;
 using MediatR;
 
 namespace LoanWithUs.ApplicationService.Command

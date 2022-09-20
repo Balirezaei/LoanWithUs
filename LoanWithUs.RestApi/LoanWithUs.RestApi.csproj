@@ -22,7 +22,11 @@
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
-
+	
+	<ItemGroup>
+		<InternalsVisibleTo Include="LoanWithUs.IntegrationTest" />
+	</ItemGroup>
+	
   <ItemGroup>
     <ProjectReference Include="..\LoanWithUs.ApplicationService\LoanWithUs.ApplicationService.csproj" />
     <ProjectReference Include="..\LoanWithUs.DomainService\LoanWithUs.DomainService.csproj" />
@@ -30,6 +34,7 @@
     <ProjectReference Include="..\LoanWithUs.Mapper\LoanWithUs.Mapper.csproj" />
     <ProjectReference Include="..\LoanWithUs.MediatR.PreRequest\LoanWithUs.MediatR.PreRequest.csproj" />
     <ProjectReference Include="..\LoanWithUs.Persistense.EF\LoanWithUs.Persistense.EF.csproj" />
+    <ProjectReference Include="..\LoanWithUs.ViewModel\LoanWithUs.ViewModel.csproj" />
   </ItemGroup>
 
   <ItemGroup>

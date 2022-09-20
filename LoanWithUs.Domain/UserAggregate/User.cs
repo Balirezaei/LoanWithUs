@@ -6,17 +6,35 @@
     public class User
     {
         public int Id { get; protected set; }
-        public IdentityInformation IdentityInformation { get; protected set; }
-        public AddressInformation AddressInformation { get; protected set; }
-        public EducationalInformation EducationalInformation { get; protected set; }
-        public UserConfirmation UserConfirmation { get; protected set; }
-    
-        public PersonalInformation PersonalInformation { get; protected set; }
-        public List<UserDocument> UserDocuments { get; protected set; }
-        public List<BankAccountInformation> BankAccountInformations { get; set; }
+        /// <summary>
+        /// اطلاعات هویتی
+        /// </summary>
+        public virtual IdentityInformation IdentityInformation { get; protected set; }
+        /// <summary>
+        /// اطلاعات پستی
+        /// </summary>
+        public virtual AddressInformation AddressInformation { get; protected set; }
+        /// <summary>
+        /// اطلاعات تحصیلی
+        /// </summary>
+        public virtual EducationalInformation EducationalInformation { get; protected set; }
+        /// <summary>
+        /// تاییده ادمین سیستم
+        /// </summary>
+        public virtual UserConfirmation UserConfirmation { get; protected set; }
+        /// <summary>
+        /// اطلاعات شخصی
+        /// </summary>
+        public virtual PersonalInformation PersonalInformation { get; protected set; }
+        /// <summary>
+        /// مستندات مورد نیاز
+        /// </summary>
+        public virtual List<UserDocument> UserDocuments { get; protected set; }
+        public virtual List<BankAccountInformation> BankAccountInformations { get; set; }
         public bool HasCertificate { get { return UserConfirmation.TotalConfirmation; } }
-        public List<UserLogin> UserLogins { get; protected set; } 
-      
+        public virtual List<UserLogin> UserLogins { get; protected set; }
+        public DateTime RegisterationDate { get;protected set; }
+
 
     }
 }

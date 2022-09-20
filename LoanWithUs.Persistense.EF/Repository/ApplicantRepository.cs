@@ -22,9 +22,14 @@ namespace LoanWithUs.Persistense.EF.Repository
         {
             _ = _context.Applicants.AddAsync(applicant);
         }
+
+        public void Update(Applicant applicant)
+        {
+            _context.Applicants.Update(applicant);
+        }
     }
 
-    public class ApplicantReadRepository: IApplicantReadRepository
+    public class ApplicantReadRepository : IApplicantReadRepository
     {
         private readonly LoanWithUsContext _context;
 
@@ -45,10 +50,20 @@ namespace LoanWithUs.Persistense.EF.Repository
             return _context.Supporters.AnyAsync(m => m.IdentityInformation.MobileNumber == mobile);
         }
 
+        public Task<Applicant> FindApplicantByIdIncludeEducationalInformation(int id)
+        {
+            return _context.Applicants.Where(m => m.Id == id).Include(m => m.EducationalInformation).FirstOrDefaultAsync();
+        }
+
         public Task<Applicant> FindApplicantByMobile(string mobile)
         {
             return _context.Applicants
                  .FirstOrDefaultAsync(m => m.IdentityInformation.MobileNumber == mobile);
+        }
+
+        Task<Applicant> IApplicantReadRepository.FindApplicantById(int id)
+        {
+            return _context.Applicants.Where(m => m.Id == id).FirstOrDefaultAsync();
         }
     }
 }

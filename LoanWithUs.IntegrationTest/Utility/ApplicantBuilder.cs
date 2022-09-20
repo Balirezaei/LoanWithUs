@@ -1,12 +1,7 @@
 ﻿using LoanWithUs.Domain.UserAggregate;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LoanWithUs.Domain.Test.Utility
+namespace LoanWithUs.IntegrationTest.Utility
 {
     internal class ApplicantBuilder
     {
@@ -28,7 +23,7 @@ namespace LoanWithUs.Domain.Test.Utility
 
         public ApplicantBuilder WithApplicantDomainService(IApplicantDomainService domainService)
         {
-            this.applicantDomainService = domainService;
+            applicantDomainService = domainService;
             return this;
         }
 

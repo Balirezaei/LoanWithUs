@@ -1,6 +1,6 @@
 ﻿using LoanWithUs.Common;
 
-namespace LoanWithUs.Domain.BasicInfo
+namespace LoanWithUs.Domain
 {
     public class LoanWithUsFile
     {

@@ -28,7 +28,7 @@ namespace LoanWithUs.Domain.Test
         public void SupporterUser_Could_not_beCreated_As_an_Applicant()
         {
             var applicantDomainService = Substitute.For<IApplicantDomainService>();
-            applicantDomainService.MobileAvailabilityWithOtherUserType(default).Returns(false);
+            applicantDomainService.IsMobileReservedWithOtherUserType(default).Returns(false);
             Action comparison = () => {
                 new ApplicantBuilder().WithApplicantDomainService(applicantDomainService).Build();
             };

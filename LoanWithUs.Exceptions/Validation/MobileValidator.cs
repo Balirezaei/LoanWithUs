@@ -18,7 +18,7 @@ namespace LoanWithUs.Exceptions
         {
             if (!Regex.Matches(mobile, Mobile_PATTERN, RegexOptions.IgnorePatternWhitespace).Any())
             {
-                listener.reject(new InvalidDomainInputException("شماره تلفن"));
+                listener.reject(new InvalidDomainInputException("مقدار ورودی شماره تلفن به درستی وارد نشده است."));
             }
         }
     }

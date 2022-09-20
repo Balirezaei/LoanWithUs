@@ -1,4 +1,4 @@
-﻿using LoanWithUs.Domain.BasicInfo;
+﻿using LoanWithUs.Domain;
 
 namespace LoanWithUs.Domain.UserAggregate
 {

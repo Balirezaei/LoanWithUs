@@ -1,0 +1,32 @@
+﻿using LoanWithUs.ApplicationService.Contract;
+using LoanWithUs.ViewModel;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace LoanWithUs.RestApi.Controllers.Applicant
+{
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class InformationCompletionController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+        public InformationCompletionController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateApplicantEducationalInformation(ApplicantEductionalInformationVm vm)
+        {
+            var res = await _mediator.Send(new ApplicantCompleteEductionalInformationCommand()
+            {
+                EducationalSubject = vm.EducationalSubject,
+                LastEducationTitle = vm.LastEducationTitle,
+                Id = vm.Id
+            });
+
+            return Ok(res);
+        }
+    }
+}

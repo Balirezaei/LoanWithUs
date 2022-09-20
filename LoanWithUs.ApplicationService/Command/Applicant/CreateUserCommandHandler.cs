@@ -7,7 +7,6 @@ using MediatR;
 
 namespace LoanWithUs.ApplicationService.Command
 {
-
     public class CreateUserCommandHandler : IRequestHandler<CreateApplicantCommand, ApplicantCreatedCommandResult>
     {
         private readonly IApplicantRepository _applicantRepository;
@@ -30,6 +29,8 @@ namespace LoanWithUs.ApplicationService.Command
             if (savedApplicant == null)
             {
                 var applicant = new Applicant(mobile, _applicantDomainService);
+                var tt = applicant.AddressInformation;
+
                 await _applicantRepository.CreateApplicant(applicant);
             }
             else

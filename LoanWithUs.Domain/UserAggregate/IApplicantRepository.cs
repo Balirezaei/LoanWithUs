@@ -9,6 +9,7 @@ namespace LoanWithUs.Domain.UserAggregate
     public interface IApplicantRepository
     {
         Task CreateApplicant(Applicant applicant);
+        void Update(Applicant applicant);
     }
 
     public interface IApplicantReadRepository
@@ -16,6 +17,8 @@ namespace LoanWithUs.Domain.UserAggregate
         Task<bool> CheckUserActivationCode(string mobile, string code);
         Task<bool> CheckUserMobileAvailibilityWithAllUserType(string mobile);
         Task<Applicant> FindApplicantByMobile(string mobile);
+        Task<Applicant> FindApplicantById(int id);
+        Task<Applicant> FindApplicantByIdIncludeEducationalInformation(int id);
     }
 
 }

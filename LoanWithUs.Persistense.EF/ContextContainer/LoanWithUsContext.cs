@@ -1,4 +1,4 @@
-﻿using LoanWithUs.Domain.BasicInfo;
+﻿using LoanWithUs.Domain;
 using LoanWithUs.Domain.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,11 +19,12 @@ namespace LoanWithUs.Persistense.EF.ContextContainer
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);      
             base.OnModelCreating(modelBuilder);
         }
-
+        public DbSet<User> Users { get; set; }
         public DbSet<Applicant> Applicants { get; set; }
 
         public DbSet<Supporter> Supporters { get; set; }
 
         public DbSet<LoanWithUsFile> LoanWithUsFiles { get; set; }
+        public DbSet<City> Cities { get; set; }
     }
 }

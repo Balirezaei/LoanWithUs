@@ -1,4 +1,4 @@
-﻿namespace LoanWithUs.Domain.BasicInfo
+﻿namespace LoanWithUs.Domain
 {
     public interface IFileRepository
     {

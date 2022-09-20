@@ -97,12 +97,6 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 {
                     table.PrimaryKey("PK_AddressInformation", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_AddressInformation_City_ProvinceId",
-                        column: x => x.ProvinceId,
-                        principalTable: "City",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_AddressInformation_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
@@ -135,7 +129,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    LastEducationTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastEducationLevel = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EducationalSubject = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -325,11 +319,6 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AddressInformation_ProvinceId",
-                table: "AddressInformation",
-                column: "ProvinceId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Applicant_MobileNumber",
                 table: "Applicant",
                 column: "MobileNumber",
@@ -366,6 +355,9 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 name: "Applicant");
 
             migrationBuilder.DropTable(
+                name: "City");
+
+            migrationBuilder.DropTable(
                 name: "EducationalInformation");
 
             migrationBuilder.DropTable(
@@ -382,9 +374,6 @@ namespace LoanWithUs.Persistense.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserLogin");
-
-            migrationBuilder.DropTable(
-                name: "City");
 
             migrationBuilder.DropTable(
                 name: "LoanWithUsFile");

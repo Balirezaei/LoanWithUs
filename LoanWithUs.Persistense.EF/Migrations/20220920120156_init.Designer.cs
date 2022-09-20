@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoanWithUs.Persistense.EF.Migrations
 {
     [DbContext(typeof(LoanWithUsContext))]
-    [Migration("20220920071509_init")]
+    [Migration("20220920120156_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -451,20 +451,10 @@ namespace LoanWithUs.Persistense.EF.Migrations
 
                             b1.HasKey("UserId");
 
-                            b1.HasIndex("ProvinceId");
-
                             b1.ToTable("AddressInformation", (string)null);
-
-                            b1.HasOne("LoanWithUs.Domain.City", "Province")
-                                .WithMany()
-                                .HasForeignKey("ProvinceId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
-
-                            b1.Navigation("Province");
                         });
 
                     b.OwnsMany("LoanWithUs.Domain.UserAggregate.BankAccountInformation", "BankAccountInformations", b1 =>
@@ -507,7 +497,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("LastEducationTitle")
+                            b1.Property<string>("LastEducationLevel")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 

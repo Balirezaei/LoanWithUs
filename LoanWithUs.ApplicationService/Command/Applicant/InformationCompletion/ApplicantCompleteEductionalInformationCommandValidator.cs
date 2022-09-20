@@ -7,7 +7,7 @@ namespace LoanWithUs.ApplicationService.Command
     {
         public ApplicantCompleteEductionalInformationCommandValidator()
         {
-            RuleFor(v => v.LastEducationTitle)
+            RuleFor(v => v.LastEducationLevel)
                 .NotEmpty().WithMessage("ورود عنوان آخرین مدرک تحصیلی اجباریست.");
 
             RuleFor(v => v.EducationalSubject)

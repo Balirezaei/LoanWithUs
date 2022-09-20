@@ -22,10 +22,9 @@ namespace LoanWithUs.RestApi.Controllers.Applicant
             var res = await _mediator.Send(new ApplicantCompleteEductionalInformationCommand()
             {
                 EducationalSubject = vm.EducationalSubject,
-                LastEducationTitle = vm.LastEducationTitle,
+                LastEducationLevel = vm.LastEducationLevel,
                 Id = vm.Id
             });
-
             return Ok(res);
         }
     }

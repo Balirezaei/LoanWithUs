@@ -26,7 +26,7 @@ namespace LoanWithUs.ApplicationService.Command
             if (applicant == null)
                 throw new NotFoundException("چنین درخواستگری موجود نیست!");
 
-            applicant.UpdateEducationalInformation(request.EducationalSubject, request.LastEducationTitle);
+            applicant.UpdateEducationalInformation(request.EducationalSubject, request.LastEducationLevel);
             _applicantRepository.Update(applicant);
             await _unitOfWork.CommitAsync();
 

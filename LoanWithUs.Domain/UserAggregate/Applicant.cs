@@ -25,15 +25,15 @@ namespace LoanWithUs.Domain.UserAggregate
             this.UserLogins.Add(new UserLogin(DateTime.Now.AddMinutes(2)));
         }
 
-        public void UpdateEducationalInformation(string educationalSubject, string lastEducationTitle)
+        public void UpdateEducationalInformation(string educationalSubject, string lastEducationlevel)
         {
             if (this.EducationalInformation==null)
             {
-                this.EducationalInformation = new EducationalInformation(educationalSubject, lastEducationTitle);
+                this.EducationalInformation = new EducationalInformation(educationalSubject, lastEducationlevel);
             }
             else
             {
-                this.EducationalInformation.UpdateInformation(educationalSubject, lastEducationTitle);
+                this.EducationalInformation.UpdateInformation(educationalSubject, lastEducationlevel);
             }
         }
     }

@@ -12,6 +12,7 @@ namespace LoanWithUs.Domain.Test.Utility
     {
         private string mobile = "09124804347";
         private IApplicantDomainService applicantDomainService;
+        private EducationalInformation educationalInformation = null;
 
         public ApplicantBuilder()
         {
@@ -34,7 +35,18 @@ namespace LoanWithUs.Domain.Test.Utility
 
         public Applicant Build()
         {
-            return new Applicant(mobile, applicantDomainService);
+            var applicant= new Applicant(mobile, applicantDomainService);
+            if (educationalInformation!=null)
+            {
+                applicant.UpdateEducationalInformation(educationalInformation.EducationalSubject, educationalInformation.LastEducationLevel);
+            }
+            return applicant;
+        }
+
+        public ApplicantBuilder WithDefaultEducationalInformation()
+        {
+            educationalInformation = new EducationalInformation("تست", "تست");
+            return this;
         }
     }
 }

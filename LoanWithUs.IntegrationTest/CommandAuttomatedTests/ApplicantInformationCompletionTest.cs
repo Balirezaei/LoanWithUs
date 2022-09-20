@@ -25,14 +25,13 @@ namespace LoanWithUs.IntegrationTest
 
             var result = await _toSqlTesting.SendAsync(new ApplicantCompleteEductionalInformationCommand
             {
-                LastEducationTitle = "لیسانس",
+                LastEducationLevel = "لیسانس",
                 
                 EducationalSubject= "فناوری اطلاعات",
                 Id=1
             });
 
             result.Message.Should().NotBeEmpty();
-
 
         }
     }

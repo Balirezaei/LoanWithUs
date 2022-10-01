@@ -18,6 +18,7 @@ namespace LoanWithUs.Domain.UserAggregate
             this.IdentityInformation = new IdentityInformation(mobileNumber);
             this.UserLogins = this.UserLogins ?? new List<UserLogin>();
             this.UserLogins.Add(new UserLogin(DateTime.Now.AddMinutes(2)));
+            this.RegisterationDate = DateTime.Now;
         }
 
         public void AddNewLogin()

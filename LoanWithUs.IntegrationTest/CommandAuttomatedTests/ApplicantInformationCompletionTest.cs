@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LoanWithUs.IntegrationTest
 {
-    public class ApplicantInformationCompletionTest:IClassFixture<ToSqlTesting>
+    public class ApplicantInformationCompletionTest : IClassFixture<ToSqlTesting>
     {
         private readonly ToSqlTesting _toSqlTesting;
 
@@ -17,7 +17,7 @@ namespace LoanWithUs.IntegrationTest
         {
             _toSqlTesting = toSqlTesting;
         }
-        
+
         [Fact]
         public async Task UpdateEducationalInformation_Should_work_Properly_on_first_time()
         {
@@ -25,10 +25,10 @@ namespace LoanWithUs.IntegrationTest
 
             var result = await _toSqlTesting.SendAsync(new ApplicantCompleteEductionalInformationCommand
             {
-                LastEducationLevel = "لیسانس",
-                
-                EducationalSubject= "فناوری اطلاعات",
-                Id=1
+                LastEducationLevel = Common.EducationLevel.Bachelor,
+
+                EducationalSubject = "فناوری اطلاعات",
+                ApplicantId = 1
             });
 
             result.Message.Should().NotBeEmpty();

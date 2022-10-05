@@ -35,17 +35,17 @@ namespace LoanWithUs.Domain.Test.Utility
 
         public Applicant Build()
         {
-            var applicant= new Applicant(mobile, applicantDomainService);
-            if (educationalInformation!=null)
+            var applicant = new Applicant(mobile, applicantDomainService);
+            if (educationalInformation != null)
             {
-                applicant.UpdateEducationalInformation(educationalInformation.EducationalSubject, educationalInformation.LastEducationLevel);
+                applicant.UpdateEducationalInformation(educationalInformation.LastEducationLevel, educationalInformation.EducationalSubject);
             }
             return applicant;
         }
 
         public ApplicantBuilder WithDefaultEducationalInformation()
         {
-            educationalInformation = new EducationalInformation("تست", "تست");
+            educationalInformation = new EducationalInformation(Common.EducationLevel.Bachelor, "تست");
             return this;
         }
     }

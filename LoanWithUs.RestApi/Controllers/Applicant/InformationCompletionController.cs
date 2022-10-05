@@ -23,9 +23,20 @@ namespace LoanWithUs.RestApi.Controllers.Applicant
             {
                 EducationalSubject = vm.EducationalSubject,
                 LastEducationLevel = vm.LastEducationLevel,
-                Id = vm.Id
+                ApplicantId = vm.UserId
             });
             return Ok(res);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetApplicantById(int id)
+        {
+            var res = await _mediator.Send(new GetApplicantByIdQuery()
+            {
+                ApplicantId = id
+            });
+            return Ok(res);
+        }
+
     }
 }

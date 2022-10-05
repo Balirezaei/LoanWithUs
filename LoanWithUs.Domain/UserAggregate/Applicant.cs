@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Exceptions;
+﻿using LoanWithUs.Common;
+using LoanWithUs.Exceptions;
 
 namespace LoanWithUs.Domain.UserAggregate
 {
@@ -26,15 +27,15 @@ namespace LoanWithUs.Domain.UserAggregate
             this.UserLogins.Add(new UserLogin(DateTime.Now.AddMinutes(2)));
         }
 
-        public void UpdateEducationalInformation(string educationalSubject, string lastEducationlevel)
+        public void UpdateEducationalInformation(EducationLevel educationallevel, string educationalSubject)
         {
             if (this.EducationalInformation==null)
             {
-                this.EducationalInformation = new EducationalInformation(educationalSubject, lastEducationlevel);
+                this.EducationalInformation = new EducationalInformation(educationallevel, educationalSubject);
             }
             else
             {
-                this.EducationalInformation.UpdateInformation(educationalSubject, lastEducationlevel);
+                this.EducationalInformation.UpdateInformation(educationallevel, educationalSubject);
             }
         }
     }

@@ -22,11 +22,21 @@ namespace LoanWithUs.RestApi.Controllers.Applicant
         }
 
         [HttpPost]
-        public async Task<IActionResult> ActivateCodeVerification(CreateApplicantCommand command)
+        public async Task<IActionResult> RequestNewActivateCode(RequestNewActivationCodeApplicantCommand command)
         {
             var res = await _mediator.Send(command);
             return Ok(res);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ActivateCodeVerification(ValidateUserActivationCodeQuery command)
+        {
+            var res = await _mediator.Send(command);
+            return Ok(res);
+        }
+
+        
 
     }
 }

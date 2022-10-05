@@ -87,6 +87,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
                     ProvinceId = table.Column<int>(type: "int", nullable: false),
+                    CityId = table.Column<int>(type: "int", nullable: false),
                     PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HomeAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HomePhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -129,7 +130,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    LastEducationLevel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastEducationLevel = table.Column<int>(type: "int", nullable: false),
                     EducationalSubject = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>

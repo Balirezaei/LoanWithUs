@@ -23,10 +23,7 @@ namespace LoanWithUs.ApplicationService.Query
         {
             var mobile = request.Mobile.RecheckMobileNumber();
             var result = await _applicantRepository.CheckUserActivationCode(mobile, request.code);
-            return new ValidateUserActivationCodeQueryResult
-            {
-                IsValid = result
-            };
+            return new ValidateUserActivationCodeQueryResult(result);
         }
     }
 }

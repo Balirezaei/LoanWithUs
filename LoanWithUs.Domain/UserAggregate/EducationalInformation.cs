@@ -1,28 +1,27 @@
-﻿using LoanWithUs.Exceptions;
+﻿using LoanWithUs.Common;
+using LoanWithUs.Exceptions;
 
 namespace LoanWithUs.Domain.UserAggregate
 {
     public class EducationalInformation
     {
         CommonTextInputValidator validator = new CommonTextInputValidator(new ExceptionThrowingListener());
-        public EducationalInformation(string educationalSubject, string lastEducationLevel)
+        public EducationalInformation(EducationLevel educationallevel, string educationalSubject)
         {
-            validator.validate(educationalSubject, "عنوان آخرین مدرک تحصیلی");
-            validator.validate(lastEducationLevel, "آخرین مدرک تحصیلی");
+            validator.validate(educationalSubject, "آخرین مدرک تحصیلی");
             EducationalSubject = educationalSubject;
-            LastEducationLevel = lastEducationLevel;
+            LastEducationLevel = educationallevel;
         }
 
         protected EducationalInformation() { }
-        public string LastEducationLevel { get; private set; }
+        public EducationLevel LastEducationLevel { get; private set; }
         public string EducationalSubject { get; private set; }
 
-        internal void UpdateInformation(string educationalSubject, string lastEducationTitle)
+        internal void UpdateInformation(EducationLevel educationallevel, string educationalSubject)
         {
-            validator.validate(educationalSubject, "عنوان آخرین مدرک تحصیلی");
-            validator.validate(lastEducationTitle, "آخرین مدرک تحصیلی");
+            validator.validate(educationalSubject, "آخرین مدرک تحصیلی");
             EducationalSubject = educationalSubject;
-            LastEducationLevel = lastEducationTitle;
+            LastEducationLevel = educationallevel;
         }
     }
 }

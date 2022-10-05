@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoanWithUs.Persistense.EF.Migrations
 {
     [DbContext(typeof(LoanWithUsContext))]
-    [Migration("20220920120156_init")]
+    [Migration("20221003121419_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -426,6 +426,9 @@ namespace LoanWithUs.Persistense.EF.Migrations
                             b1.Property<int>("UserId")
                                 .HasColumnType("int");
 
+                            b1.Property<int>("CityId")
+                                .HasColumnType("int");
+
                             b1.Property<string>("HomeAddress")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
@@ -497,9 +500,8 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("LastEducationLevel")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                            b1.Property<int>("LastEducationLevel")
+                                .HasColumnType("int");
 
                             b1.HasKey("UserId");
 

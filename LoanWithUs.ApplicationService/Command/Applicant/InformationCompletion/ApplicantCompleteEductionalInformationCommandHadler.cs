@@ -22,11 +22,11 @@ namespace LoanWithUs.ApplicationService.Command
         }
         public async Task<ApplicantCompleteInformationCommandResult> Handle(ApplicantCompleteEductionalInformationCommand request, CancellationToken cancellationToken)
         {
-            var applicant = await _applicantReadRepository.FindApplicantByIdIncludeEducationalInformation(request.Id);
+            var applicant = await _applicantReadRepository.FindApplicantByIdIncludeEducationalInformation(request.ApplicantId);
             if (applicant == null)
                 throw new NotFoundException("چنین درخواستگری موجود نیست!");
 
-            applicant.UpdateEducationalInformation(request.EducationalSubject, request.LastEducationLevel);
+            applicant.UpdateEducationalInformation(request.LastEducationLevel,request.EducationalSubject);
             _applicantRepository.Update(applicant);
             await _unitOfWork.CommitAsync();
 

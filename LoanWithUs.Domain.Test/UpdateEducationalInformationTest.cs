@@ -14,7 +14,7 @@ namespace LoanWithUs.Domain.Test
             //Excersice
             Action comparison = () =>
             {
-                applicant.UpdateEducationalInformation(null, null);
+                applicant.UpdateEducationalInformation(Common.EducationLevel.Bachelor, null);
             };
             //Assertion
             comparison.Should().Throw<InvalidDomainInputException>();
@@ -25,10 +25,10 @@ namespace LoanWithUs.Domain.Test
         {
             //Setup
             var expectedEducationalSubject = "فناوری اطلاعات";
-            var expectedEducationalLevel = "لیسانس";
+            var expectedEducationalLevel = Common.EducationLevel.Bachelor;
             //Excersice
             Applicant applicant = new ApplicantBuilder().Build();
-            applicant.UpdateEducationalInformation(expectedEducationalSubject, expectedEducationalLevel);
+            applicant.UpdateEducationalInformation(expectedEducationalLevel, expectedEducationalSubject);
             applicant.EducationalInformation.EducationalSubject.Should().Be(expectedEducationalSubject);
             applicant.EducationalInformation.LastEducationLevel.Should().Be(expectedEducationalLevel);
         }
@@ -37,11 +37,11 @@ namespace LoanWithUs.Domain.Test
         public void Applicant_Should_Work_Correctly_OnUpdate_EducationalInformation()
         {
             var expectedEducationalSubject = "فناوری اطلاعات";
-            var expectedEducationalLevel = "لیسانس";
+            var expectedEducationalLevel = Common.EducationLevel.Bachelor;
 
             //Excersice
             Applicant applicant = new ApplicantBuilder().WithDefaultEducationalInformation().Build();
-            applicant.UpdateEducationalInformation(expectedEducationalSubject, expectedEducationalLevel);
+            applicant.UpdateEducationalInformation(expectedEducationalLevel, expectedEducationalSubject);
 
             //Assertion
             applicant.EducationalInformation.EducationalSubject.Should().Be(expectedEducationalSubject);
@@ -52,7 +52,7 @@ namespace LoanWithUs.Domain.Test
         public void Applicant_Should_throw_Exception_OnInvalid_EducationalInformation()
         {
             var expectedEducationalSubject = "%#";
-            var expectedEducationalLevel = "لیسانس";
+            var expectedEducationalLevel = Common.EducationLevel.Bachelor;
 
             Applicant applicant = new ApplicantBuilder().Build();
 
@@ -60,7 +60,7 @@ namespace LoanWithUs.Domain.Test
             //Excersice
             Action comparison = () =>
             {
-                applicant.UpdateEducationalInformation(expectedEducationalSubject, expectedEducationalLevel);
+                applicant.UpdateEducationalInformation(expectedEducationalLevel, expectedEducationalSubject);
             };
 
             //Assertion

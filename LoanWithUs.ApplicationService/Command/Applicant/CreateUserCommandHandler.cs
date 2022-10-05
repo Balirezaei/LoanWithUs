@@ -1,7 +1,6 @@
 ﻿using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.Common;
 using LoanWithUs.Common.ExtentionMethod;
-using LoanWithUs.Domain;
 using LoanWithUs.Domain.UserAggregate;
 using MediatR;
 
@@ -25,21 +24,18 @@ namespace LoanWithUs.ApplicationService.Command
         public async Task<ApplicantCreatedCommandResult> Handle(CreateApplicantCommand request, CancellationToken cancellationToken)
         {
             var mobile = request.Mobile.RecheckMobileNumber();
-            var savedApplicant =await _applicantReadRepository.FindApplicantByMobile(mobile);
-            if (savedApplicant == null)
+            var applicant = await _applicantReadRepository.FindApplicantByMobile(mobile);
+            if (applicant == null)
             {
-                var applicant = new Applicant(mobile, _applicantDomainService);
-                var tt = applicant.AddressInformation;
-
+                applicant = new Applicant(mobile, _applicantDomainService);
                 await _applicantRepository.CreateApplicant(applicant);
             }
             else
             {
-                savedApplicant.AddNewLogin();
+                applicant.AddNewLogin();
             }
-           
             await _unitOfWork.CommitAsync();
-            return new ApplicantCreatedCommandResult();
+            return new ApplicantCreatedCommandResult(applicant.Id);
         }
     }
 }

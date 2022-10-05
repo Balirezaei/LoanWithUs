@@ -18,6 +18,7 @@ namespace LoanWithUs.Domain.UserAggregate
         Task<bool> CheckUserMobileAvailibilityWithAllUserType(string mobile);
         Task<Applicant> FindApplicantByMobile(string mobile);
         Task<Applicant> FindApplicantById(int id);
+        Task<Applicant> FindFullApplicantAggregateById(int id);
         Task<Applicant> FindApplicantByIdIncludeEducationalInformation(int id);
     }
 

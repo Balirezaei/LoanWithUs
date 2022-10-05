@@ -1,11 +1,12 @@
-﻿using MediatR;
+﻿using LoanWithUs.Common;
+using MediatR;
 
 namespace LoanWithUs.ApplicationService.Contract
 {
     public class ApplicantCompleteEductionalInformationCommand : IRequest<ApplicantCompleteInformationCommandResult>
     {
-        public int Id { get; set; }
-        public string LastEducationLevel { get; set; }
+        public int ApplicantId { get; set; }
+        public EducationLevel LastEducationLevel { get; set; }
         public string EducationalSubject { get; set; }
 
     }

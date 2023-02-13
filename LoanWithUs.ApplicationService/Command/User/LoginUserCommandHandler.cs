@@ -6,14 +6,14 @@ using MediatR;
 
 namespace LoanWithUs.ApplicationService.Command
 {
-    public class CreateUserCommandHandler : IRequestHandler<CreateApplicantCommand, ApplicantCreatedCommandResult>
+    public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, UserLoginCommandResult>
     {
         private readonly IApplicantRepository _applicantRepository;
         private readonly IApplicantReadRepository _applicantReadRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IApplicantDomainService _applicantDomainService;
 
-        public CreateUserCommandHandler(IApplicantRepository applicantRepository, IUnitOfWork unitOfWork, IApplicantReadRepository applicantReadRepository, IApplicantDomainService applicantDomainService)
+        public LoginUserCommandHandler(IApplicantRepository applicantRepository, IUnitOfWork unitOfWork, IApplicantReadRepository applicantReadRepository, IApplicantDomainService applicantDomainService)
         {
             _applicantRepository = applicantRepository;
             _unitOfWork = unitOfWork;
@@ -21,21 +21,22 @@ namespace LoanWithUs.ApplicationService.Command
             _applicantDomainService = applicantDomainService;
         }
 
-        public async Task<ApplicantCreatedCommandResult> Handle(CreateApplicantCommand request, CancellationToken cancellationToken)
+        public async Task<UserLoginCommandResult> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
             var mobile = request.Mobile.RecheckMobileNumber();
             var applicant = await _applicantReadRepository.FindApplicantByMobile(mobile);
             if (applicant == null)
             {
-                applicant = new Applicant(mobile, _applicantDomainService);
-                await _applicantRepository.CreateApplicant(applicant);
+                // applicant = new Applicant(mobile, _applicantDomainService);
+                // await _applicantRepository.CreateApplicant(applicant);
+                throw new Exception("شما مجوز ورود به سامانه را ندارید.");
             }
             else
             {
                 applicant.AddNewLogin();
             }
             await _unitOfWork.CommitAsync();
-            return new ApplicantCreatedCommandResult(applicant.Id);
+            return new UserLoginCommandResult(applicant.Id);
         }
     }
 }

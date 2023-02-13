@@ -11,9 +11,9 @@ namespace LoanWithUs.RestApi.Bootstrap
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssembly(typeof(CreateUserCommandValidator).Assembly);
-            services.AddMediatR(typeof(CreateApplicantCommand).Assembly);
-            services.AddMediatR(typeof(CreateUserCommandHandler).Assembly);
+            services.AddValidatorsFromAssembly(typeof(LoginUserCommandValidator).Assembly);
+            services.AddMediatR(typeof(LoginUserCommand).Assembly);
+            services.AddMediatR(typeof(LoginUserCommandHandler).Assembly);
             services.AddMediatR(typeof(LoggingHandlerDecorator<>).Assembly);
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));

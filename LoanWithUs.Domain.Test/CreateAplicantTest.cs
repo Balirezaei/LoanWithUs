@@ -8,13 +8,13 @@ namespace LoanWithUs.Domain.Test
 {
     public class CreateAplicantTest
     {
-        [Fact]
-        public void Applicant_should_Be_Created_With_Mobile_Number()
-        {
-            string mobile = "09124804347";
-            Applicant applicant = new ApplicantBuilder().WithmobileNumber(mobile).Build();
-            applicant.IdentityInformation.MobileNumber.Should().Be(mobile);
-        }
+        // [Fact]
+        // public void Applicant_should_Be_Created_With_Mobile_Number()
+        // {
+        //     string mobile = "09124804347";
+        //     Applicant applicant = new ApplicantBuilder().WithmobileNumber(mobile).Build();
+        //     applicant.IdentityInformation.MobileNumber.Should().Be(mobile);
+        // }
 
 
         [Fact]

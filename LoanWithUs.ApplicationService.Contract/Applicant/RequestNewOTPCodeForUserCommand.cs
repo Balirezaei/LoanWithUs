@@ -2,7 +2,7 @@
 
 namespace LoanWithUs.ApplicationService.Contract
 {
-    public class RequestNewActivationCodeApplicantCommand : IRequest<ApplicantCreatedCommandResult>
+    public class RequestNewOTPCodeForUserCommand : IRequest<UserLoginCommandResult>
     {
         public string Mobile { get; set; }
     }

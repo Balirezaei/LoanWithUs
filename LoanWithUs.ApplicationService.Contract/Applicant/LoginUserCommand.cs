@@ -2,7 +2,7 @@
 
 namespace LoanWithUs.ApplicationService.Contract
 {
-    public class CreateApplicantCommand : IRequest<ApplicantCreatedCommandResult>
+    public class LoginUserCommand : IRequest<UserLoginCommandResult>
     {
         public string Mobile { get; set; }
     }

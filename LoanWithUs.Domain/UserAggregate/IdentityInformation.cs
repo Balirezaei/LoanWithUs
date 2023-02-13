@@ -8,11 +8,13 @@ namespace LoanWithUs.Domain.UserAggregate
     {
         protected IdentityInformation() { }
         MobileValidator validator = new MobileValidator(new ExceptionThrowingListener());
-        public IdentityInformation(string mobileNumber)
+        public IdentityInformation(string mobileNumber,string nationalCode)
         {
             validator.validate(mobileNumber);
             MobileNumber = mobileNumber;
         }
+
+ 
 
 
         public string NationalCode { get; private set; }

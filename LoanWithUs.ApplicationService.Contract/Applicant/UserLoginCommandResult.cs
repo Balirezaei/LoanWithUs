@@ -1,10 +1,10 @@
 ﻿namespace LoanWithUs.ApplicationService.Contract
 {
-    public class ApplicantCreatedCommandResult
+    public class UserLoginCommandResult
     {
         public int UserId { get; set; }
 
-        public ApplicantCreatedCommandResult(int userId)
+        public UserLoginCommandResult(int userId)
         {
             UserId = userId;
         }

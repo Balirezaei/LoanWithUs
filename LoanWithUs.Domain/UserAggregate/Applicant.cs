@@ -16,7 +16,7 @@ namespace LoanWithUs.Domain.UserAggregate
             {
                 throw new InvalidDomainInputException("امکان ثبت نام شماره تلفن به عنوان درخواستگر فراهم نمی باشد.لطفن با مدیر سامانه تماس بگیرید.");
             }
-            this.IdentityInformation = new IdentityInformation(mobileNumber);
+            this.IdentityInformation = new IdentityInformation(mobileNumber,"");
             this.UserLogins = this.UserLogins ?? new List<UserLogin>();
             this.UserLogins.Add(new UserLogin(DateTime.Now.AddMinutes(2)));
             this.RegisterationDate = DateTime.Now;

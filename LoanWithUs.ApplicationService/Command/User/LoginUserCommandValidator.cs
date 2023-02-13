@@ -4,10 +4,10 @@ using LoanWithUs.Domain.UserAggregate;
 
 namespace LoanWithUs.ApplicationService.Command
 {
-    public class CreateUserCommandValidator : AbstractValidator<CreateApplicantCommand>
+    public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
     {
         //private readonly IApplicantReadRepository _applicantRepository;
-        public CreateUserCommandValidator()
+        public LoginUserCommandValidator()
         {
             //_applicantRepository = applicantRepository;
 

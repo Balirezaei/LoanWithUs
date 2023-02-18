@@ -13,10 +13,14 @@ namespace LoanWithUs.Persistense.EF.Repository
             _context = context;
         }
 
-        public Task<bool> CheckUserActivationCode(string mobile, string code)
+        public Task<bool> CheckUserActivationCode(string mobile, string code, string userAgent)
         {
             return _context.Applicants
-                .Where(m => m.IdentityInformation.MobileNumber == mobile && m.UserLogins.Any(z => z.Code == code && z.ExpireDate > DateTime.Now))
+                .Where(m => m.IdentityInformation.MobileNumber == mobile
+                &&
+                m.UserLogins.Any(z => z.Code == code && z.ExpireDate > DateTime.Now && z.UserAgent == userAgent)
+
+                )
                 .AnyAsync();
         }
 
@@ -40,10 +44,10 @@ namespace LoanWithUs.Persistense.EF.Repository
         {
             return _context.Applicants.Where(m => m.Id == id)
                 .Include(m => m.AddressInformation)
-                .Include(m=>m.EducationalInformation)
-                .Include(m=>m.BankAccountInformations)
-                .Include(m=>m.IdentityInformation)
-                .Include(m=>m.PersonalInformation)
+                .Include(m => m.EducationalInformation)
+                .Include(m => m.BankAccountInformations)
+                .Include(m => m.IdentityInformation)
+                .Include(m => m.PersonalInformation)
                 .FirstOrDefaultAsync();
         }
 

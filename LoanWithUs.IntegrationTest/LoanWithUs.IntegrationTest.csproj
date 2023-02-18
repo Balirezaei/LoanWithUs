@@ -10,21 +10,9 @@
 
 	<ItemGroup>
 		<None Remove="appsettings.Development.json" />
-		<None Remove="appsettings.json" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Content Include="appsettings.Development.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<Content Include="appsettings.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-	</ItemGroup>
+
 
 	<ItemGroup>
 		<PackageReference Include="FluentAssertions" Version="6.7.0" />
@@ -51,10 +39,30 @@
 		<ProjectReference Include="..\LoanWithUs.ApplicationService\LoanWithUs.ApplicationService.csproj" />
 		<ProjectReference Include="..\LoanWithUs.Persistense.EF\LoanWithUs.Persistense.EF.csproj" />
 		<ProjectReference Include="..\LoanWithUs.RestApi\LoanWithUs.RestApi.csproj" />
+		<ProjectReference Include="..\LoanWithUs.Encryption\LoanWithUs.Encryption.csproj" />
+
 	</ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="APIAutomated\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="keys\loan_with_us_rsa.pem">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="keys\loan_with_us_rsa.pub.pem">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="keys\private_loan.pem">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="keys\public_loan.pem">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>

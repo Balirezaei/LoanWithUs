@@ -1,10 +1,17 @@
-﻿using LoanWithUs.Persistense.EF.ContextContainer;
+﻿using LoanWithUs.Domain;
+using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Persistense.EF.ContextContainer;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+using Newtonsoft.Json;
 using Respawn;
+using System.Net;
+using System.Security.Policy;
+using System.Text;
 
 namespace LoanWithUs.IntegrationTest.Utility
 {
@@ -38,6 +45,32 @@ namespace LoanWithUs.IntegrationTest.Utility
             return await mediator.Send(request);
         }
 
+        public async Task<HttpResponseMessage> CallPostApi<TRequest>(TRequest request, string url)
+        {
+            using var client = _factory.CreateClient();
+            var json = JsonConvert.SerializeObject(request);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(url, content);
+            //var responseText = await response.Content.ReadAsStringAsync();
+            //response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            //var authorithyDelegatedCreated = JsonConvert.DeserializeObject<TResponse>(responseText);
+            //authorithyDelegatedCreated.Error.Message.Should().Be(MessageResource.AuthorityDelegationExceptionJuniorHasOpenWork);
+            return response;
+        }
+
+        //public async Task<HttpResponseMessage> CallGetApi<TRequest>(TRequest request, string url)
+        //{
+        //    using var client = _factory.CreateClient();
+        //    var json = JsonConvert.SerializeObject(request);
+        //    var content = new StringContent(json, Encoding.UTF8, "application/json");
+        //    var response = await client.PostAsync(url, content);
+        //    //var responseText = await response.Content.ReadAsStringAsync();
+        //    //response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        //    //var authorithyDelegatedCreated = JsonConvert.DeserializeObject<TResponse>(responseText);
+        //    //authorithyDelegatedCreated.Error.Message.Should().Be(MessageResource.AuthorityDelegationExceptionJuniorHasOpenWork);
+        //    return response;
+        //}
+
         public string? GetCurrentUserId()
         {
             return _currentUserId;
@@ -47,11 +80,9 @@ namespace LoanWithUs.IntegrationTest.Utility
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<LoanWithUsContext>();
-            await context.Applicants.AddAsync(new ApplicantBuilder().WithmobileNumber("09381112233").Build());
+            await context.Applicants.AddAsync(new ApplicantBuilder(context).WithMobileNumber("09381112233").Build());
             await context.SaveChangesAsync();
         }
-
-
 
         public async Task ResetState()
         {
@@ -91,6 +122,20 @@ namespace LoanWithUs.IntegrationTest.Utility
             return await context.Set<TEntity>().CountAsync();
         }
 
+        public async Task<UserLogin> WithMockAdminAttempdToLogin()
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<LoanWithUsContext>();
+            var admin = await context.Administrators.FirstAsync(m => m.Id == 1);
+            var adminLogin = admin.AddNewAttempdToLogin("IntegrationTest");
+            await context.SaveChangesAsync();
+            return adminLogin;
 
+        }
+        public T GetRequiredService<T>()
+        {
+            using var scope = _scopeFactory.CreateScope();
+            return scope.ServiceProvider.GetRequiredService<T>();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Persistense.EF.ContextContainer;
+﻿using LoanWithUs.ApplicationService.Contract;
+using LoanWithUs.Persistense.EF.ContextContainer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ namespace LoanWithUs.IntegrationTest.Utility
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureAppConfiguration(configurationBuilder =>
+            builder.UseEnvironment("IntegrationTest").ConfigureAppConfiguration(configurationBuilder =>
             {
                 var integrationConfig = new ConfigurationBuilder()
                     .AddJsonFile("appsettings.json")
@@ -28,6 +29,16 @@ namespace LoanWithUs.IntegrationTest.Utility
                 //    .AddTransient(provider => Mock.Of<ICurrentUserService>(s =>
                 //        s.UserId == GetCurrentUserId()));
 
+
+                
+                     services
+                    .Remove<UserDataSecurityِate>().AddScoped(m => {
+                        return new UserDataSecurityِate() { 
+                            IP="IntegrationTest",
+                            UserAgent= "IntegrationTest",
+                            LocalIp= "IntegrationTest",
+                        };
+                    });
                 services
                     .Remove<DbContextOptions<LoanWithUsContext>>()
                     .AddDbContext<LoanWithUsContext>((sp, options) =>

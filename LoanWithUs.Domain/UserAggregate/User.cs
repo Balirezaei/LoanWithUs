@@ -33,7 +33,14 @@
         public virtual List<BankAccountInformation> BankAccountInformations { get; set; }
         public bool HasCertificate { get { return UserConfirmation.TotalConfirmation; } }
         public virtual List<UserLogin> UserLogins { get; protected set; }
-        public DateTime RegisterationDate { get;protected set; }
+        public DateTime RegisterationDate { get; protected set; }
+
+        public UserLogin AddNewLogin(string userAgent)
+        {
+            var userLogin = new UserLogin(DateTime.Now.AddMinutes(2), userAgent);
+            this.UserLogins.Add(userLogin);
+            return userLogin;
+        }
 
 
     }

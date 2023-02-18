@@ -11,9 +11,13 @@
             };
         }
 
-        private Supporter()
+        protected Supporter()
         {
 
+        }
+        public Applicant RegisterNewApplicant(string mobileNumber, string nationalCode, string firstName, string lastName, IApplicantDomainService domainService)
+        {
+            return new Applicant(mobileNumber, nationalCode, firstName, lastName, domainService);
         }
 
     }

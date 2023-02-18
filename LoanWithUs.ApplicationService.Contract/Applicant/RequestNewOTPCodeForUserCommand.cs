@@ -2,8 +2,13 @@
 
 namespace LoanWithUs.ApplicationService.Contract
 {
-    public class RequestNewOTPCodeForUserCommand : IRequest<UserLoginCommandResult>
+    public class RequestNewOTPCodeForUserCommand :UserDataSecurityِate, IRequest<UserLoginCommandResult>
     {
+        public RequestNewOTPCodeForUserCommand(string mobile)
+        {
+            Mobile = mobile;
+        }
+
         public string Mobile { get; set; }
     }
 }

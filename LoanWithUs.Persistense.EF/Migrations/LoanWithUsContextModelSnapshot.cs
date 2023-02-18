@@ -22,6 +22,63 @@ namespace LoanWithUs.Persistense.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("LoanWithUs.Domain.Administrator", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("MobileNumber")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
+
+                    b.Property<string>("NationalCode")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RegisterationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Administrator", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FirstName = "Admin",
+                            LastName = "admin",
+                            MobileNumber = "09124444444",
+                            NationalCode = "0099887766",
+                            Password = "o4r8d5bV0uH4wxMOIP+8SG8plc4dLZ4iUsgbUonSDL+y1wEWURrhqJEeK7qpyViSZMpVZOhDWbtiEPt00fZr2vWfjKDgEIA8982GNs+Atr2PRpV3+8epUbP6egn4ifS1UsGV3iiZJj3cdMLczNkvBAV05BKi97L+OVQaj4b741gsrDw5p2oa2CE6BLAMAcFfxBpLSuYnLfycfQJlQ7nxP10eSCpeLEpnuX+YqextxzkL1510HPkpJxHspruuijuT3LFMrhqWnNr0e7YuJlft3354QYLkGXAIn2zJYEo/ppfpVXe7IAI9zx7FsLPgXD3z62gEjJHiF+TjeegmDuQ5CA==",
+                            RegisterationDate = new DateTime(2023, 2, 16, 0, 21, 38, 775, DateTimeKind.Local).AddTicks(9177),
+                            UserName = "admin"
+                        });
+                });
+
             modelBuilder.Entity("LoanWithUs.Domain.City", b =>
                 {
                     b.Property<int>("Id")
@@ -408,6 +465,44 @@ namespace LoanWithUs.Persistense.EF.Migrations
                     b.ToTable("Supporter", (string)null);
                 });
 
+            modelBuilder.Entity("LoanWithUs.Domain.Administrator", b =>
+                {
+                    b.OwnsMany("LoanWithUs.Domain.UserAggregate.UserLogin", "UserLogins", b1 =>
+                        {
+                            b1.Property<int>("AdministratorId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
+
+                            b1.Property<string>("Code")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime>("ExpireDate")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<Guid>("Key")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("UserAgent")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("AdministratorId", "Id");
+
+                            b1.ToTable("AdminLogin", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("AdministratorId");
+                        });
+
+                    b.Navigation("UserLogins");
+                });
+
             modelBuilder.Entity("LoanWithUs.Domain.City", b =>
                 {
                     b.HasOne("LoanWithUs.Domain.City", "Province")
@@ -549,6 +644,39 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("UserId");
                         });
 
+                    b.OwnsMany("LoanWithUs.Domain.UserAggregate.UserLogin", "UserLogins", b1 =>
+                        {
+                            b1.Property<int>("UserId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
+
+                            b1.Property<string>("Code")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime>("ExpireDate")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<Guid>("Key")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("UserAgent")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("UserId", "Id");
+
+                            b1.ToTable("UserLogin", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
                     b.OwnsOne("LoanWithUs.Domain.UserAggregate.UserConfirmation", "UserConfirmation", b1 =>
                         {
                             b1.Property<int>("UserId")
@@ -613,32 +741,6 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("UserId");
 
                             b1.Navigation("File");
-                        });
-
-                    b.OwnsMany("LoanWithUs.Domain.UserAggregate.UserLogin", "UserLogins", b1 =>
-                        {
-                            b1.Property<int>("UserId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
-
-                            b1.Property<string>("Code")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<DateTime>("ExpireDate")
-                                .HasColumnType("datetime2");
-
-                            b1.HasKey("UserId", "Id");
-
-                            b1.ToTable("UserLogin", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
                         });
 
                     b.Navigation("AddressInformation")

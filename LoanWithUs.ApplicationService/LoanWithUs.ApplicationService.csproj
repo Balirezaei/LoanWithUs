@@ -16,6 +16,7 @@
     <ProjectReference Include="..\LoanWithUs.ApplicationService.Contract\LoanWithUs.ApplicationService.Contract.csproj" />
     <ProjectReference Include="..\LoanWithUs.Common\LoanWithUs.Common.csproj" />
     <ProjectReference Include="..\LoanWithUs.Domain\LoanWithUs.Domain.csproj" />
+    <ProjectReference Include="..\LoanWithUs.Encryption\LoanWithUs.Encryption.csproj" />
   </ItemGroup>
 
   <ItemGroup>

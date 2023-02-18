@@ -1,9 +1,12 @@
+﻿using System.Security.Cryptography;
 using FluentValidation.AspNetCore;
 using LoanWithUs.ApplicationService;
 using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.Common;
+using LoanWithUs.Domain;
 using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.DomainService;
+using LoanWithUs.Encryption;
 using LoanWithUs.MediatR.PreRequest;
 using LoanWithUs.Persistense.EF.ContextContainer;
 using LoanWithUs.Persistense.EF.Repository;
@@ -35,30 +38,63 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationServices();
 builder.Services.AddFrameworkConfigurationService(Configuration);
 
+var privatekeyDir = Path.Combine(Directory.GetCurrentDirectory(), "Keys", Configuration["Key:PrivateKey"]);
+var publicDir = Path.Combine(Directory.GetCurrentDirectory(), "Keys", Configuration["Key:PublicKey"]);
+var rsaEcryptionConfig = new RSAEncryptionConfig(privatekeyDir, publicDir, Configuration["Key:PrivatePassword"]);
+var rSAEncryption=new LoanRSAEncryption(rsaEcryptionConfig);
+builder.Services.AddScoped<ILoanRSAEncryption>(m =>
+{
+    return rSAEncryption;
+});
+builder.Services.AddAuthoticationConfigurationService(Configuration,rSAEncryption);
+
 builder.Services.AddDbContext<LoanWithUsContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("LoanWithUsContext")));
 
 
-builder.Services.AddScoped<IUnitOfWork, LoanWithUsUnitOfWork>();
-builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
-builder.Services.AddScoped<IApplicantReadRepository, ApplicantReadRepository>();
-builder.Services.AddScoped<IApplicantDomainService, ApplicantDomainService>();
+builder.Services.AddRepositoryConfigurationService();
+
+//if (builder.Environment.ApplicationName != "IntegrationTest") { }
+builder.Services.AddScoped<UserDataSecurityِate>(provider =>
+{
+    var httpContext = provider.GetService<IHttpContextAccessor>()?.HttpContext;
+    string userAgentHeader = httpContext?.Request?.Headers["User-Agent"] ?? "";
+    var authorizationHeader = httpContext?.Request.Headers["Authorization"];
+    var userAgent = new UserDataSecurityِate()
+    {
+        //BrowserType = (short)BrowserDetection.GetBrowserType(userAgentHeader),
+        IP = httpContext?.Connection.RemoteIpAddress.ToString(),
+        LocalIp = httpContext?.Connection.LocalIpAddress.ToString(),
+        //OsType = (short)OsDetection.GetOsType(userAgentHeader),
+        //SqlTokenInfoKey = sqlToken
+        UserAgent= userAgentHeader
+    };
+    return userAgent;
+});
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy.WithOrigins("*")
-                            .AllowAnyMethod()
-                            .AllowAnyHeader()
-                            .WithHeaders(HeaderNames.ContentType, "x-custom-header")
-                            .WithExposedHeaders("Token-Expired");
-                      });
-});
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: MyAllowSpecificOrigins,
+                          policy =>
+                          {
+                              policy.WithOrigins("*")
+                                .AllowAnyMethod()
+                                .AllowAnyHeader()
+                                .WithHeaders(HeaderNames.ContentType, "x-custom-header")
+                                .WithExposedHeaders("Token-Expired");
+                          });
+    });
 
+
+
+
+
+
+// builder.Services.AddScoped<RSACryptoServiceProvider>(m=>{
+//     return rsa;
+// });
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -68,9 +104,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+
 app.UseCors(MyAllowSpecificOrigins);
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

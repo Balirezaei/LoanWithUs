@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LoanWithUs.ApplicationService.Query
 {
-    public class ValidateUserActivationCodeQueryHandler : IRequestHandler<ValidateUserActivationCodeQuery, ValidateUserActivationCodeQueryResult>
+    public class ValidateUserActivationCodeQueryHandler : IRequestHandler<ValidateUserOtpQuery, ValidateOtpQueryResult>
     {
         private readonly IApplicantReadRepository _applicantRepository;
 
@@ -19,11 +19,11 @@ namespace LoanWithUs.ApplicationService.Query
             _applicantRepository = applicantRepository;
         }
 
-        public async Task<ValidateUserActivationCodeQueryResult> Handle(ValidateUserActivationCodeQuery request, CancellationToken cancellationToken)
+        public async Task<ValidateOtpQueryResult> Handle(ValidateUserOtpQuery request, CancellationToken cancellationToken)
         {
             var mobile = request.Mobile.RecheckMobileNumber();
-            var result = await _applicantRepository.CheckUserActivationCode(mobile, request.code);
-            return new ValidateUserActivationCodeQueryResult(result);
+            var result = await _applicantRepository.CheckUserActivationCode(mobile, request.code,request.UserAgent);
+            return new ValidateOtpQueryResult(result);
         }
     }
 }

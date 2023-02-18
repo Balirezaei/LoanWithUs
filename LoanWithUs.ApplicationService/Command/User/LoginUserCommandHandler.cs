@@ -31,12 +31,10 @@ namespace LoanWithUs.ApplicationService.Command
                 // await _applicantRepository.CreateApplicant(applicant);
                 throw new Exception("شما مجوز ورود به سامانه را ندارید.");
             }
-            else
-            {
-                applicant.AddNewLogin();
-            }
+            var loginUser = applicant.AddNewLogin(request.UserAgent);
+
             await _unitOfWork.CommitAsync();
-            return new UserLoginCommandResult(applicant.Id);
+            return new UserLoginCommandResult(applicant.Id, loginUser.Key);
         }
     }
 }

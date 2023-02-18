@@ -1,10 +1,10 @@
 ﻿namespace LoanWithUs.ApplicationService.Contract
 {
-    public class ValidateUserActivationCodeQueryResult
+    public class ValidateOtpQueryResult
     {
         public bool IsValid { get; set; }
 
-        public ValidateUserActivationCodeQueryResult(bool isValid)
+        public ValidateOtpQueryResult(bool isValid)
         {
             IsValid = isValid;
         }

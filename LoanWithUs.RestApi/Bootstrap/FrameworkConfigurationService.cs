@@ -18,8 +18,9 @@ namespace LoanWithUs.RestApi.Bootstrap
             var ssoConfig = ssoConfigurationSection.Get<FileSettings>();
             services.AddSingleton(ssoConfig);
 
+            services.AddAutoMapper(typeof(BasicInfoProfile).Assembly);
 
-            services.AddAutoMapper(new[] { typeof(BasicInfoProfile), typeof(ApplicantProfile) });
+            //services.AddAutoMapper(new[] { typeof(BasicInfoProfile), typeof(ApplicantProfile),typeof(SupporterProfile) });
             return services;
 
         }

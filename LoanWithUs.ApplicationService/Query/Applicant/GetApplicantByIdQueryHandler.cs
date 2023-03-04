@@ -3,11 +3,6 @@ using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Exceptions;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LoanWithUs.ApplicationService.Query.Applicant
 {

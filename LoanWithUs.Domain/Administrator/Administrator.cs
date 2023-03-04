@@ -7,8 +7,9 @@ namespace LoanWithUs.Domain
     /// </summary>
     public class Administrator
     {
+
         protected Administrator() { }
-        public Administrator(int id,string firstName, string lastName, string mobileNumber, string nationalCode, string userName, string password)
+        public Administrator(int id, string firstName, string lastName, string mobileNumber, string nationalCode, string userName, string password)
         {
             this.Id = id;
             this.FirstName = firstName;
@@ -40,5 +41,11 @@ namespace LoanWithUs.Domain
         {
             return this.FirstName + " " + this.LastName;
         }
+
+        public Supporter DefineNewSupporter(string nationalCode, string mobileNumber)
+        {
+            return new Supporter(nationalCode, mobileNumber, new SupporterCredit(StaticDataForBegining.InitCreditForSupporter, MoneyUnit.NewToman()));
+        }
     }
+
 }

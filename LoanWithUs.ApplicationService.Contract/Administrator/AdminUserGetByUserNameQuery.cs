@@ -2,7 +2,7 @@
 
 namespace LoanWithUs.ApplicationService.Contract
 {
-    public class AdminUserAttemptToLoginByUserNameCommand :UserDataSecurityِate, IRequest<AdminRequestOtpResult>
+    public class AdminUserAttemptToLoginByUserNameCommand :UserDataSecurityDate, IRequest<AdminRequestOtpResult>
     {
         public AdminUserAttemptToLoginByUserNameCommand(string userName, string password)
         {

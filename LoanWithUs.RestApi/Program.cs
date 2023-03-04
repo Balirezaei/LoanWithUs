@@ -55,12 +55,12 @@ builder.Services.AddDbContext<LoanWithUsContext>(options =>
 builder.Services.AddRepositoryConfigurationService();
 
 //if (builder.Environment.ApplicationName != "IntegrationTest") { }
-builder.Services.AddScoped<UserDataSecurityِate>(provider =>
+builder.Services.AddScoped<UserDataSecurityDate>(provider =>
 {
     var httpContext = provider.GetService<IHttpContextAccessor>()?.HttpContext;
     string userAgentHeader = httpContext?.Request?.Headers["User-Agent"] ?? "";
     var authorizationHeader = httpContext?.Request.Headers["Authorization"];
-    var userAgent = new UserDataSecurityِate()
+    var userAgent = new UserDataSecurityDate()
     {
         //BrowserType = (short)BrowserDetection.GetBrowserType(userAgentHeader),
         IP = httpContext?.Connection.RemoteIpAddress.ToString(),

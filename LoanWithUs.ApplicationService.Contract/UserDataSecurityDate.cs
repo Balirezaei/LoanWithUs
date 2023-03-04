@@ -1,6 +1,6 @@
 ﻿namespace LoanWithUs.ApplicationService.Contract
 {
-    public class UserDataSecurityِate
+    public class UserDataSecurityDate
     {
         public string UserAgent { get; set; }
         public string IP { get; set; }

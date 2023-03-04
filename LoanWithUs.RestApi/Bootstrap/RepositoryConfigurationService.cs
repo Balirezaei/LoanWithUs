@@ -18,6 +18,8 @@ namespace LoanWithUs.RestApi.Bootstrap
             services.AddScoped<IApplicantReadRepository, ApplicantReadRepository>();
             services.AddScoped<IApplicantDomainService, ApplicantDomainService>();
             services.AddScoped<IAdministratorRepository, AdministratorRepository>();
+            services.AddScoped<ISupporterRepository, SupporterRepository>();
+            
             return services;
         }
     }

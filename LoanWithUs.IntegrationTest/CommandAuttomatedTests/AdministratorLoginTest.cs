@@ -44,9 +44,8 @@ namespace LoanWithUs.IntegrationTest.CommandAuttomatedTests
             //Excersice
             var result = await _toSqlTesting.SendAsync(query);
 
-            //Verificatiob
+            //Verification
             result.key.Should().NotBe(Guid.Empty);
-
         }
 
         [Fact]

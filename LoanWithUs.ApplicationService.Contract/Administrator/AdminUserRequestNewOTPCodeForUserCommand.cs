@@ -2,7 +2,7 @@
 
 namespace LoanWithUs.ApplicationService.Contract
 {
-    public class AdminUserRequestNewOTPCodeForUserCommand : UserDataSecurityِate, IRequest<AdminRequestOtpResult>
+    public class AdminUserRequestNewOTPCodeForUserCommand : UserDataSecurityDate, IRequest<AdminRequestOtpResult>
     {
    
         public int AdminId { get; set; }

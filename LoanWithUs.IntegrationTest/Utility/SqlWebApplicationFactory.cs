@@ -32,8 +32,8 @@ namespace LoanWithUs.IntegrationTest.Utility
 
                 
                      services
-                    .Remove<UserDataSecurityِate>().AddScoped(m => {
-                        return new UserDataSecurityِate() { 
+                    .Remove<UserDataSecurityDate>().AddScoped(m => {
+                        return new UserDataSecurityDate() { 
                             IP="IntegrationTest",
                             UserAgent= "IntegrationTest",
                             LocalIp= "IntegrationTest",

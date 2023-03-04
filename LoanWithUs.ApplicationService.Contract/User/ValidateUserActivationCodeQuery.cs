@@ -2,7 +2,7 @@
 
 namespace LoanWithUs.ApplicationService.Contract
 {
-    public class ValidateUserOtpQuery :UserDataSecurityِate, IRequest<ValidateOtpQueryResult>
+    public class ValidateUserOtpQuery :UserDataSecurityDate, IRequest<ValidateOtpQueryResult>
     {
         public ValidateUserOtpQuery(string mobile, string code)
         {

@@ -3,7 +3,7 @@
 namespace LoanWithUs.ApplicationService.Contract
 {
 
-    public class ValidateAdministratorOTPQuery : UserDataSecurityِate, IRequest<AdministratorOTPValidationResult>
+    public class ValidateAdministratorOTPQuery : UserDataSecurityDate, IRequest<AdministratorOTPValidationResult>
     {
         public ValidateAdministratorOTPQuery(Guid key, string code)
         {

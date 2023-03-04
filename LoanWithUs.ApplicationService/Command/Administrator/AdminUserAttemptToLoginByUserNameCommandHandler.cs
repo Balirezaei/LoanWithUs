@@ -30,7 +30,6 @@ namespace LoanWithUs.ApplicationService.Command.Administrator
         {
             var admin = await _administratorRepository.GetAdministratorByUserName(request.UserName.LoanTrim());
             var adminpass = _loanRSAEncryption.DecryptInput(admin.Password);
-
             if (adminpass != request.Password.LoanTrim())
             {
                 throw new Exception("User Not Found");

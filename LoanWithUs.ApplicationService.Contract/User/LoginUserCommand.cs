@@ -2,7 +2,7 @@
 
 namespace LoanWithUs.ApplicationService.Contract
 {
-    public class LoginUserCommand : UserDataSecurityِate , IRequest<UserLoginCommandResult>
+    public class LoginUserCommand : UserDataSecurityDate , IRequest<UserLoginCommandResult>
     {
         public LoginUserCommand(string mobile)
         {

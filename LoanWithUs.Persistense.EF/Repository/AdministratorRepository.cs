@@ -1,5 +1,4 @@
 ﻿using LoanWithUs.Domain;
-using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Persistense.EF.ContextContainer;
 using Microsoft.EntityFrameworkCore;
 using System;

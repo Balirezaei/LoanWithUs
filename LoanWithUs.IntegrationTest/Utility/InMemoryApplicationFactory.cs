@@ -1,4 +1,5 @@
 ﻿using System;
+using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.Persistense.EF.ContextContainer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -97,13 +98,41 @@ namespace LoanWithUs.IntegrationTest.Utility
 
                 });
 
-                var app = services.BuildServiceProvider();
+                services
+           .Remove<UserDataSecurityDate>()
+           .AddScoped<UserDataSecurityDate>(provider =>
+           {
+               //var httpContext = provider.GetService<IHttpContextAccessor>()?.HttpContext;
+               // string userAgentHeader = httpContext?.Request?.Headers["User-Agent"] ?? "";
+               // var authorizationHeader = httpContext?.Request.Headers["Authorization"];
+               var userAgent = new UserDataSecurityDate()
+               {
+                   //BrowserType = (short)BrowserDetection.GetBrowserType(userAgentHeader),
+                   IP = "localhost",
+                   LocalIp = "localhost",
+                   //OsType = (short)OsDetection.GetOsType(userAgentHeader),
+                   //SqlTokenInfoKey = sqlToken
+                   UserAgent = "IntegrationTestUserAgent"
+               };
+               return userAgent;
+           });
+           
+
+                
+
+                   var app = services.BuildServiceProvider();
                 using (var scope = app.CreateScope())
                 {
                     var scopedServices = scope.ServiceProvider;
                     var db = scopedServices.GetRequiredService<LoanWithUsContext>();
-                    db.Database.EnsureDeleted();
-                    // db.Database.EnsureCreated();
+
+                    scopedServices.GetRequiredService<LoanWithUsContext>().Database.EnsureCreated();
+
+
+                    //db.Database.EnsureDeleted();
+
+                    //db.Database.EnsureCreated();
+                    //db.Database.Migrate();
                     //  db.InitializeTestDatabaseInMemory();
                 }
             });

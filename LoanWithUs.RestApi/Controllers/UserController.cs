@@ -1,4 +1,5 @@
 ﻿using LoanWithUs.ApplicationService.Contract;
+using LoanWithUs.ViewModel;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,27 +17,31 @@ namespace LoanWithUs.RestApi.Controllers.Applicant
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginUserCommand command) {
+        public async Task<IActionResult> Login(LoginUserViewModel vm)
+        {
+            var command = new LoginUserCommand(vm.Mobile);
             var res = await _mediator.Send(command);
             return Ok(res);
         }
 
         [HttpPost]
-        public async Task<IActionResult> RequestNewActivateCode(RequestNewOTPCodeForUserCommand command)
+        public async Task<IActionResult> RequestNewActivateCode(RequestNewOTPCodeForUserViewModel vm)
         {
+            var command = new RequestNewOTPCodeForUserCommand(vm.Mobile);
             var res = await _mediator.Send(command);
             return Ok(res);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> ActivateCodeVerification(ValidateUserActivationCodeQuery command)
+        public async Task<IActionResult> ActivateCodeVerification(ValidateUserOtpViewModel vm)
         {
-            var res = await _mediator.Send(command);
+            var query = new ValidateUserOtpQuery(vm.Mobile, vm.code);
+            var res = await _mediator.Send(query);
             return Ok(res);
         }
 
-        
+
 
     }
 }

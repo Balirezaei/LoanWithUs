@@ -29,6 +29,8 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
                    sa.HasIndex(p => p.MobileNumber).IsUnique();
                });
 
+        
+
             //builder.Ignore(m => m.AddressInformation);
 
         }

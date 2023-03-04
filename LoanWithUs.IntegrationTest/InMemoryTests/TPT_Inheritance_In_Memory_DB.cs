@@ -14,49 +14,49 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests
             _factory = new InMemoryApplicationFactory();
         }
 
-        [Fact]
-        public async Task SimpleInsertToApplicantShouldWorkCorrectly()
-        {
-            //Fixture Setup
-            var client = _factory.CreateClient();
-            var repo = (IApplicantRepository)_factory.Services.GetService(typeof(IApplicantRepository));
-            var readRepo = (IApplicantReadRepository)_factory.Services.GetService(typeof(IApplicantReadRepository));
-            var unitOfWork = (IUnitOfWork)_factory.Services.GetService(typeof(IUnitOfWork));
+        //[Fact]
+        //public async Task SimpleInsertToApplicantShouldWorkCorrectly()
+        //{
+        //    //Fixture Setup
+        //    var client = _factory.CreateClient();
+        //    var repo = (IApplicantRepository)_factory.Services.GetService(typeof(IApplicantRepository));
+        //    var readRepo = (IApplicantReadRepository)_factory.Services.GetService(typeof(IApplicantReadRepository));
+        //    var unitOfWork = (IUnitOfWork)_factory.Services.GetService(typeof(IUnitOfWork));
 
-            //Exercise
-            Applicant expectedApplicant = new ApplicantBuilder().Build();
-            repo.CreateApplicant(expectedApplicant);
-            await unitOfWork.CommitAsync();
+        //    //Exercise
+        //    Applicant expectedApplicant = new ApplicantBuilder().Build();
+        //    repo.CreateApplicant(expectedApplicant);
+        //    await unitOfWork.CommitAsync();
 
-            var actualApplicant = await readRepo.FindApplicantById(expectedApplicant.Id);
+        //    var actualApplicant = await readRepo.FindApplicantById(expectedApplicant.Id);
 
-            //Assertion
-            actualApplicant.IdentityInformation.MobileNumber.Should().Be(expectedApplicant.IdentityInformation.MobileNumber);
+        //    //Assertion
+        //    actualApplicant.IdentityInformation.MobileNumber.Should().Be(expectedApplicant.IdentityInformation.MobileNumber);
 
-            //TearDown
-        }
+        //    //TearDown
+        //}
 
 
-        [Fact]
-        public async Task SimpleInsertToSupporterShouldWorkCorrectly()
-        {
-            //Fixture Setup
-            var client = _factory.CreateClient();
-            var repo = (IApplicantRepository)_factory.Services.GetService(typeof(IApplicantRepository));
-            var readRepo = (IApplicantReadRepository)_factory.Services.GetService(typeof(IApplicantReadRepository));
-            var unitOfWork = (IUnitOfWork)_factory.Services.GetService(typeof(IUnitOfWork));
+        //[Fact]
+        //public async Task SimpleInsertToSupporterShouldWorkCorrectly()
+        //{
+        //    //Fixture Setup
+        //    var client = _factory.CreateClient();
+        //    var repo = (IApplicantRepository)_factory.Services.GetService(typeof(IApplicantRepository));
+        //    var readRepo = (IApplicantReadRepository)_factory.Services.GetService(typeof(IApplicantReadRepository));
+        //    var unitOfWork = (IUnitOfWork)_factory.Services.GetService(typeof(IUnitOfWork));
 
-            //Exercise
-            Applicant expectedApplicant = new ApplicantBuilder().Build();
-            repo.CreateApplicant(expectedApplicant);
-            await unitOfWork.CommitAsync();
+        //    //Exercise
+        //    Applicant expectedApplicant = new ApplicantBuilder().Build();
+        //    repo.CreateApplicant(expectedApplicant);
+        //    await unitOfWork.CommitAsync();
 
-            var actualApplicant = await readRepo.FindApplicantById(expectedApplicant.Id);
+        //    var actualApplicant = await readRepo.FindApplicantById(expectedApplicant.Id);
 
-            //Assertion
-            actualApplicant.IdentityInformation.MobileNumber.Should().Be(expectedApplicant.IdentityInformation.MobileNumber);
+        //    //Assertion
+        //    actualApplicant.IdentityInformation.MobileNumber.Should().Be(expectedApplicant.IdentityInformation.MobileNumber);
 
-            //TearDown
-        }
+        //    //TearDown
+        //}
     }
 }

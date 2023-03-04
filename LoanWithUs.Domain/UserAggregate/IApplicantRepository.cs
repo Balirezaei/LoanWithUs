@@ -14,7 +14,7 @@ namespace LoanWithUs.Domain.UserAggregate
 
     public interface IApplicantReadRepository
     {
-        Task<bool> CheckUserActivationCode(string mobile, string code);
+        Task<bool> CheckUserActivationCode(string mobile, string code,string userAgent);
         Task<bool> CheckUserMobileAvailibilityWithAllUserType(string mobile);
         Task<Applicant> FindApplicantByMobile(string mobile);
         Task<Applicant> FindApplicantById(int id);

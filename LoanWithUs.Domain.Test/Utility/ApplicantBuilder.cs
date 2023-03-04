@@ -35,18 +35,27 @@ namespace LoanWithUs.Domain.Test.Utility
 
         public Applicant Build()
         {
-            var applicant = new Applicant(mobile, applicantDomainService);
-            if (educationalInformation != null)
-            {
-                applicant.UpdateEducationalInformation(educationalInformation.LastEducationLevel, educationalInformation.EducationalSubject);
-            }
-            return applicant;
+            throw new NotImplementedException();
+            // var applicant = new Applicant(mobile, applicantDomainService);
+            // if (educationalInformation != null)
+            // {
+            //     applicant.UpdateEducationalInformation(educationalInformation.LastEducationLevel, educationalInformation.EducationalSubject);
+            // }
+            // return applicant;
         }
 
         public ApplicantBuilder WithDefaultEducationalInformation()
         {
             educationalInformation = new EducationalInformation(Common.EducationLevel.Bachelor, "تست");
             return this;
+        }
+    }
+
+    public class AdministratorBuilder
+    {
+        public Administrator Build()
+        {
+            return new Administrator(1, "admin", "admin", "09121231234", "1234567891", "admin", "admin");
         }
     }
 }

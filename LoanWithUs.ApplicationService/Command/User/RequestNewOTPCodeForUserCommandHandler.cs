@@ -24,10 +24,10 @@ namespace LoanWithUs.ApplicationService.Command
                 throw new NotFoundException("شماره موبایل نامعتبر!");
             }
 
-            applicant.AddNewLogin();
+            var newLogin = applicant.AddNewLogin(request.UserAgent);
             await _unitOfWork.CommitAsync();
 
-            return new UserLoginCommandResult(applicant.Id);
+            return new UserLoginCommandResult(applicant.Id, newLogin.Key);
         }
     }
 }

@@ -34,5 +34,7 @@ namespace LoanWithUs.IntegrationTest
             result.Message.Should().NotBeEmpty();
 
         }
+
+           
     }
 }

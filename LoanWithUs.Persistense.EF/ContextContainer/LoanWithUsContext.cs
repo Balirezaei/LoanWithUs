@@ -26,5 +26,7 @@ namespace LoanWithUs.Persistense.EF.ContextContainer
 
         public DbSet<LoanWithUsFile> LoanWithUsFiles { get; set; }
         public DbSet<City> Cities { get; set; }
+
+        public DbSet<Administrator> Administrators { get; set; }
     }
 }

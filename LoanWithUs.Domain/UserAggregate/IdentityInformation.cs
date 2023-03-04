@@ -12,6 +12,7 @@ namespace LoanWithUs.Domain.UserAggregate
         {
             validator.validate(mobileNumber);
             MobileNumber = mobileNumber;
+            NationalCode = nationalCode;
         }
 
  

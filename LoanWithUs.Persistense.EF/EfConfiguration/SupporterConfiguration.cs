@@ -9,6 +9,7 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
         public void Configure(EntityTypeBuilder<Supporter> builder)
         {
             builder.ToTable("Supporter");
+
             //builder.HasKey(m => m.Id);
             //builder.HasIndex(m => m.IdentityInformation.MobileNumber).IsUnique();
 
@@ -25,8 +26,21 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
                     sa.HasIndex(p => p.MobileNumber).IsUnique();
                 });
 
-            //builder.Ignore(m => m.AddressInformation);
+            //builder.OwnsOne(o => o.SupporterCredit).Property(x => x.Money).HasColumnName("MoneyType");
 
+            builder.OwnsOne(o => o.SupporterCredit, sa =>
+            {
+                sa.OwnsOne(x => x.Money).Property(m => m.Type);
+                sa.ToTable("SupporterCredit");
+            });
+
+            //orderConfiguration.OwnsOne(p => p.OrderDetails, cb =>
+            //{
+            //    cb.OwnsOne(c => c.BillingAddress);
+            //    cb.OwnsOne(c => c.ShippingAddress);
+            //});
+
+            //orderConfiguration.OwnsOne(p => p.Address).Property(p => p.Street).HasColumnName("ShippingStreet");
 
         }
     }

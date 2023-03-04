@@ -275,3 +275,4 @@ BuildScript/tools/*
 !BuildScript/tools/packages.config
 !BuildScript/tools/packages.config.md5sum
 *.ncrunchproject
+*.runsettings

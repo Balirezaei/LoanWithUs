@@ -10,12 +10,14 @@
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="FluentValidation" Version="11.2.1" />
     <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LoanWithUs.ApplicationService.Contract\LoanWithUs.ApplicationService.Contract.csproj" />
     <ProjectReference Include="..\LoanWithUs.Common\LoanWithUs.Common.csproj" />
     <ProjectReference Include="..\LoanWithUs.Domain\LoanWithUs.Domain.csproj" />
+    <ProjectReference Include="..\LoanWithUs.Encryption\LoanWithUs.Encryption.csproj" />
   </ItemGroup>
 
   <ItemGroup>

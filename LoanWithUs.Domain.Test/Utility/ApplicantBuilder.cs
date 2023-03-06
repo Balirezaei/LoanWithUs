@@ -13,6 +13,7 @@ namespace LoanWithUs.Domain.Test.Utility
         private string mobile = "09124804347";
         private IApplicantDomainService applicantDomainService;
         private EducationalInformation educationalInformation = null;
+        private BankAccountInformation bankInformation = null;
 
         public ApplicantBuilder()
         {
@@ -47,6 +48,11 @@ namespace LoanWithUs.Domain.Test.Utility
         public ApplicantBuilder WithDefaultEducationalInformation()
         {
             educationalInformation = new EducationalInformation(Common.EducationLevel.Bachelor, "تست");
+            return this;
+        }
+        public ApplicantBuilder WithDefaultBankInformation()
+        {
+            bankInformation = new BankAccountInformation("123456789", "785496321", Common.BankName.Mellat.GetType().Name);
             return this;
         }
     }

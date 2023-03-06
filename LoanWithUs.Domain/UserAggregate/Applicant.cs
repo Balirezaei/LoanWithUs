@@ -16,7 +16,7 @@ namespace LoanWithUs.Domain.UserAggregate
         /// <param name="mobileNumber"></param>
         /// <param name="domainService"></param>
         /// <exception cref="InvalidDomainInputException"></exception>
-        internal Applicant(string mobileNumber,string nationalCode,string firstName,string lastName, IApplicantDomainService domainService)
+        internal Applicant(string mobileNumber, string nationalCode, string firstName, string lastName, IApplicantDomainService domainService)
         {
             var isAvailable = domainService.IsMobileReservedWithOtherUserType(mobileNumber).Result;
             if (isAvailable)
@@ -33,13 +33,31 @@ namespace LoanWithUs.Domain.UserAggregate
 
         public void UpdateEducationalInformation(EducationLevel educationallevel, string educationalSubject)
         {
-            if (this.EducationalInformation==null)
+            if (this.EducationalInformation == null)
             {
                 this.EducationalInformation = new EducationalInformation(educationallevel, educationalSubject);
             }
             else
             {
                 this.EducationalInformation.UpdateInformation(educationallevel, educationalSubject);
+            }
+        }
+
+        public void UpdateBankInformation(BankAccountInformation bankAccounts)
+        {
+            if (this.BankAccountInformations == null)
+            {
+                BankAccountInformations = new List<BankAccountInformation>();
+                
+                    BankAccountInformations.Add(bankAccounts);
+                
+            }
+            else
+            {
+                
+                    this.BankAccountInformations.Add(bankAccounts);
+                
+
             }
         }
     }

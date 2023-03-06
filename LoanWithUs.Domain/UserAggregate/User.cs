@@ -17,15 +17,15 @@
         /// <summary>
         /// اطلاعات تحصیلی
         /// </summary>
-        public virtual EducationalInformation EducationalInformation { get; protected set; }
+        public virtual EducationalInformation EducationalInformation { get;  set; }
         /// <summary>
         /// تاییده ادمین سیستم
         /// </summary>
-        public virtual UserConfirmation UserConfirmation { get; protected set; }
+        public virtual UserConfirmation UserConfirmation { get;  set; }
         /// <summary>
         /// اطلاعات شخصی
         /// </summary>
-        public virtual PersonalInformation PersonalInformation { get; protected set; }
+        public virtual PersonalInformation PersonalInformation { get;  set; }
         /// <summary>
         /// مستندات مورد نیاز
         /// </summary>

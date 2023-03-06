@@ -17,7 +17,7 @@ namespace LoanWithUs.Domain.UserAggregate
         public EducationLevel LastEducationLevel { get; private set; }
         public string EducationalSubject { get; private set; }
 
-        internal void UpdateInformation(EducationLevel educationallevel, string educationalSubject)
+        public void UpdateInformation(EducationLevel educationallevel, string educationalSubject)
         {
             validator.validate(educationalSubject, "آخرین مدرک تحصیلی");
             EducationalSubject = educationalSubject;

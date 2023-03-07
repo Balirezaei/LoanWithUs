@@ -16,11 +16,7 @@ namespace LoanWithUs.ApplicationService.Query
 
             if (contract.Sort.ToLower() == "desc")
             {
-
-                //query = query.OrderByDescending(p => EF.Property<T>(p, contract.Order));
-                //System.Reflection.PropertyInfo prop = typeof(T).GetProperty(contract.Order);
                 query = query.OrderByDescending(ToLambda<T>(contract.Order));
-                //query = query.OrderByDescending(p => EF.Property<Supporter>(p, contract.Order));
             }
             else
             {
@@ -36,9 +32,17 @@ namespace LoanWithUs.ApplicationService.Query
         private static Expression<Func<T, object>> ToLambda<T>(string propertyName)
         {
             var parameter = Expression.Parameter(typeof(T));
-            var property = Expression.Property(parameter, propertyName);
+            MemberExpression property;
+            try
+            {
+                 property = Expression.Property(parameter, propertyName);
+             
+            }
+            catch (Exception)
+            {
+                property = Expression.Property(parameter, "Id");
+            }
             var propAsObject = Expression.Convert(property, typeof(object));
-
             return Expression.Lambda<Func<T, object>>(propAsObject, parameter);
         }
 

@@ -1,24 +1,26 @@
 ﻿using System;
 using LoanWithUs.ApplicationService.Contract;
+using LoanWithUs.IntegrationTest.Utility.Authorization;
 using LoanWithUs.Persistense.EF.ContextContainer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
-namespace LoanWithUs.IntegrationTest.Utility
+namespace LoanWithUs.IntegrationTest.Utility.WebFactory
 {
     internal class InMemoryApplicationFactory : WebApplicationFactory<Program>
     {
         public InMemoryApplicationFactory()
         {
         }
-
+        public TestUserLogined CurrentUser { get; set; }
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
 
-            builder.ConfigureAppConfiguration(configurationBuilder =>
+            builder.UseEnvironment("IntegrationTest").ConfigureAppConfiguration(configurationBuilder =>
 {
     var integrationConfig = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json")
@@ -28,11 +30,11 @@ namespace LoanWithUs.IntegrationTest.Utility
     configurationBuilder.AddConfiguration(integrationConfig);
 });
 
-            builder.UseEnvironment("IntegrationTestAuthorized").ConfigureServices((builder, services) =>
+            builder.UseEnvironment("IntegrationTest").ConfigureServices((builder, services) =>
             {
                 var Configuration = builder.Configuration;
 
-                //services.AddScoped(provider => CurrentUser);
+                services.AddScoped(provider => CurrentUser);
                 //services.AddDbContext<ORMSContext>(options =>
                 //{
                 //    options.UseInMemoryDatabase("InMemoryDbForTesting");
@@ -98,9 +100,17 @@ namespace LoanWithUs.IntegrationTest.Utility
 
                 });
 
+
+                services
+                .AddAuthentication("BmiSSO")
+                    .AddScheme<BasicTestAuthenticationOptions, BasicAuthenticationHandler
+                    >("BmiSSO", options => { });
+
+                services.AddAuthorization();
+
                 services
            .Remove<UserDataSecurityDate>()
-           .AddScoped<UserDataSecurityDate>(provider =>
+           .AddScoped(provider =>
            {
                //var httpContext = provider.GetService<IHttpContextAccessor>()?.HttpContext;
                // string userAgentHeader = httpContext?.Request?.Headers["User-Agent"] ?? "";
@@ -116,11 +126,11 @@ namespace LoanWithUs.IntegrationTest.Utility
                };
                return userAgent;
            });
-           
 
-                
 
-                   var app = services.BuildServiceProvider();
+
+
+                var app = services.BuildServiceProvider();
                 using (var scope = app.CreateScope())
                 {
                     var scopedServices = scope.ServiceProvider;

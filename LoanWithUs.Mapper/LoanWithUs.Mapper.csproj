@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LoanWithUs.ApplicationService.Contract\LoanWithUs.ApplicationService.Contract.csproj" />
     <ProjectReference Include="..\LoanWithUs.Domain\LoanWithUs.Domain.csproj" />
+    <ProjectReference Include="..\LoanWithUs.ViewModel\LoanWithUs.ViewModel.csproj" />
   </ItemGroup>
 
 </Project>

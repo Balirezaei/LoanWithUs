@@ -2,7 +2,6 @@
 using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Domain;
 using LoanWithUs.DomainService;
-using LoanWithUs.Encryption;
 using LoanWithUs.Persistense.EF.Repository;
 using LoanWithUs.Persistense.EF.UnitOfWork;
 
@@ -17,9 +16,10 @@ namespace LoanWithUs.RestApi.Bootstrap
             services.AddScoped<IApplicantRepository, ApplicantRepository>();
             services.AddScoped<IApplicantReadRepository, ApplicantReadRepository>();
             services.AddScoped<IApplicantDomainService, ApplicantDomainService>();
+            services.AddScoped<ISupporterDomainService, SupporterDomainService>();
             services.AddScoped<IAdministratorRepository, AdministratorRepository>();
             services.AddScoped<ISupporterRepository, SupporterRepository>();
-            
+
             return services;
         }
     }

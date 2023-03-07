@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.Common.ExtentionMethod;
-using LoanWithUs.IntegrationTest.Utility;
+using LoanWithUs.IntegrationTest.Utility.WebFactory;
 using LoanWithUs.RestApi.Utility;
 using LoanWithUs.ViewModel;
 using Newtonsoft.Json;
@@ -57,7 +57,7 @@ namespace LoanWithUs.IntegrationTest.CommandAuttomatedTests
                 code = userLogin.Code,
                 key = userLogin.Key
             };
-            var response = await _toSqlTesting.CallPostApi(vm, "/api/AdminLogin/ActivateCodeVerification");
+            var response = await _toSqlTesting.CallPostApi<ValidateAdministratorOTPViewModel>(vm, "/api/AdminLogin/ActivateCodeVerification");
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             var responseText = await response.Content.ReadAsStringAsync();
             var tokenService=_toSqlTesting.GetRequiredService<ITokenService>();

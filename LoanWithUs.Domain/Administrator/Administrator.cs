@@ -42,9 +42,9 @@ namespace LoanWithUs.Domain
             return this.FirstName + " " + this.LastName;
         }
 
-        public Supporter DefineNewSupporter(string nationalCode, string mobileNumber)
+        public Supporter DefineNewSupporter(string nationalCode, string mobileNumber,ISupporterDomainService supporterDomainService)
         {
-            return new Supporter(nationalCode, mobileNumber, new SupporterCredit(StaticDataForBegining.InitCreditForSupporter, MoneyUnit.NewToman()));
+            return new Supporter(nationalCode, mobileNumber, new SupporterCredit(StaticDataForBegining.InitCreditForSupporter, MoneyUnit.NewToman()), supporterDomainService);
         }
     }
 

@@ -1,7 +1,7 @@
 using FluentAssertions;
 using LoanWithUs.Common;
 using LoanWithUs.Domain.UserAggregate;
-using LoanWithUs.IntegrationTest.Utility;
+using LoanWithUs.IntegrationTest.Utility.WebFactory;
 
 namespace LoanWithUs.IntegrationTest.InMemoryTests
 {

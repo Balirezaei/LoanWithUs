@@ -1,5 +1,6 @@
 ﻿using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Persistense.EF.ContextContainer;
+using Microsoft.EntityFrameworkCore;
 
 namespace LoanWithUs.Persistense.EF.Repository
 {
@@ -15,6 +16,16 @@ namespace LoanWithUs.Persistense.EF.Repository
         public void Add(Supporter supporter)
         {
             _context.Supporters.Add(supporter);
+        }
+
+        public Task<bool> CheckMobileNo(int exceptCurrentUser, string mobileNo)
+        {
+            return _context.Supporters.Where(m=>m.Id!=exceptCurrentUser && m.IdentityInformation.MobileNumber== mobileNo).AnyAsync();
+        }
+
+        public Task<bool> CheckNationalCode(int exceptCurrentUser, string nationalCode)
+        {
+            return _context.Supporters.Where(m => m.Id != exceptCurrentUser && m.IdentityInformation.NationalCode == nationalCode).AnyAsync();
         }
 
         public IQueryable<Supporter> GetAllSupporter()

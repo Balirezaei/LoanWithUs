@@ -27,9 +27,15 @@ IWebHostEnvironment environment = builder.Environment;
 // Add services to the container.
 
 
-builder.Services.AddControllersWithViews(options =>
-    options.Filters.Add<ApiExceptionFilterAttribute>())
-        .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ApiExceptionFilterAttribute>();
+    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+});
+   
+        //.AddFluentValidation(x => x.AutomaticValidationEnabled = false)
+        ;
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -46,7 +52,12 @@ builder.Services.AddScoped<ILoanRSAEncryption>(m =>
 {
     return rSAEncryption;
 });
-builder.Services.AddAuthoticationConfigurationService(Configuration,rSAEncryption);
+
+if (builder.Environment.EnvironmentName != "IntegrationTest")
+{
+    builder.Services.AddAuthoticationConfigurationService(Configuration, rSAEncryption);
+}
+
 
 builder.Services.AddDbContext<LoanWithUsContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("LoanWithUsContext")));
@@ -107,9 +118,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(MyAllowSpecificOrigins);
 
+
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

@@ -1,11 +1,8 @@
 ﻿using FluentAssertions;
 using LoanWithUs.Domain.Test.Utility;
+using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NSubstitute;
 
 namespace LoanWithUs.Domain.Test
 {
@@ -17,26 +14,31 @@ namespace LoanWithUs.Domain.Test
             var admin = new AdministratorBuilder().Build();
             var suporterNationalCode = "1234567891";
             var suporterMobileNumber = "09121231212";
+            var domainSupporter = Substitute.For<ISupporterDomainService>();
 
-            var supporet = admin.DefineNewSupporter(suporterNationalCode, suporterMobileNumber);
-           
+            var supporet = admin.DefineNewSupporter(suporterNationalCode, suporterMobileNumber, domainSupporter);
+
             supporet.IdentityInformation.MobileNumber.Should().Be(suporterMobileNumber);
             supporet.IdentityInformation.NationalCode.Should().Be(suporterNationalCode);
             supporet.GetAvailableCredit().Should().Be(StaticDataForBegining.InitCreditForSupporter);
         }
-        
+
         [Fact]
         public void Admin_DefineNewSupporter_Should_Throw_Exception_With_InvalidInput()
         {
             var admin = new AdministratorBuilder().Build();
             var suporterNationalCode = "1234567891";
             var suporterMobileNumber = "0";
-            var action = () => {
-                admin.DefineNewSupporter(suporterNationalCode, suporterMobileNumber);
+            var domainSupporter = Substitute.For<ISupporterDomainService>();
+
+            var action = () =>
+            {
+                admin.DefineNewSupporter(suporterNationalCode, suporterMobileNumber, domainSupporter);
             };
 
             action.Should().Throw<InvalidDomainInputException>();
         }
+
 
 
     }

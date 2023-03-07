@@ -9,6 +9,21 @@ namespace LoanWithUs.Domain.UserAggregate
     public class Applicant : User
     {
         protected Applicant() { }
+
+        //ToDo:Remove Imediatelyyy
+        public Applicant(string mobileNumber, string nationalCode)
+        {
+            var isAvailable = false;// domainService.IsMobileReservedWithOtherUserType(mobileNumber).Result;
+            if (isAvailable)
+            {
+                throw new InvalidDomainInputException("امکان ثبت نام شماره تلفن به عنوان درخواستگر فراهم نمی باشد.لطفن با مدیر سامانه تماس بگیرید.");
+            }
+            this.IdentityInformation = new IdentityInformation(mobileNumber, nationalCode);
+            //this.UserLogins = this.UserLogins ?? new List<UserLogin>();
+            //this.UserLogins.Add(new UserLogin(DateTime.Now.AddMinutes(2)));
+            this.RegisterationDate = DateTime.Now;
+        }
+
         /// <summary>
         ///It should be Internal beacuse of client can not create new instance of Applicant
         ///And Only Supporter can register new Applicant

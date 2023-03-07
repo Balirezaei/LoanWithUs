@@ -5,4 +5,19 @@
         public string NationalCode { get; set; }
         public string MobileNo { get; set; }
     }
+
+    public class AdminRegisteredSupporterVm: PagingContractVm
+    {
+
+    }
+
+    public class PagingContractVm
+    {
+
+        public int PageSize { get; set; }
+        public int PageNumber { get; set; }
+        public string Sort { get; set; }
+        public string Order { get; set; }
+
+    }
 }

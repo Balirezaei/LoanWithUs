@@ -25,18 +25,18 @@ namespace LoanWithUs.IntegrationTest.Utility
 
         public ApplicantBuilder WithMobileNumber(string mobile)
         {
-            this._mobile = mobile;
+            _mobile = mobile;
             return this;
         }
 
         public ApplicantBuilder WithFirstName(string firstName)
         {
-            this._firstName = firstName;
+            _firstName = firstName;
             return this;
         }
         public ApplicantBuilder WithLastName(string lastName)
         {
-            this._lastName = lastName;
+            _lastName = lastName;
             return this;
         }
 
@@ -48,7 +48,7 @@ namespace LoanWithUs.IntegrationTest.Utility
 
         public Applicant Build()
         {
-            return _supporter.RegisterNewApplicant(this._mobile, this._nationalCode, this._firstName, this._lastName, applicantDomainService);
+            return _supporter.RegisterNewApplicant(_mobile, _nationalCode, _firstName, _lastName, applicantDomainService);
         }
     }
 }

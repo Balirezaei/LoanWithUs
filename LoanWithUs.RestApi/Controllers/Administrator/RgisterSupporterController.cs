@@ -2,13 +2,16 @@
 using LoanWithUs.ApplicationService.Contract.Administrator;
 using LoanWithUs.ViewModel;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LoanWithUs.RestApi.Controllers.Administrator
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RgisterSupporterController : ControllerBase
     {
 
@@ -23,9 +26,11 @@ namespace LoanWithUs.RestApi.Controllers.Administrator
 
 
         [HttpGet]
-        public async Task<IEnumerable<AdminRegisteredSupporterDto>> Get(AdminRegisteredSupporterContract contract)
+        public async Task<IEnumerable<AdminRegisteredSupporterDto>> Get([FromQuery] AdminRegisteredSupporterVm vm)
         {
-            return await _mediator.Send(contract);
+            var adminId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
+            var query = _mapper.Map<AdminRegisteredSupporterContract>(vm);
+            return await _mediator.Send(query);
         }
 
 
@@ -40,7 +45,10 @@ namespace LoanWithUs.RestApi.Controllers.Administrator
         [HttpPost]
         public async Task Post([FromBody] AdminRegisterSupporterVm vm)
         {
+            var adminId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
             var cmd = _mapper.Map<AdminRegisterSupporterCommand>(vm);
+
+            cmd.AdminId = int.Parse(adminId);
             await _mediator.Send(cmd);
         }
 

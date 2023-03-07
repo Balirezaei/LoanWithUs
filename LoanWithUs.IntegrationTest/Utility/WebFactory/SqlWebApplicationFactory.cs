@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LoanWithUs.IntegrationTest.Utility
+namespace LoanWithUs.IntegrationTest.Utility.WebFactory
 {
     internal class SqlWebApplicationFactory : WebApplicationFactory<Program>
     {
@@ -30,29 +30,31 @@ namespace LoanWithUs.IntegrationTest.Utility
                 //        s.UserId == GetCurrentUserId()));
 
 
-                
-                     services
-                    .Remove<UserDataSecurityDate>().AddScoped(m => {
-                        return new UserDataSecurityDate() { 
-                            IP="IntegrationTest",
-                            UserAgent= "IntegrationTest",
-                            LocalIp= "IntegrationTest",
-                        };
-                    });
+
+                services
+               .Remove<UserDataSecurityDate>().AddScoped(m =>
+               {
+                   return new UserDataSecurityDate()
+                   {
+                       IP = "IntegrationTest",
+                       UserAgent = "IntegrationTest",
+                       LocalIp = "IntegrationTest",
+                   };
+               });
                 services
                     .Remove<DbContextOptions<LoanWithUsContext>>()
                     .AddDbContext<LoanWithUsContext>((sp, options) =>
                         options.UseSqlServer(builder.Configuration.GetConnectionString("LoanWithUsContext"),
                             builder => builder.MigrationsAssembly(typeof(LoanWithUsContext).Assembly.FullName)));
-                          
+
 
                 var app = services.BuildServiceProvider();
                 using (var scope = app.CreateScope())
                 {
                     var scopedServices = scope.ServiceProvider;
                     var db = scopedServices.GetRequiredService<LoanWithUsContext>();
-                    db.Database.EnsureDeleted();
-                     db.Database.EnsureCreated();
+                    //db.Database.EnsureDeleted();
+                    db.Database.EnsureCreated();
                     //  db.InitializeTestDatabaseInMemory();
                 }
             });

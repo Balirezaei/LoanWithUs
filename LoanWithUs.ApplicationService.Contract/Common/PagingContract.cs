@@ -1,29 +1,26 @@
 ﻿using LoanWithUs.Common.ExtentionMethod;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace LoanWithUs.ApplicationService.Contract
 {
     public class PagingContract
     {
-        public PagingContract()
-        {
 
+        private int _pageSize;
+        private int _pageNumber;
+
+        public int PageSize
+        {
+            get => _pageSize.IsNullORZero() ? 10 : _pageSize;
+            set => _pageSize = value;
         }
 
-        public PagingContract(int pageSize, int pageNumber, string sort, string order)
+        public int PageNumber
         {
-            PageSize = pageSize.IsNullORZero() ? 10 : pageSize;
-            PageNumber = pageNumber.IsNullORZero() ? 1 : pageSize;
-            Sort = sort;
-            Order = order;
+            get => _pageNumber.IsNullORZero() ? 1 : _pageNumber;
+            set => _pageNumber = value;
         }
 
-        public int PageSize { get; set; }
-        public int PageNumber { get; set; }
         public string Sort { get; set; }
         public string Order { get; set; }
 

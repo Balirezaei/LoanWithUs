@@ -1,4 +1,6 @@
-﻿namespace LoanWithUs.Domain.UserAggregate
+﻿using LoanWithUs.Exceptions;
+
+namespace LoanWithUs.Domain.UserAggregate
 {
     public class Supporter : User
     {
@@ -15,8 +17,15 @@
         //}
         public SupporterCredit SupporterCredit { get; set; }
 
-        internal Supporter(string nationalCode, string mobileNumber, SupporterCredit initCredit)
+        internal Supporter(string nationalCode, string mobileNumber, SupporterCredit initCredit, ISupporterDomainService supporterDomainService)
         {
+            if (supporterDomainService.IsNationalReservedWithOtherSupporter(0, nationalCode).Result)
+                throw new InvalidDomainInputException("کد ملی تکراریست");
+
+            if (supporterDomainService.IsMobileReservedWithOtherSupporter(0, mobileNumber).Result)
+                throw new InvalidDomainInputException("شماره موبایل تکراریست");
+
+            
             IdentityInformation = new IdentityInformation(mobileNumber, nationalCode);
             this.SupporterCredit = initCredit;
             this.RegisterationDate = DateTime.Now;

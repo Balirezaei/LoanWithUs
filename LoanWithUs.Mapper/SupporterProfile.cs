@@ -2,6 +2,7 @@
 using LoanWithUs.ApplicationService.Contract.Administrator;
 using LoanWithUs.Common.ExtentionMethod;
 using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,10 @@ namespace LoanWithUs.Mapper
                 .ForMember(desc => desc.RegisterationDate, opt => opt.MapFrom(o =>o.RegisterationDate.M2S()))
                 ;
 
+            CreateMap<AdminRegisteredSupporterVm, AdminRegisteredSupporterContract>();
+            CreateMap<AdminRegisterSupporterVm, AdminRegisterSupporterCommand>();
+            
+                
         }
     }
 

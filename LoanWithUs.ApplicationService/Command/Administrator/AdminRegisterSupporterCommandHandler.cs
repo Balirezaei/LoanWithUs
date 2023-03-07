@@ -12,12 +12,13 @@ namespace LoanWithUs.ApplicationService.Command.Administrator
         private readonly ISupporterRepository _supporterRepository;
         private readonly IAdministratorRepository _administratorRepository;
         private readonly IUnitOfWork _unitOfWork;
-
-        public AdminRegisterSupporterCommandHandler(ISupporterRepository supporterRepository, IUnitOfWork unitOfWork, IAdministratorRepository administratorRepository)
+        private readonly ISupporterDomainService _supporterDomainService;
+        public AdminRegisterSupporterCommandHandler(ISupporterRepository supporterRepository, IUnitOfWork unitOfWork, IAdministratorRepository administratorRepository, ISupporterDomainService supporterDomainService)
         {
             _supporterRepository = supporterRepository;
             _unitOfWork = unitOfWork;
             _administratorRepository = administratorRepository;
+            _supporterDomainService = supporterDomainService;
         }
 
         public async Task<AdminRegisterSupporterCommandResult> Handle(AdminRegisterSupporterCommand request, CancellationToken cancellationToken)
@@ -28,7 +29,7 @@ namespace LoanWithUs.ApplicationService.Command.Administrator
                 throw new Exception("Current User Not Found");
             }
 
-            var supporter = admin.DefineNewSupporter(request.NationalCode, request.MobileNo);
+            var supporter = admin.DefineNewSupporter(request.NationalCode, request.MobileNo, _supporterDomainService);
             _supporterRepository.Add(supporter);
 
             await _unitOfWork.CommitAsync();

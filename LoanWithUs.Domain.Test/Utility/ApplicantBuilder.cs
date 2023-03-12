@@ -36,6 +36,7 @@ namespace LoanWithUs.Domain.Test.Utility
 
         public Applicant Build()
         {
+            
             throw new NotImplementedException();
             // var applicant = new Applicant(mobile, applicantDomainService);
             // if (educationalInformation != null)
@@ -43,6 +44,8 @@ namespace LoanWithUs.Domain.Test.Utility
             //     applicant.UpdateEducationalInformation(educationalInformation.LastEducationLevel, educationalInformation.EducationalSubject);
             // }
             // return applicant;
+
+          //  return new Applicant();
         }
 
         public ApplicantBuilder WithDefaultEducationalInformation()

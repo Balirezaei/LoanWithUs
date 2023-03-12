@@ -54,9 +54,7 @@ namespace LoanWithUs.Domain.UserAggregate
             }
             else
             {
-                
                     this.BankAccountInformations.Add(bankAccounts);
-                
 
             }
         }

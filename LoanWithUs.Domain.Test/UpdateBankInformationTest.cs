@@ -31,11 +31,23 @@ namespace LoanWithUs.Domain.Test
             //Excersice
             Action comparison = () =>
             {
-                applicant.UpdateBankInformation(, );
+                applicant.UpdateBankInformation( );
             };
 
             //Assertion
             comparison.Should().Throw<InvalidDomainInputException>();
+        }
+
+        [Fact]
+
+        public void applicant_works_correctly_on_updating_data()
+        {
+            var expectedShahabNumber = "12456987";
+            var expectedBandCardNumber = "1245789631254";
+            var expectedBankName = Common.BankName.Ayandeh;
+
+            Applicant applicant = new ApplicantBuilder().WithDefaultBankInformation().Build();
+            
         }
     }
 }

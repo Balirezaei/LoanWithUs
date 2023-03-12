@@ -13,6 +13,7 @@ namespace LoanWithUs.Domain.Test.Utility
         private string mobile = "09124804347";
         private IApplicantDomainService applicantDomainService;
         private EducationalInformation educationalInformation = null;
+        private BankAccountInformation bankInformation = null;
 
         public ApplicantBuilder()
         {
@@ -35,6 +36,7 @@ namespace LoanWithUs.Domain.Test.Utility
 
         public Applicant Build()
         {
+            
             throw new NotImplementedException();
             // var applicant = new Applicant(mobile, applicantDomainService);
             // if (educationalInformation != null)
@@ -42,6 +44,8 @@ namespace LoanWithUs.Domain.Test.Utility
             //     applicant.UpdateEducationalInformation(educationalInformation.LastEducationLevel, educationalInformation.EducationalSubject);
             // }
             // return applicant;
+
+          //  return new Applicant();
         }
 
         public ApplicantBuilder WithDefaultEducationalInformation()
@@ -49,13 +53,11 @@ namespace LoanWithUs.Domain.Test.Utility
             educationalInformation = new EducationalInformation(Common.EducationLevel.Bachelor, "تست");
             return this;
         }
-    }
-
-    public class AdministratorBuilder
-    {
-        public Administrator Build()
+        public ApplicantBuilder WithDefaultBankInformation()
         {
-            return new Administrator(1, "admin", "admin", "09121231234", "1234567891", "admin", "admin");
+            bankInformation = new BankAccountInformation("123456789", "785496321", Common.BankName.Mellat.GetType().Name);
+            return this;
         }
     }
 }
+

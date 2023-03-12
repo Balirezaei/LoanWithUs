@@ -2,20 +2,28 @@
 
 namespace LoanWithUs.Common
 {
-    public enum EducationLevel
+    public enum BankType
     {
-        [Display(Name= "دکترا")]
-        Doctorate=1,
-        [Display(Name = "کارشناسی ارشد یا فوق لیسانس")]
-        Master =2,
-        [Display(Name = "کارشناسی یا لیسانس")]
-        Bachelor =3,
-        [Display(Name = "فوق دیپلم یا کاردانی")]
-        AdvancedDiploma=4,
-        [Display(Name = "دوره ی متوسطه دوم یا دیپلم")]
-        diploma = 5,
-        [Display(Name = "دوره ی متوسطه اول یا سیکل")]
-        FirstHighSchool =6,
+        [Display(Name = "ملی")]
+        Melli = 1,
+        [Display(Name = "صادرات")]
+        Saderat = 2,
+        [Display(Name = "تجارت")]
+        Tejarat = 3,
+        [Display(Name = "ملت")]
+        Mellat = 4,
+        [Display(Name = "مسکن")]
+        Maskan = 5,
+        [Display(Name = "قرض الحسنه رسالت")]
+        Resalat = 6,
+        [Display(Name = "شهر")]
+        Sahr = 7,
+        [Display(Name = "سامان")]
+        Saman = 8,
+        [Display(Name = "آینده")]
+        Ayandeh = 9,
+        [Display(Name = "پاسارگاد")]
+        Pasargad = 10,
 
         //        {text:"دکترا",value:"1"},
         //{text:"کارشناسی ارشد یا فوق لیسانس",value:"2"},

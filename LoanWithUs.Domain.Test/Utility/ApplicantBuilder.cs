@@ -18,7 +18,7 @@ namespace LoanWithUs.Domain.Test.Utility
         public ApplicantBuilder()
         {
             var _applicantDomainService = Substitute.For<IApplicantDomainService>();
-            _applicantDomainService.IsMobileReservedWithAllUserType(default,default).ReturnsForAnyArgs(false);
+            _applicantDomainService.IsMobileReservedWithAllUserType(default, default).ReturnsForAnyArgs(false);
             applicantDomainService = _applicantDomainService;
         }
 
@@ -36,8 +36,10 @@ namespace LoanWithUs.Domain.Test.Utility
 
         public Applicant Build()
         {
-            
-            throw new NotImplementedException();
+
+            var supporter = new SupporterBuilder().Build();
+            return supporter.RegisterNewApplicant(this.mobile, "", "", "", this.applicantDomainService);
+            //return suppoerter;
             // var applicant = new Applicant(mobile, applicantDomainService);
             // if (educationalInformation != null)
             // {
@@ -45,7 +47,7 @@ namespace LoanWithUs.Domain.Test.Utility
             // }
             // return applicant;
 
-          //  return new Applicant();
+            //  return new Applicant();
         }
 
         public ApplicantBuilder WithDefaultEducationalInformation()
@@ -53,11 +55,11 @@ namespace LoanWithUs.Domain.Test.Utility
             educationalInformation = new EducationalInformation(Common.EducationLevel.Bachelor, "تست");
             return this;
         }
-        public ApplicantBuilder WithDefaultBankInformation()
-        {
-            bankInformation = new BankAccountInformation("123456789", "785496321", Common.BankName.Mellat.GetType().Name);
-            return this;
-        }
+        //public ApplicantBuilder WithDefaultBankInformation()
+        //{
+        //    bankInformation = new BankAccountInformation("123456789", "785496321", Common.BankName.Mellat.GetType().Name);
+        //    return this;
+        //}
     }
 }
 

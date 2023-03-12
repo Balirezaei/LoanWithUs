@@ -2,7 +2,8 @@
 {
     public interface IApplicantDomainService
     {
-        Task<bool> IsMobileReservedWithOtherUserType(string mobileNumber);
+        Task<bool> IsMobileReservedWithAllUserType(int currentUser, string mobileNumber);
+        Task<bool> IsNationalReservedWithAllUserType(int currentUser, string nationalCode);
     }
 
 }

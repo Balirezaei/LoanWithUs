@@ -41,7 +41,7 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests.ApiAutomation
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var responseText = await response.Content.ReadAsStringAsync();
 
-       
+
 
         }
 

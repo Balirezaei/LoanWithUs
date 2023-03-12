@@ -24,9 +24,9 @@ namespace LoanWithUs.Persistense.EF.Repository
                 .AnyAsync();
         }
 
-        public Task<bool> CheckUserMobileAvailibilityWithAllUserType(string mobile)
+        public Task<bool> CheckUserMobileAvailibilityWithAllUserType(int currentUserId, string mobile)
         {
-            return _context.Supporters.AnyAsync(m => m.IdentityInformation.MobileNumber == mobile);
+            return _context.Supporters.AnyAsync(m => m.Id != currentUserId && m.IdentityInformation.MobileNumber == mobile);
         }
 
         public Task<Applicant> FindApplicantByIdIncludeEducationalInformation(int id)

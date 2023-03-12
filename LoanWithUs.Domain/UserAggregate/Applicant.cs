@@ -33,14 +33,18 @@ namespace LoanWithUs.Domain.UserAggregate
         /// <exception cref="InvalidDomainInputException"></exception>
         internal Applicant(string mobileNumber,string nationalCode,string firstName,string lastName, IApplicantDomainService domainService)
         {
-            var isAvailable = domainService.IsMobileReservedWithOtherUserType(mobileNumber).Result;
-            if (isAvailable)
+            var isMobileAvailable = domainService.IsMobileReservedWithAllUserType(0,mobileNumber).Result;
+            if (isMobileAvailable)
             {
                 throw new InvalidDomainInputException("امکان ثبت نام شماره تلفن به عنوان درخواستگر فراهم نمی باشد.لطفن با مدیر سامانه تماس بگیرید.");
             }
+            var isNationalCodeAvailable = domainService.IsNationalReservedWithAllUserType(0, nationalCode).Result;
+            if (isNationalCodeAvailable)
+            {
+                throw new InvalidDomainInputException("to do.");
+            }
             this.IdentityInformation = new IdentityInformation(mobileNumber, nationalCode);
-            //this.UserLogins = this.UserLogins ?? new List<UserLogin>();
-            //this.UserLogins.Add(new UserLogin(DateTime.Now.AddMinutes(2)));
+            this.PersonalInformation = new PersonalInformation(firstName, lastName);
             this.RegisterationDate = DateTime.Now;
         }
 

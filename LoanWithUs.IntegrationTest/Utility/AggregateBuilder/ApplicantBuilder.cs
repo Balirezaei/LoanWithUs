@@ -17,7 +17,7 @@ namespace LoanWithUs.IntegrationTest.Utility
         public ApplicantBuilder(LoanWithUsContext loanWithUsContext)
         {
             var _applicantDomainService = Substitute.For<IApplicantDomainService>();
-            _applicantDomainService.IsMobileReservedWithOtherUserType(default).ReturnsForAnyArgs(false);
+            _applicantDomainService.IsMobileReservedWithAllUserType(default, default).ReturnsForAnyArgs(false);
             applicantDomainService = _applicantDomainService;
             _loanWithUsContext = loanWithUsContext;
             _supporter = _loanWithUsContext.Supporters.FirstOrDefault();

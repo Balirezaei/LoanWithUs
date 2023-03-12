@@ -16,9 +16,9 @@ namespace LoanWithUs.DomainService
             this.applicantReadRepository = applicantReadRepository;
         }
 
-        public Task<bool> IsMobileReservedWithOtherUserType(string mobileNumber)
+        public Task<bool> IsMobileReservedWithAllUserType(int currentUser, string mobileNumber)
         {
-            return applicantReadRepository.CheckUserMobileAvailibilityWithAllUserType(mobileNumber);
+            return applicantReadRepository.CheckUserMobileAvailibilityWithAllUserType(currentUser,mobileNumber);
         }
     }
 }

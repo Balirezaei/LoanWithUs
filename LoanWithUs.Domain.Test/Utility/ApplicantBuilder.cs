@@ -17,7 +17,7 @@ namespace LoanWithUs.Domain.Test.Utility
         public ApplicantBuilder()
         {
             var _applicantDomainService = Substitute.For<IApplicantDomainService>();
-            _applicantDomainService.IsMobileReservedWithOtherUserType(default).ReturnsForAnyArgs(false);
+            _applicantDomainService.IsMobileReservedWithAllUserType(default,default).ReturnsForAnyArgs(false);
             applicantDomainService = _applicantDomainService;
         }
 

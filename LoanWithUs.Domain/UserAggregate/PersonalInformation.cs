@@ -10,5 +10,11 @@
         public DateTime BirthDate { get; private set; }
         public string IdentityNumber { get; private set; }
         public string Job { get; private set; }
+
+        internal PersonalInformation(string firstName, string lastName)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+        }
     }
 }

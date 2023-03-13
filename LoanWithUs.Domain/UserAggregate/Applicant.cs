@@ -1,4 +1,5 @@
 ﻿using LoanWithUs.Common;
+using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Exceptions;
 
 namespace LoanWithUs.Domain.UserAggregate
@@ -11,7 +12,7 @@ namespace LoanWithUs.Domain.UserAggregate
         protected Applicant() { }
 
         //ToDo:Remove Imediatelyyy
-        public Applicant(string mobileNumber, string nationalCode)
+        public Applicant(MobileNumber mobileNumber, string nationalCode)
         {
             var isAvailable = false;// domainService.IsMobileReservedWithOtherUserType(mobileNumber).Result;
             if (isAvailable)
@@ -31,14 +32,14 @@ namespace LoanWithUs.Domain.UserAggregate
         /// <param name="mobileNumber"></param>
         /// <param name="domainService"></param>
         /// <exception cref="InvalidDomainInputException"></exception>
-        internal Applicant(string mobileNumber,string nationalCode,string firstName,string lastName, IApplicantDomainService domainService)
+        internal Applicant(MobileNumber mobileNumber, string nationalCode, string firstName, string lastName, IApplicantDomainService domainService)
         {
-            var isMobileAvailable = domainService.IsMobileReservedWithAllUserType(0,mobileNumber).Result;
+            var isMobileAvailable = domainService.IsMobileReservedWithAllUserType(this.Id, mobileNumber).Result;
             if (isMobileAvailable)
             {
                 throw new InvalidDomainInputException("امکان ثبت نام شماره تلفن به عنوان درخواستگر فراهم نمی باشد.لطفن با مدیر سامانه تماس بگیرید.");
             }
-            var isNationalCodeAvailable = domainService.IsNationalReservedWithAllUserType(0, nationalCode).Result;
+            var isNationalCodeAvailable = domainService.IsNationalReservedWithAllUserType(this.Id, nationalCode).Result;
             if (isNationalCodeAvailable)
             {
                 throw new InvalidDomainInputException("to do.");
@@ -52,7 +53,7 @@ namespace LoanWithUs.Domain.UserAggregate
 
         public void UpdateEducationalInformation(EducationLevel educationallevel, string educationalSubject)
         {
-            if (this.EducationalInformation==null)
+            if (this.EducationalInformation == null)
             {
                 this.EducationalInformation = new EducationalInformation(educationallevel, educationalSubject);
             }

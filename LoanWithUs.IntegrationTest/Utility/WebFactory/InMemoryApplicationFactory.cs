@@ -137,7 +137,7 @@ namespace LoanWithUs.IntegrationTest.Utility.WebFactory
                     var db = scopedServices.GetRequiredService<LoanWithUsContext>();
 
                     scopedServices.GetRequiredService<LoanWithUsContext>().Database.EnsureCreated();
-
+                    db.DbDataInitializer();
 
                     //db.Database.EnsureDeleted();
 

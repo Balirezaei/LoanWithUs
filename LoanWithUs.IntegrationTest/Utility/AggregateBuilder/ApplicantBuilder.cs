@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Domain.UserAggregate;
+﻿using LoanWithUs.Common.DefinedType;
+using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Persistense.EF.ContextContainer;
 using NSubstitute;
 
@@ -6,7 +7,7 @@ namespace LoanWithUs.IntegrationTest.Utility
 {
     internal class ApplicantBuilder
     {
-        private string _mobile = "09124443377";
+        private MobileNumber _mobile = new MobileNumber("09124443377");
         private string _firstName = "applicant";
         private string _lastName = "applicant";
         private string _nationalCode = "0099887766";
@@ -25,7 +26,7 @@ namespace LoanWithUs.IntegrationTest.Utility
 
         public ApplicantBuilder WithMobileNumber(string mobile)
         {
-            _mobile = mobile;
+            _mobile = new MobileNumber(mobile);
             return this;
         }
 

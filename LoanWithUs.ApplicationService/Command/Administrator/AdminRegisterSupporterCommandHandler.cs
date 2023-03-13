@@ -29,7 +29,7 @@ namespace LoanWithUs.ApplicationService.Command.Administrator
                 throw new Exception("Current User Not Found");
             }
 
-            var supporter = admin.DefineNewSupporter(request.NationalCode, request.MobileNo, _supporterDomainService);
+            var supporter = admin.DefineNewSupporter(request.NationalCode, request.MobileNumber, _supporterDomainService);
             _supporterRepository.Add(supporter);
 
             await _unitOfWork.CommitAsync();

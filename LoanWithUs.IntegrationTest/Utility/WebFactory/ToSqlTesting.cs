@@ -19,10 +19,12 @@ namespace LoanWithUs.IntegrationTest.Utility.WebFactory
         private static IServiceScopeFactory _scopeFactory = null!;
         private static string? _currentUserId;
         private static Checkpoint _checkpoint = null!;
+        public TestUserLogined CurrentUser { get; set; }
 
-        public ToSqlTesting()
+        protected ToSqlTesting()
         {
-            _factory = new SqlWebApplicationFactory();
+            _factory = new SqlWebApplicationFactory(CurrentUser);
+
             _scopeFactory = _factory.Services.GetRequiredService<IServiceScopeFactory>();
             _configuration = _factory.Services.GetRequiredService<IConfiguration>();
 
@@ -86,13 +88,17 @@ namespace LoanWithUs.IntegrationTest.Utility.WebFactory
             return _currentUserId;
         }
 
-        public async Task WithDefaultApplicant()
-        {
-            using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<LoanWithUsContext>();
-            await context.Applicants.AddAsync(new ApplicantBuilder(context).WithMobileNumber("09381112233").Build());
-            await context.SaveChangesAsync();
-        }
+        //public async Task<Applicant> WithDefaultApplicant()
+        //{
+        //    await WithMockSupporter();
+
+        //    using var scope = _scopeFactory.CreateScope();
+        //    var context = scope.ServiceProvider.GetRequiredService<LoanWithUsContext>();
+        //    var applicant=new ApplicantBuilder(context).WithMobileNumber("09381112233").Build();
+        //    await context.Applicants.AddAsync(applicant);
+        //    await context.SaveChangesAsync();
+        //    return applicant;
+        //}
 
         public async Task ResetState()
         {
@@ -142,6 +148,32 @@ namespace LoanWithUs.IntegrationTest.Utility.WebFactory
             return adminLogin;
 
         }
+
+        //public async Task<Supporter> WithMockSupporter()
+        //{
+        //    using var scope = _scopeFactory.CreateScope();
+        //    var context = scope.ServiceProvider.GetRequiredService<LoanWithUsContext>();
+        //    if (!context.Supporters.Any())
+        //    {
+        //        var domainServiceSupporter = scope.ServiceProvider.GetRequiredService<ISupporterDomainService>();
+
+        //        var admin = await context.Administrators.FirstAsync(m => m.Id == 1);
+
+        //        var supporter = admin.DefineNewSupporter("0123456987", new Common.DefinedType.MobileNumber("09121236548"), domainServiceSupporter);
+
+        //        context.Supporters.Add(supporter);
+
+        //        await context.SaveChangesAsync();
+
+        //        return supporter;
+        //    }
+        //    else
+        //    {
+        //        return await context.Supporters.FirstOrDefaultAsync();
+        //    }
+
+        //}
+
         public T GetRequiredService<T>()
         {
             using var scope = _scopeFactory.CreateScope();

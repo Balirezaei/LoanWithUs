@@ -1,16 +1,17 @@
-﻿using MediatR;
+﻿using LoanWithUs.Common.DefinedType;
+using MediatR;
 
 namespace LoanWithUs.ApplicationService.Contract
 {
     public class ValidateUserOtpQuery :UserDataSecurityDate, IRequest<ValidateOtpQueryResult>
     {
-        public ValidateUserOtpQuery(string mobile, string code)
+        public ValidateUserOtpQuery(MobileNumber mobileNumber, string code)
         {
-            Mobile = mobile;
+            MobileNumber = mobileNumber;
             this.code = code;
         }
 
-        public string Mobile { get; set; }
+        public MobileNumber MobileNumber { get; set; }
         public string code { get; set; }
     }
 }

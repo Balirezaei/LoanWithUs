@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Domain.UserAggregate;
+﻿using LoanWithUs.Common.DefinedType;
+using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Persistense.EF.ContextContainer;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +14,10 @@ namespace LoanWithUs.Persistense.EF.Repository
             _context = context;
         }
 
-        public Task<bool> CheckUserActivationCode(string mobile, string code, string userAgent)
+        public Task<bool> CheckUserActivationCode(MobileNumber mobileNumber, string code, string userAgent)
         {
             return _context.Applicants
-                .Where(m => m.IdentityInformation.MobileNumber == mobile
+                .Where(m => m.IdentityInformation.MobileNumber == mobileNumber
                 &&
                 m.UserLogins.Any(z => z.Code == code && z.ExpireDate > DateTime.Now && z.UserAgent == userAgent)
 
@@ -24,9 +25,14 @@ namespace LoanWithUs.Persistense.EF.Repository
                 .AnyAsync();
         }
 
-        public Task<bool> CheckUserMobileAvailibilityWithAllUserType(int currentUserId, string mobile)
+        public Task<bool> CheckUserMobileAvailibilityWithAllUserType(int currentUserId, MobileNumber mobileNumber)
         {
-            return _context.Supporters.AnyAsync(m => m.Id != currentUserId && m.IdentityInformation.MobileNumber == mobile);
+            return _context.Supporters.AnyAsync(m => m.Id != currentUserId && m.IdentityInformation.MobileNumber == mobileNumber);
+        }
+
+        public Task<bool> CheckUserNationalCodeAvailibilityWithAllUserType(int currentUserId, string nationalCode)
+        {
+            return _context.Supporters.AnyAsync(m => m.Id != currentUserId && m.IdentityInformation.NationalCode == nationalCode);
         }
 
         public Task<Applicant> FindApplicantByIdIncludeEducationalInformation(int id)
@@ -34,10 +40,10 @@ namespace LoanWithUs.Persistense.EF.Repository
             return _context.Applicants.Where(m => m.Id == id).Include(m => m.EducationalInformation).FirstOrDefaultAsync();
         }
 
-        public Task<Applicant> FindApplicantByMobile(string mobile)
+        public Task<Applicant> FindApplicantByMobile(MobileNumber mobileNumber)
         {
             return _context.Applicants
-                 .FirstOrDefaultAsync(m => m.IdentityInformation.MobileNumber == mobile);
+                 .FirstOrDefaultAsync(m => m.IdentityInformation.MobileNumber == mobileNumber);
         }
 
         public Task<Applicant> FindFullApplicantAggregateById(int id)

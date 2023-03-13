@@ -49,6 +49,18 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
             //    subBuilder.WithOwner().HasForeignKey("ApplicationUserId");
             //});
             builder.OwnsOne(m => m.PersonalInformation).ToTable("PersonalInformation");
+
+            builder.OwnsOne(o => o.PersonalInformation,
+             sa =>
+             {
+                 sa.Property(p => p.FatherFullName).HasMaxLength(150).IsRequired(false).HasColumnName("FatherFullName");
+                 sa.Property(p => p.MatherFullName).HasMaxLength(150).IsRequired(false).HasColumnName("MatherFullName");
+                 sa.Property(p => p.FirstName).HasMaxLength(20).IsRequired(true).HasColumnName("FirstName");
+                 sa.Property(p => p.LastName).HasMaxLength(20).IsRequired(true).HasColumnName("LastName");
+                 sa.Property(p => p.Job).HasMaxLength(50).IsRequired(false).HasColumnName("Job");
+                 sa.Property(p => p.IdentityNumber).HasMaxLength(15).IsRequired(false).HasColumnName("IdentityNumber");
+             });
+
             builder.OwnsMany(m => m.UserDocuments).ToTable("UserDocument");
             builder.OwnsMany(m => m.BankAccountInformations).ToTable("AccountInformation");
             builder.OwnsMany(m => m.UserLogins).ToTable("UserLogin");

@@ -1,9 +1,11 @@
-﻿namespace LoanWithUs.ViewModel
+﻿using LoanWithUs.Common.DefinedType;
+
+namespace LoanWithUs.ViewModel
 {
     public class AdminRegisterSupporterVm
     {
         public string NationalCode { get; set; }
-        public string MobileNo { get; set; }
+        public MobileNumber MobileNumber { get; set; }
     }
 
     public class AdminRegisteredSupporterVm: PagingContractVm

@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Domain.Test.Utility;
 using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Exceptions;
@@ -13,7 +14,7 @@ namespace LoanWithUs.Domain.Test
         {
             var admin = new AdministratorBuilder().Build();
             var suporterNationalCode = "1234567891";
-            var suporterMobileNumber = "09121231212";
+            var suporterMobileNumber = new MobileNumber("09121231212");
             var domainSupporter = Substitute.For<ISupporterDomainService>();
 
             var supporet = admin.DefineNewSupporter(suporterNationalCode, suporterMobileNumber, domainSupporter);
@@ -28,7 +29,7 @@ namespace LoanWithUs.Domain.Test
         {
             var admin = new AdministratorBuilder().Build();
             var suporterNationalCode = "1234567891";
-            var suporterMobileNumber = "0";
+            MobileNumber suporterMobileNumber = new MobileNumber("0");
             var domainSupporter = Substitute.For<ISupporterDomainService>();
 
             var action = () =>

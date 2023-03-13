@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Domain.UserAggregate;
+﻿using LoanWithUs.Common.DefinedType;
+using LoanWithUs.Domain.UserAggregate;
 
 namespace LoanWithUs.Domain
 {
@@ -42,7 +43,7 @@ namespace LoanWithUs.Domain
             return this.FirstName + " " + this.LastName;
         }
 
-        public Supporter DefineNewSupporter(string nationalCode, string mobileNumber,ISupporterDomainService supporterDomainService)
+        public Supporter DefineNewSupporter(string nationalCode, MobileNumber mobileNumber,ISupporterDomainService supporterDomainService)
         {
             return new Supporter(nationalCode, mobileNumber, new SupporterCredit(StaticDataForBegining.InitCreditForSupporter, MoneyUnit.NewToman()), supporterDomainService);
         }

@@ -18,7 +18,7 @@ namespace LoanWithUs.ApplicationService.Command
         }
         public async Task<UserLoginCommandResult> Handle(RequestNewOTPCodeForUserCommand request, CancellationToken cancellationToken)
         {
-            var applicant = await _applicantReadRepository.FindApplicantByMobile(request.Mobile);
+            var applicant = await _applicantReadRepository.FindApplicantByMobile(request.MobileNumber);
             if (applicant == null)
             {
                 throw new NotFoundException("شماره موبایل نامعتبر!");

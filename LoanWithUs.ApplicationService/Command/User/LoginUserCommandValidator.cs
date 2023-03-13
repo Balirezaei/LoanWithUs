@@ -11,7 +11,7 @@ namespace LoanWithUs.ApplicationService.Command
         {
             //_applicantRepository = applicantRepository;
 
-            RuleFor(v => v.Mobile)
+            RuleFor(v => v.MobileNumber)
                 .NotEmpty().WithMessage("شماره موبایل اجباریست.")
                 //.MaximumLength(200).WithMessage("Title must not exceed 200 characters.")
                 //.MustAsync(BeUniqueTitle).WithMessage("The specified title already exists.")

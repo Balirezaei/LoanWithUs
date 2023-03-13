@@ -21,7 +21,7 @@ namespace LoanWithUs.ApplicationService.Query
 
         public async Task<ValidateOtpQueryResult> Handle(ValidateUserOtpQuery request, CancellationToken cancellationToken)
         {
-            var mobile = request.Mobile.RecheckMobileNumber();
+            var mobile = request.MobileNumber.RecheckMobileNumber();
             var result = await _applicantRepository.CheckUserActivationCode(mobile, request.code,request.UserAgent);
             return new ValidateOtpQueryResult(result);
         }

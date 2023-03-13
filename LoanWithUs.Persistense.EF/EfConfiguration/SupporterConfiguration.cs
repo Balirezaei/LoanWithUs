@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Domain.UserAggregate;
+﻿using LoanWithUs.Common.DefinedType;
+using LoanWithUs.Domain.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -19,14 +20,18 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
                     sa.Property(p => p.MobileNumber)
                     .HasMaxLength(11)
                     .IsRequired(true)
-                    .HasColumnName("MobileNumber");
+                    .HasColumnName("MobileNumber")
+                     .HasConversion(
+                            v => v.mobileNumber,
+                            v => new MobileNumber(v)
+                                );
+                    
                     sa.Property(p => p.EmailAddress).HasMaxLength(150).IsRequired(false).HasColumnName("EmailAddress");
                     sa.Property(p => p.Password).HasMaxLength(50).IsRequired(false).HasColumnName("Password");
                     sa.Property(p => p.NationalCode).HasMaxLength(10).IsRequired(false).HasColumnName("NationalCode");
                     sa.HasIndex(p => p.MobileNumber).IsUnique();
                 });
 
-            //builder.OwnsOne(o => o.SupporterCredit).Property(x => x.Money).HasColumnName("MoneyType");
 
             builder.OwnsOne(o => o.SupporterCredit, sa =>
             {

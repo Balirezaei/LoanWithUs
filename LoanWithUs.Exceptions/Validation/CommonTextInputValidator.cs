@@ -18,7 +18,7 @@ namespace LoanWithUs.Exceptions
 
         public void validate(string input,string inputTitle)
         {
-            if (!Regex.Matches(input, CommonText_PATTERN, RegexOptions.IgnorePatternWhitespace).Any())
+            if (input == null || !Regex.Matches(input, CommonText_PATTERN, RegexOptions.IgnorePatternWhitespace).Any())
             {
                 listener.reject(new InvalidDomainInputException("مقدار ورودی"));
             }

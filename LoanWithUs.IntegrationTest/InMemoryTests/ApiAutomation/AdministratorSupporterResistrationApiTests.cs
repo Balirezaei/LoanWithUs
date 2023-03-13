@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using LoanWithUs.ApplicationService.Contract.Administrator;
+using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.IntegrationTest.Utility.WebFactory;
 using LoanWithUs.ViewModel;
@@ -12,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace LoanWithUs.IntegrationTest.InMemoryTests.ApiAutomation
 {
-    public class AdministratorSupporterResistrationApiTests : IClassFixture<ToMemoryTesting>
+    public class AdministratorSupporterResistrationApiTests : IClassFixture<ToMemoryTestingByAdminRole>
     {
-        private readonly ToMemoryTesting _toMemoryTesting;
+        private readonly ToMemoryTestingByAdminRole _toMemoryTesting;
 
-        public AdministratorSupporterResistrationApiTests(ToMemoryTesting toMemoryTesting)
+        public AdministratorSupporterResistrationApiTests(ToMemoryTestingByAdminRole toMemoryTesting)
         {
             _toMemoryTesting = toMemoryTesting;
         }
@@ -28,7 +29,7 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests.ApiAutomation
             //Setup         
             var vm = new AdminRegisterSupporterVm()
             {
-                MobileNo = "09124566547",
+                MobileNumber = new MobileNumber("09124566547"),
                 NationalCode = "1234567899"
             };
 

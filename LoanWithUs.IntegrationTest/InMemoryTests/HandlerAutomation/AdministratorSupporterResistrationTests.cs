@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using LoanWithUs.ApplicationService.Contract.Administrator;
+using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Exceptions;
 using LoanWithUs.IntegrationTest.Utility.WebFactory;
@@ -8,11 +9,11 @@ using MediatR;
 
 namespace LoanWithUs.IntegrationTest.InMemoryTests.HandlerAutomation
 {
-    public class AdministratorSupporterResistrationTests : IClassFixture<ToMemoryTesting>
+    public class AdministratorSupporterResistrationTests : IClassFixture<ToMemoryTestingByAdminRole>
     {
-        private readonly ToMemoryTesting _toMemoryTesting;
+        private readonly ToMemoryTestingByAdminRole _toMemoryTesting;
 
-        public AdministratorSupporterResistrationTests(ToMemoryTesting toMemoryTesting)
+        public AdministratorSupporterResistrationTests(ToMemoryTestingByAdminRole toMemoryTesting)
         {
             _toMemoryTesting = toMemoryTesting;
         }
@@ -20,8 +21,6 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests.HandlerAutomation
         [Fact]
         public async Task AdminRegisteredSupporterQuery_Should_Work_Properly_With_Correct_Data()
         {
-            var supporter = await _toMemoryTesting.WithMockSupporter();
-
             //Exersice
             var result = await _toMemoryTesting.SendAsync(new AdminRegisteredSupporterContract()
             {
@@ -33,7 +32,6 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests.HandlerAutomation
 
             //Verification
             result.Count().Should().BeGreaterThan(0);
-            result.First().NationalCode.Should().Be(supporter.IdentityInformation.NationalCode);
 
         }
 
@@ -43,9 +41,9 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests.HandlerAutomation
             //Setup         
             var command = new AdminRegisterSupporterCommand()
             {
-                AdminId = 1,
-                MobileNo = "09124566547",
-                NationalCode = "1234567899"
+                AdminId = _toMemoryTesting.CurrentUser.UserId,
+                MobileNumber = new MobileNumber("09124566547"),
+                NationalCode = "0055664477"
             };
 
             //Exersice
@@ -65,13 +63,12 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests.HandlerAutomation
         public async Task Admin_on_Register_Supporter_with_douplicate_NationalCode_Receive_Exception()
         {
             //Setup         
-            var supporter = await _toMemoryTesting.WithMockSupporter();
 
             var command = new AdminRegisterSupporterCommand()
             {
                 AdminId = 1,
-                MobileNo = "09164585252",
-                NationalCode = supporter.IdentityInformation.NationalCode
+                MobileNumber = new MobileNumber("09164585252"),
+                NationalCode = StaticDate.SupporterNationalCode
             };
 
             //Exersice
@@ -87,12 +84,10 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests.HandlerAutomation
         public async Task Admin_on_Register_Supporter_with_douplicate_MobileNo_Receive_Exception()
         {
             //Setup         
-            var supporter = await _toMemoryTesting.WithMockSupporter();
-
             var command = new AdminRegisterSupporterCommand()
             {
                 AdminId = 1,
-                MobileNo = supporter.IdentityInformation.MobileNumber,
+                MobileNumber = new MobileNumber(StaticDate.SupporterMobileNumber),
                 NationalCode = "1122334455"
             };
 

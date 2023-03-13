@@ -29,8 +29,8 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests.ApiAutomation
             //Setup         
             var vm = new AdminRegisterSupporterVm()
             {
-                MobileNumber = new MobileNumber("09124566547"),
-                NationalCode = "1234567899"
+                MobileNumber = new MobileNumber("09174566547"),
+                NationalCode = "1034567899"
             };
 
             //Exersice

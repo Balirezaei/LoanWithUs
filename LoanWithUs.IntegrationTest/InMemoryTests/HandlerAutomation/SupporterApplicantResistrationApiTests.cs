@@ -5,7 +5,7 @@ using LoanWithUs.IntegrationTest.Utility.WebFactory;
 using LoanWithUs.ViewModel;
 using System.Net;
 
-namespace LoanWithUs.IntegrationTest.InMemoryTests.ApiAutomation
+namespace LoanWithUs.IntegrationTest.InMemoryTests.HandlerAutomation
 {
     public class SupporterApplicantResistrationApiTests : IClassFixture<ToMemoryTestingBySupporterRole>
     {

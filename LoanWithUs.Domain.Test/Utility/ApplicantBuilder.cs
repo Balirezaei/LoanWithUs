@@ -36,7 +36,9 @@ namespace LoanWithUs.Domain.Test.Utility
 
         public Applicant Build()
         {
-            var applicant = new SupporterBuilder().Build().RegisterNewApplicant(this.mobile, "0011223366", "firstName", "lastName", applicantDomainService);
+            var applicant = new SupporterBuilder()
+                .Build()
+                .RegisterNewApplicant(this.mobile, "0011223366", "firstName", "lastName", applicantDomainService);
             //throw new NotImplementedException();
             // var applicant = new Applicant(mobile, applicantDomainService);
             // if (educationalInformation != null)

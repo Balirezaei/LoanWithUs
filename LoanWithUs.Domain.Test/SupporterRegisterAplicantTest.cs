@@ -1,4 +1,5 @@
 using FluentAssertions;
+using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Domain.Test.Utility;
 using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Exceptions;
@@ -17,7 +18,7 @@ namespace LoanWithUs.Domain.Test
 
             string fistName = "fistName";
             string lastName = "";
-            string mobileNumber = "09124341212";
+            var mobileNumber = new MobileNumber("09124341212");
             string nationalCode = "123456712";
 
             var applicantDomainService = Substitute.For<IApplicantDomainService>();
@@ -38,7 +39,7 @@ namespace LoanWithUs.Domain.Test
 
             string fistName = "fistName";
             string lastName = "";
-            string mobileNumber = supporter.IdentityInformation.MobileNumber;
+            var mobileNumber = supporter.IdentityInformation.MobileNumber;
             string nationalCode = "123456712";
 
             var applicantDomainService = Substitute.For<IApplicantDomainService>();

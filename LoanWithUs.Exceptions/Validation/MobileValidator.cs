@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using LoanWithUs.Common.DefinedType;
+using System.Text.RegularExpressions;
 
 namespace LoanWithUs.Exceptions
 {
@@ -14,9 +15,9 @@ namespace LoanWithUs.Exceptions
             this.listener = listener;
         }
 
-        public void validate(string mobile)
+        public void validate(MobileNumber mobile)
         {
-            if (!Regex.Matches(mobile, Mobile_PATTERN, RegexOptions.IgnorePatternWhitespace).Any())
+            if (!Regex.Matches(mobile.mobileNumber, Mobile_PATTERN, RegexOptions.IgnorePatternWhitespace).Any())
             {
                 listener.reject(new InvalidDomainInputException("مقدار ورودی شماره تلفن به درستی وارد نشده است."));
             }

@@ -19,7 +19,7 @@ namespace LoanWithUs.RestApi.Controllers.Applicant
         [HttpPost]
         public async Task<IActionResult> Login(LoginUserViewModel vm)
         {
-            var command = new LoginUserCommand(vm.Mobile);
+            var command = new LoginUserCommand(vm.MobileNumber);
             var res = await _mediator.Send(command);
             return Ok(res);
         }
@@ -27,7 +27,7 @@ namespace LoanWithUs.RestApi.Controllers.Applicant
         [HttpPost]
         public async Task<IActionResult> RequestNewActivateCode(RequestNewOTPCodeForUserViewModel vm)
         {
-            var command = new RequestNewOTPCodeForUserCommand(vm.Mobile);
+            var command = new RequestNewOTPCodeForUserCommand(vm.MobileNumber);
             var res = await _mediator.Send(command);
             return Ok(res);
         }
@@ -36,7 +36,7 @@ namespace LoanWithUs.RestApi.Controllers.Applicant
         [HttpPost]
         public async Task<IActionResult> ActivateCodeVerification(ValidateUserOtpViewModel vm)
         {
-            var query = new ValidateUserOtpQuery(vm.Mobile, vm.code);
+            var query = new ValidateUserOtpQuery(vm.MobileNumber, vm.code);
             var res = await _mediator.Send(query);
             return Ok(res);
         }

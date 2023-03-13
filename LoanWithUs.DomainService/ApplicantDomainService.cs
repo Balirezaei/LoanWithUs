@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Domain.UserAggregate;
+﻿using LoanWithUs.Common.DefinedType;
+using LoanWithUs.Domain.UserAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,14 @@ namespace LoanWithUs.DomainService
             this.applicantReadRepository = applicantReadRepository;
         }
 
-        public Task<bool> IsMobileReservedWithAllUserType(int currentUser, string mobileNumber)
+        public Task<bool> IsMobileReservedWithAllUserType(int currentUser, MobileNumber mobileNumber)
         {
             return applicantReadRepository.CheckUserMobileAvailibilityWithAllUserType(currentUser,mobileNumber);
+        }
+
+        public Task<bool> IsNationalReservedWithAllUserType(int currentUser, string nationalCode)
+        {
+            return applicantReadRepository.CheckUserNationalCodeAvailibilityWithAllUserType(currentUser, nationalCode);
         }
     }
 }

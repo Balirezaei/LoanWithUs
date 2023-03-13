@@ -23,7 +23,7 @@ namespace LoanWithUs.ApplicationService.Command
 
         public async Task<UserLoginCommandResult> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
-            var mobile = request.Mobile.RecheckMobileNumber();
+            var mobile = request.MobileNumber.RecheckMobileNumber();
             var applicant = await _applicantReadRepository.FindApplicantByMobile(mobile);
             if (applicant == null)
             {

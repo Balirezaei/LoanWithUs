@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace LoanWithUs.IntegrationTest.CommandAuttomatedTests
 {
-    public class AdministratorLoginTest : IClassFixture<ToSqlTesting>
+    public class AdministratorLoginTest : IClassFixture<ToSqlTestingByAdminRole>
     {
-        private readonly ToSqlTesting _toSqlTesting;
+        private readonly ToSqlTestingByAdminRole _toSqlTesting;
 
-        public AdministratorLoginTest(ToSqlTesting toSqlTesting)
+        public AdministratorLoginTest(ToSqlTestingByAdminRole toSqlTesting)
         {
             _toSqlTesting = toSqlTesting;
         }
@@ -61,7 +61,9 @@ namespace LoanWithUs.IntegrationTest.CommandAuttomatedTests
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             var responseText = await response.Content.ReadAsStringAsync();
             var tokenService=_toSqlTesting.GetRequiredService<ITokenService>();
-            var principal = tokenService.GetPrincipalFromExpiredToken(responseText);
+            var loginResult = JsonConvert.DeserializeObject<LoginResult>(responseText);
+
+            var principal = tokenService.GetPrincipalFromExpiredToken(loginResult.JWT);
             principal.Identity.Name.Should().Contain("admin");
         }
 

@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Domain.UserAggregate;
+﻿using LoanWithUs.Common.DefinedType;
+using LoanWithUs.Domain.UserAggregate;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -10,20 +11,20 @@ namespace LoanWithUs.Domain.Test.Utility
 {
     internal class ApplicantBuilder
     {
-        private string mobile = "09124804347";
+        private MobileNumber mobile = new MobileNumber("09124804347");
         private IApplicantDomainService applicantDomainService;
         private EducationalInformation educationalInformation = null;
 
         public ApplicantBuilder()
         {
             var _applicantDomainService = Substitute.For<IApplicantDomainService>();
-            _applicantDomainService.IsMobileReservedWithAllUserType(default,default).ReturnsForAnyArgs(false);
+            _applicantDomainService.IsMobileReservedWithAllUserType(default, default).ReturnsForAnyArgs(false);
             applicantDomainService = _applicantDomainService;
         }
 
         public ApplicantBuilder WithmobileNumber(string mobile)
         {
-            this.mobile = mobile;
+            this.mobile = new MobileNumber(mobile);
             return this;
         }
 
@@ -35,13 +36,14 @@ namespace LoanWithUs.Domain.Test.Utility
 
         public Applicant Build()
         {
-            throw new NotImplementedException();
+            var applicant = new SupporterBuilder().Build().RegisterNewApplicant(this.mobile, "0011223366", "firstName", "lastName", applicantDomainService);
+            //throw new NotImplementedException();
             // var applicant = new Applicant(mobile, applicantDomainService);
             // if (educationalInformation != null)
             // {
             //     applicant.UpdateEducationalInformation(educationalInformation.LastEducationLevel, educationalInformation.EducationalSubject);
             // }
-            // return applicant;
+            return applicant;
         }
 
         public ApplicantBuilder WithDefaultEducationalInformation()

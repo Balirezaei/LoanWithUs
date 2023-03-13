@@ -1,5 +1,7 @@
 ﻿using LoanWithUs.ApplicationService.Contract;
+using LoanWithUs.IntegrationTest.Utility.Authorization;
 using LoanWithUs.Persistense.EF.ContextContainer;
+using LoanWithUs.RestApi.Utility;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +12,12 @@ namespace LoanWithUs.IntegrationTest.Utility.WebFactory
 {
     internal class SqlWebApplicationFactory : WebApplicationFactory<Program>
     {
+        public SqlWebApplicationFactory(TestUserLogined currentUser)
+        {
+            CurrentUser = currentUser;
+        }
+
+        public TestUserLogined CurrentUser { get; set; }
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.UseEnvironment("IntegrationTest").ConfigureAppConfiguration(configurationBuilder =>
@@ -30,6 +38,7 @@ namespace LoanWithUs.IntegrationTest.Utility.WebFactory
                 //        s.UserId == GetCurrentUserId()));
 
 
+                services.AddScoped(provider => CurrentUser);
 
                 services
                .Remove<UserDataSecurityDate>().AddScoped(m =>
@@ -41,6 +50,15 @@ namespace LoanWithUs.IntegrationTest.Utility.WebFactory
                        LocalIp = "IntegrationTest",
                    };
                });
+
+                services
+            .AddAuthentication("BmiSSO")
+                .AddScheme<BasicTestAuthenticationOptions, BasicAuthenticationHandler
+                >("BmiSSO", options => { });
+
+
+                services.AddScoped<ITokenService, TokenService>();
+
                 services
                     .Remove<DbContextOptions<LoanWithUsContext>>()
                     .AddDbContext<LoanWithUsContext>((sp, options) =>
@@ -53,13 +71,12 @@ namespace LoanWithUs.IntegrationTest.Utility.WebFactory
                 {
                     var scopedServices = scope.ServiceProvider;
                     var db = scopedServices.GetRequiredService<LoanWithUsContext>();
-                    //db.Database.EnsureDeleted();
+                    db.Database.EnsureDeleted();
                     db.Database.EnsureCreated();
-                    //  db.InitializeTestDatabaseInMemory();
+                    db.DbDataInitializer();
                 }
             });
         }
     }
-
 
 }

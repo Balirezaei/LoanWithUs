@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Exceptions;
+﻿using LoanWithUs.Common.DefinedType;
+using LoanWithUs.Exceptions;
 
 namespace LoanWithUs.Domain.UserAggregate
 {
@@ -17,7 +18,7 @@ namespace LoanWithUs.Domain.UserAggregate
         //}
         public SupporterCredit SupporterCredit { get; set; }
 
-        internal Supporter(string nationalCode, string mobileNumber, SupporterCredit initCredit, ISupporterDomainService supporterDomainService)
+        internal Supporter(string nationalCode, MobileNumber mobileNumber, SupporterCredit initCredit, ISupporterDomainService supporterDomainService)
         {
             if (supporterDomainService.IsNationalReservedWithOtherSupporter(0, nationalCode).Result)
                 throw new InvalidDomainInputException("کد ملی تکراریست");
@@ -31,7 +32,7 @@ namespace LoanWithUs.Domain.UserAggregate
             this.RegisterationDate = DateTime.Now;
         }
 
-        public Applicant RegisterNewApplicant(string mobileNumber, string nationalCode, string firstName, string lastName, IApplicantDomainService domainService)
+        public Applicant RegisterNewApplicant(MobileNumber mobileNumber, string nationalCode, string firstName, string lastName, IApplicantDomainService domainService)
         {
             return new Applicant(mobileNumber, nationalCode, firstName, lastName, domainService);
         }

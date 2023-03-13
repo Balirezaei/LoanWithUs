@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LoanWithUs.Common.DefinedType;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,10 @@ namespace LoanWithUs.Domain.UserAggregate
 
     public interface IApplicantReadRepository
     {
-        Task<bool> CheckUserActivationCode(string mobile, string code,string userAgent);
-        Task<bool> CheckUserMobileAvailibilityWithAllUserType(int currentUserId, string mobile);
-        Task<Applicant> FindApplicantByMobile(string mobile);
+        Task<bool> CheckUserActivationCode(MobileNumber mobileNumber, string code,string userAgent);
+        Task<bool> CheckUserMobileAvailibilityWithAllUserType(int currentUserId, MobileNumber mobileNumber);
+        Task<bool> CheckUserNationalCodeAvailibilityWithAllUserType(int currentUserId, string nationalCode);
+        Task<Applicant> FindApplicantByMobile(MobileNumber mobileNumber);
         Task<Applicant> FindApplicantById(int id);
         Task<Applicant> FindFullApplicantAggregateById(int id);
         Task<Applicant> FindApplicantByIdIncludeEducationalInformation(int id);

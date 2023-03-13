@@ -29,6 +29,12 @@ namespace LoanWithUs.IntegrationTest.Utility.Authorization
             //    return AuthenticateResult.NoResult();
             //}
 
+            if (Request.Path.Value.ToLower().Contains("/api/adminlogin/activatecodeverification"))
+            {
+                return AuthenticateResult.NoResult();
+            }
+
+
             if (_testUser == null)
             {
                 return AuthenticateResult.Fail("Not Authenticated");

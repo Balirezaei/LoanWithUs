@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LoanWithUs.Common.DefinedType;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,15 +29,15 @@ namespace LoanWithUs.ViewModel
     }
     public class ValidateUserOtpViewModel
     {
-        public string Mobile { get; set; }
+        public MobileNumber MobileNumber { get; set; }
         public string code { get; set; }
     }
     public class RequestNewOTPCodeForUserViewModel
     {
-        public string Mobile { get; set; }
+        public MobileNumber MobileNumber { get; set; }
     }
     public class LoginUserViewModel
     {
-        public string Mobile { get; set; }
+        public MobileNumber MobileNumber { get; set; }
     }
 }

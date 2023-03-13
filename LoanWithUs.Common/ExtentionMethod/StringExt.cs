@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using LoanWithUs.Common.DefinedType;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace LoanWithUs.Common.ExtentionMethod
 {
     public static class StringExt
     {
-        public static string RecheckMobileNumber(this string mobile)
+        public static MobileNumber RecheckMobileNumber(this MobileNumber mobile)
         {
-            mobile = mobile.Replace("+98", "");
+            var newMobile = mobile.mobileNumber.Replace("+98", "");
 
-            return mobile.StartsWith("9") ? "0" + mobile : mobile;
+            return new MobileNumber(newMobile.StartsWith("9") ? "0" + newMobile : newMobile);
         }
         public static string LoanTrim(this string input)
         {

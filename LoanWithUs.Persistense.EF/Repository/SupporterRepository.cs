@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Domain.UserAggregate;
+﻿using LoanWithUs.Common.DefinedType;
+using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Persistense.EF.ContextContainer;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,9 +19,9 @@ namespace LoanWithUs.Persistense.EF.Repository
             _context.Supporters.Add(supporter);
         }
 
-        public Task<bool> CheckMobileNo(int exceptCurrentUser, string mobileNo)
+        public Task<bool> CheckMobileNumber(int exceptCurrentUser, MobileNumber mobileNumber)
         {
-            return _context.Supporters.Where(m=>m.Id!=exceptCurrentUser && m.IdentityInformation.MobileNumber== mobileNo).AnyAsync();
+            return _context.Supporters.Where(m=>m.Id!=exceptCurrentUser && m.IdentityInformation.MobileNumber== mobileNumber).AnyAsync();
         }
 
         public Task<bool> CheckNationalCode(int exceptCurrentUser, string nationalCode)
@@ -31,6 +32,11 @@ namespace LoanWithUs.Persistense.EF.Repository
         public IQueryable<Supporter> GetAllSupporter()
         {
             return _context.Supporters;
+        }
+
+        public Task<Supporter> GetSupporterById(int supporterId)
+        {
+            return _context.Supporters.Where(m => m.Id == supporterId).FirstOrDefaultAsync();
         }
     }
 }

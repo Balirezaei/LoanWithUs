@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Domain.UserAggregate;
+﻿using LoanWithUs.Common.DefinedType;
+using LoanWithUs.Domain.UserAggregate;
 
 namespace LoanWithUs.DomainService
 {
@@ -11,14 +12,14 @@ namespace LoanWithUs.DomainService
             _supporterRepository = supporterRepository;
         }
 
-        public Task<bool> IsMobileReservedWithOtherSupporter(int currentSupporter,string mobileNumber)
+        public Task<bool> IsMobileReservedWithOtherSupporter(int currentSupporter, MobileNumber mobileNumber)
         {
-            return _supporterRepository.CheckMobileNo(currentSupporter, mobileNumber);
+            return _supporterRepository.CheckMobileNumber(currentSupporter, mobileNumber);
         }
 
-        public Task<bool> IsNationalReservedWithOtherSupporter(int currentSupporter, string mobileNumber)
+        public Task<bool> IsNationalReservedWithOtherSupporter(int currentSupporter, string nationalCode)
         {
-            return _supporterRepository.CheckNationalCode(currentSupporter, mobileNumber);
+            return _supporterRepository.CheckNationalCode(currentSupporter, nationalCode);
         }
     }
 }

@@ -1,14 +1,15 @@
-﻿using MediatR;
+﻿using LoanWithUs.Common.DefinedType;
+using MediatR;
 
 namespace LoanWithUs.ApplicationService.Contract
 {
     public class RequestNewOTPCodeForUserCommand :UserDataSecurityDate, IRequest<UserLoginCommandResult>
     {
-        public RequestNewOTPCodeForUserCommand(string mobile)
+        public RequestNewOTPCodeForUserCommand(MobileNumber mobile)
         {
-            Mobile = mobile;
+            MobileNumber = mobile;
         }
 
-        public string Mobile { get; set; }
+        public MobileNumber MobileNumber { get; set; }
     }
 }

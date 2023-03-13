@@ -12,13 +12,13 @@ namespace LoanWithUs.ApplicationService.Command.Administrator
 
             RuleFor(v => v.NationalCode).Custom((x, context) =>
                 {
-                    if ((!(int.TryParse(x, out int value)) || value < 0))
+                    if ((!(long.TryParse(x, out long value)) || value < 0))
                     {
                         context.AddFailure($"فرمت کد ملی صحیح نیست");
                     }
                 });
 
-            RuleFor(v => v.MobileNo)
+            RuleFor(v => v.MobileNumber)
             .NotEmpty().WithMessage("ورود شماره موبایل اجباریست.");
         }
     }

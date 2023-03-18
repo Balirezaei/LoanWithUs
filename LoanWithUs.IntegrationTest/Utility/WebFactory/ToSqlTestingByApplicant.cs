@@ -1,10 +1,10 @@
 ﻿namespace LoanWithUs.IntegrationTest.Utility.WebFactory
 {
-    public class ToSqlTestingByApplicant : ToSqlTesting
+    public class ToSqlTestingByApplicant : ToTesting
     {
-        public ToSqlTestingByApplicant()
+        public ToSqlTestingByApplicant():base(WebFactoryType.SQL, new TestUserLogined(StaticDate.ApplicantId, Common.Enum.LoanRole.Applicant))
         {
-            base.CurrentUser = new TestUserLogined(StaticDate.ApplicantId, Common.Enum.LoanRole.Applicant);
+
         }
     }
 }

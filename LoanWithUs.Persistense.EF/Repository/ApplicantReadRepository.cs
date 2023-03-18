@@ -5,6 +5,37 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LoanWithUs.Persistense.EF.Repository
 {
+    public class UserRepository : IUserRepository
+    {
+        private readonly LoanWithUsContext _context;
+
+        public UserRepository(LoanWithUsContext context)
+        {
+            _context = context;
+        }
+
+        public Task<User> CheckUserActivationCode(MobileNumber mobileNumber, string code, string userAgent)
+        {
+            return _context.Users
+                .Where(m => m.IdentityInformation.MobileNumber == mobileNumber
+                &&
+                m.UserLogins.Any(z => z.Code == code && z.ExpireDate > DateTime.Now && z.UserAgent == userAgent)
+
+                )
+                .FirstOrDefaultAsync();
+        }
+
+        public Task<User> FindUserByMobile(MobileNumber mobileNumber)
+        {
+            return _context.Users
+                 .FirstOrDefaultAsync(m => m.IdentityInformation.MobileNumber == mobileNumber);
+        }
+
+        public void Update(User user)
+        {
+            _context.Users.Update(user);
+        }
+    }
     public class ApplicantReadRepository : IApplicantReadRepository
     {
         private readonly LoanWithUsContext _context;
@@ -14,16 +45,16 @@ namespace LoanWithUs.Persistense.EF.Repository
             _context = context;
         }
 
-        public Task<bool> CheckUserActivationCode(MobileNumber mobileNumber, string code, string userAgent)
-        {
-            return _context.Applicants
-                .Where(m => m.IdentityInformation.MobileNumber == mobileNumber
-                &&
-                m.UserLogins.Any(z => z.Code == code && z.ExpireDate > DateTime.Now && z.UserAgent == userAgent)
+        //public Task<bool> CheckUserActivationCode(MobileNumber mobileNumber, string code, string userAgent)
+        //{
+        //    return _context.Applicants
+        //        .Where(m => m.IdentityInformation.MobileNumber == mobileNumber
+        //        &&
+        //        m.UserLogins.Any(z => z.Code == code && z.ExpireDate > DateTime.Now && z.UserAgent == userAgent)
 
-                )
-                .AnyAsync();
-        }
+        //        )
+        //        .AnyAsync();
+        //}
 
         public Task<bool> CheckUserMobileAvailibilityWithAllUserType(int currentUserId, MobileNumber mobileNumber)
         {
@@ -40,11 +71,7 @@ namespace LoanWithUs.Persistense.EF.Repository
             return _context.Applicants.Where(m => m.Id == id).Include(m => m.EducationalInformation).FirstOrDefaultAsync();
         }
 
-        public Task<Applicant> FindApplicantByMobile(MobileNumber mobileNumber)
-        {
-            return _context.Applicants
-                 .FirstOrDefaultAsync(m => m.IdentityInformation.MobileNumber == mobileNumber);
-        }
+
 
         public Task<Applicant> FindFullApplicantAggregateById(int id)
         {

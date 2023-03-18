@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LoanWithUs.IntegrationTest.CommandAuttomatedTests
+namespace LoanWithUs.IntegrationTest
 {
     public class AdministratorLoginTest : IClassFixture<ToSqlTestingByAdminRole>
     {
@@ -57,7 +57,7 @@ namespace LoanWithUs.IntegrationTest.CommandAuttomatedTests
                 code = userLogin.Code,
                 key = userLogin.Key
             };
-            var response = await _toSqlTesting.CallPostApi<ValidateAdministratorOTPViewModel>(vm, "/api/AdminLogin/ActivateCodeVerification");
+            var response = await _toSqlTesting.CallPostApi<ValidateAdministratorOTPViewModel>(vm, "/AdminLogin/ActivateCodeVerification");
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             var responseText = await response.Content.ReadAsStringAsync();
             var tokenService=_toSqlTesting.GetRequiredService<ITokenService>();

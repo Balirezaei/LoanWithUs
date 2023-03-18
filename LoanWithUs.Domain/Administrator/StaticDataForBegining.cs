@@ -2,7 +2,7 @@
 {
     public static class StaticDataForBegining
     {
-        public static long InitCreditForSupporter
+        public static int InitCreditForSupporter
         {
             get
             {

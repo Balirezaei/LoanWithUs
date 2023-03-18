@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using LoanWithUs.ApplicationService.Contract;
+using LoanWithUs.ApplicationService.Contract.Administrator;
 using LoanWithUs.Domain;
+using LoanWithUs.ViewModel;
 
 namespace LoanWithUs.Mapper
 {
@@ -9,6 +11,9 @@ namespace LoanWithUs.Mapper
         public BasicInfoProfile()
         {
             CreateMap<LoanWithUsFile, FileDto>();
+
+            CreateMap<LoanLadderFrame, LoanLadderFrameDto>();
+            CreateMap<LoanLadderFrameContractGridContractVm, LoanLadderFrameContractGridContract>();
         }
     }
 }

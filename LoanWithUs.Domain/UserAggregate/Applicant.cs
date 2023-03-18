@@ -11,19 +11,22 @@ namespace LoanWithUs.Domain.UserAggregate
     {
         protected Applicant() { }
 
-        //ToDo:Remove Imediatelyyy
-        public Applicant(MobileNumber mobileNumber, string nationalCode)
-        {
-            var isAvailable = false;// domainService.IsMobileReservedWithOtherUserType(mobileNumber).Result;
-            if (isAvailable)
-            {
-                throw new InvalidDomainInputException("امکان ثبت نام شماره تلفن به عنوان درخواستگر فراهم نمی باشد.لطفن با مدیر سامانه تماس بگیرید.");
-            }
-            this.IdentityInformation = new IdentityInformation(mobileNumber, nationalCode);
-            //this.UserLogins = this.UserLogins ?? new List<UserLogin>();
-            //this.UserLogins.Add(new UserLogin(DateTime.Now.AddMinutes(2)));
-            this.RegisterationDate = DateTime.Now;
-        }
+        public LoanLadderFrame CurrentLoanLadderFrame { get; set; }
+        public int CurrentLoanLadderFrameId { get; set; }
+
+        ////ToDo:Remove Imediatelyyy
+        //public Applicant(MobileNumber mobileNumber, string nationalCode)
+        //{
+        //    var isAvailable = false;// domainService.IsMobileReservedWithOtherUserType(mobileNumber).Result;
+        //    if (isAvailable)
+        //    {
+        //        throw new InvalidDomainInputException("امکان ثبت نام شماره تلفن به عنوان درخواستگر فراهم نمی باشد.لطفن با مدیر سامانه تماس بگیرید.");
+        //    }
+        //    this.IdentityInformation = new IdentityInformation(mobileNumber, nationalCode);
+        //    //this.UserLogins = this.UserLogins ?? new List<UserLogin>();
+        //    //this.UserLogins.Add(new UserLogin(DateTime.Now.AddMinutes(2)));
+        //    this.RegisterationDate = DateTime.Now;
+        //}
 
         /// <summary>
         ///It should be Internal beacuse of client can not create new instance of Applicant
@@ -46,6 +49,9 @@ namespace LoanWithUs.Domain.UserAggregate
             }
             this.IdentityInformation = new IdentityInformation(mobileNumber, nationalCode);
             this.PersonalInformation = new PersonalInformation(firstName, lastName);
+
+            this.CurrentLoanLadderFrameId = domainService.InitLoaderForApplicant().Result.Id;
+
             this.RegisterationDate = DateTime.Now;
         }
 

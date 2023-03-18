@@ -22,6 +22,13 @@ namespace LoanWithUs.Domain.Test
             string nationalCode = "123456712";
 
             var applicantDomainService = Substitute.For<IApplicantDomainService>();
+            var loanLadderApplicantDomainService = Substitute.For<ILoanLadderFrameDomainService>();
+            var stepOne = new LoanLadderFrameBuilder(loanLadderApplicantDomainService)
+                         .WithTitle("‰—œ»«‰ «Ê·")
+                         .WithStep(1)
+                         .WithTomanAmount(1000000)
+                         .Build(1);
+            applicantDomainService.InitLoaderForApplicant().Returns(stepOne);
 
             //Exersice
             var applicant = supporter.RegisterNewApplicant(mobileNumber, nationalCode, fistName, lastName, applicantDomainService);

@@ -22,6 +22,7 @@ namespace LoanWithUs.IntegrationTest.Utility.WebFactory
                 context.Applicants.Add(applicant);
                 context.SaveChanges();
             }
+            //INSERT
 
         }
     }

@@ -16,6 +16,11 @@ namespace LoanWithUs.Common.ExtentionMethod
 
             return new MobileNumber(newMobile.StartsWith("9") ? "0" + newMobile : newMobile);
         }
+
+        public static MobileNumber ToMobileNumber(this string mobile)
+        {
+            return new MobileNumber(mobile);
+        }
         public static string LoanTrim(this string input)
         {
             return input.Trim().ToLower();

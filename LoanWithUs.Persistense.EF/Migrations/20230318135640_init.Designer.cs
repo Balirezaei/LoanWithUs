@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoanWithUs.Persistense.EF.Migrations
 {
     [DbContext(typeof(LoanWithUsContext))]
-    [Migration("20221003121419_init")]
+    [Migration("20230318135640_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,63 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("LoanWithUs.Domain.Administrator", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("MobileNumber")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
+
+                    b.Property<string>("NationalCode")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RegisterationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Administrator", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FirstName = "Admin",
+                            LastName = "admin",
+                            MobileNumber = "09124444444",
+                            NationalCode = "0099887766",
+                            Password = "o4r8d5bV0uH4wxMOIP+8SG8plc4dLZ4iUsgbUonSDL+y1wEWURrhqJEeK7qpyViSZMpVZOhDWbtiEPt00fZr2vWfjKDgEIA8982GNs+Atr2PRpV3+8epUbP6egn4ifS1UsGV3iiZJj3cdMLczNkvBAV05BKi97L+OVQaj4b741gsrDw5p2oa2CE6BLAMAcFfxBpLSuYnLfycfQJlQ7nxP10eSCpeLEpnuX+YqextxzkL1510HPkpJxHspruuijuT3LFMrhqWnNr0e7YuJlft3354QYLkGXAIn2zJYEo/ppfpVXe7IAI9zx7FsLPgXD3z62gEjJHiF+TjeegmDuQ5CA==",
+                            RegisterationDate = new DateTime(2023, 3, 18, 17, 26, 40, 202, DateTimeKind.Local).AddTicks(6045),
+                            UserName = "admin"
+                        });
+                });
 
             modelBuilder.Entity("LoanWithUs.Domain.City", b =>
                 {
@@ -343,6 +400,45 @@ namespace LoanWithUs.Persistense.EF.Migrations
                         });
                 });
 
+            modelBuilder.Entity("LoanWithUs.Domain.LoanLadderFrame", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Amount")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Amount");
+
+                    b.Property<int?>("RequiredParentLoanId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Step")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequiredParentLoanId");
+
+                    b.ToTable("LoanLadderFrames");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = "{\"amount\":1000000,\"moneyType\":1}",
+                            Step = 1,
+                            Title = "نردبان اول"
+                        });
+                });
+
             modelBuilder.Entity("LoanWithUs.Domain.LoanWithUsFile", b =>
                 {
                     b.Property<int>("Id")
@@ -400,6 +496,11 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 {
                     b.HasBaseType("LoanWithUs.Domain.UserAggregate.User");
 
+                    b.Property<int>("CurrentLoanLadderFrameId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("CurrentLoanLadderFrameId");
+
                     b.ToTable("Applicant", (string)null);
                 });
 
@@ -410,6 +511,44 @@ namespace LoanWithUs.Persistense.EF.Migrations
                     b.ToTable("Supporter", (string)null);
                 });
 
+            modelBuilder.Entity("LoanWithUs.Domain.Administrator", b =>
+                {
+                    b.OwnsMany("LoanWithUs.Domain.UserAggregate.UserLogin", "UserLogins", b1 =>
+                        {
+                            b1.Property<int>("AdministratorId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
+
+                            b1.Property<string>("Code")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime>("ExpireDate")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<Guid>("Key")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("UserAgent")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("AdministratorId", "Id");
+
+                            b1.ToTable("AdminLogin", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("AdministratorId");
+                        });
+
+                    b.Navigation("UserLogins");
+                });
+
             modelBuilder.Entity("LoanWithUs.Domain.City", b =>
                 {
                     b.HasOne("LoanWithUs.Domain.City", "Province")
@@ -417,6 +556,64 @@ namespace LoanWithUs.Persistense.EF.Migrations
                         .HasForeignKey("ProvinceId");
 
                     b.Navigation("Province");
+                });
+
+            modelBuilder.Entity("LoanWithUs.Domain.LoanLadderFrame", b =>
+                {
+                    b.HasOne("LoanWithUs.Domain.LoanLadderFrame", "RequiredParentLoan")
+                        .WithMany()
+                        .HasForeignKey("RequiredParentLoanId");
+
+                    b.OwnsMany("LoanWithUs.Domain.LoanLadderFrameRequiredDocument", "LoanLadderFrameRequiredDocuments", b1 =>
+                        {
+                            b1.Property<int>("LoanLadderFrameId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
+
+                            b1.Property<string>("Title")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("LoanLadderFrameId", "Id");
+
+                            b1.ToTable("LoanLadderFrameRequiredDocument");
+
+                            b1.WithOwner()
+                                .HasForeignKey("LoanLadderFrameId");
+                        });
+
+                    b.OwnsMany("LoanWithUs.Domain.LoanLadderInstallmentsCount", "AvalableInstallments", b1 =>
+                        {
+                            b1.Property<int>("LoanLadderFrameId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
+
+                            b1.Property<int>("Count")
+                                .HasColumnType("int");
+
+                            b1.HasKey("LoanLadderFrameId", "Id");
+
+                            b1.ToTable("LoanLadderInstallmentsCount");
+
+                            b1.WithOwner()
+                                .HasForeignKey("LoanLadderFrameId");
+                        });
+
+                    b.Navigation("AvalableInstallments");
+
+                    b.Navigation("LoanLadderFrameRequiredDocuments");
+
+                    b.Navigation("RequiredParentLoan");
                 });
 
             modelBuilder.Entity("LoanWithUs.Domain.UserAggregate.User", b =>
@@ -511,6 +708,43 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("UserId");
                         });
 
+                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.IdentityInformation", "IdentityInformation", b1 =>
+                        {
+                            b1.Property<int>("UserId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("EmailAddress")
+                                .HasMaxLength(150)
+                                .HasColumnType("nvarchar(150)")
+                                .HasColumnName("EmailAddress");
+
+                            b1.Property<string>("MobileNumber")
+                                .IsRequired()
+                                .HasMaxLength(11)
+                                .HasColumnType("nvarchar(11)")
+                                .HasColumnName("MobileNumber");
+
+                            b1.Property<string>("NationalCode")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
+                                .HasColumnName("NationalCode");
+
+                            b1.Property<string>("Password")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("Password");
+
+                            b1.HasKey("UserId");
+
+                            b1.HasIndex("MobileNumber")
+                                .IsUnique();
+
+                            b1.ToTable("User");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
                     b.OwnsOne("LoanWithUs.Domain.UserAggregate.PersonalInformation", "PersonalInformation", b1 =>
                         {
                             b1.Property<int>("UserId")
@@ -520,32 +754,73 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasColumnType("datetime2");
 
                             b1.Property<string>("FatherFullName")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(150)
+                                .HasColumnType("nvarchar(150)")
+                                .HasColumnName("FatherFullName");
 
                             b1.Property<string>("FirstName")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("FirstName");
 
                             b1.Property<string>("IdentityNumber")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(15)
+                                .HasColumnType("nvarchar(15)")
+                                .HasColumnName("IdentityNumber");
 
                             b1.Property<string>("Job")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("Job");
 
                             b1.Property<string>("LastName")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("LastName");
 
                             b1.Property<string>("MatherFullName")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(150)
+                                .HasColumnType("nvarchar(150)")
+                                .HasColumnName("MatherFullName");
 
                             b1.HasKey("UserId");
 
                             b1.ToTable("PersonalInformation", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.OwnsMany("LoanWithUs.Domain.UserAggregate.UserLogin", "UserLogins", b1 =>
+                        {
+                            b1.Property<int>("UserId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
+
+                            b1.Property<string>("Code")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime>("ExpireDate")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<Guid>("Key")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("UserAgent")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("UserId", "Id");
+
+                            b1.ToTable("UserLogin", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
@@ -617,38 +892,15 @@ namespace LoanWithUs.Persistense.EF.Migrations
                             b1.Navigation("File");
                         });
 
-                    b.OwnsMany("LoanWithUs.Domain.UserAggregate.UserLogin", "UserLogins", b1 =>
-                        {
-                            b1.Property<int>("UserId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
-
-                            b1.Property<string>("Code")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<DateTime>("ExpireDate")
-                                .HasColumnType("datetime2");
-
-                            b1.HasKey("UserId", "Id");
-
-                            b1.ToTable("UserLogin", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-                        });
-
                     b.Navigation("AddressInformation")
                         .IsRequired();
 
                     b.Navigation("BankAccountInformations");
 
                     b.Navigation("EducationalInformation")
+                        .IsRequired();
+
+                    b.Navigation("IdentityInformation")
                         .IsRequired();
 
                     b.Navigation("PersonalInformation")
@@ -664,52 +916,19 @@ namespace LoanWithUs.Persistense.EF.Migrations
 
             modelBuilder.Entity("LoanWithUs.Domain.UserAggregate.Applicant", b =>
                 {
+                    b.HasOne("LoanWithUs.Domain.LoanLadderFrame", "CurrentLoanLadderFrame")
+                        .WithMany()
+                        .HasForeignKey("CurrentLoanLadderFrameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("LoanWithUs.Domain.UserAggregate.User", null)
                         .WithOne()
                         .HasForeignKey("LoanWithUs.Domain.UserAggregate.Applicant", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.IdentityInformation", "IdentityInformation", b1 =>
-                        {
-                            b1.Property<int>("ApplicantId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("EmailAddress")
-                                .HasMaxLength(150)
-                                .HasColumnType("nvarchar(150)")
-                                .HasColumnName("EmailAddress");
-
-                            b1.Property<string>("MobileNumber")
-                                .IsRequired()
-                                .HasMaxLength(11)
-                                .HasColumnType("nvarchar(11)")
-                                .HasColumnName("MobileNumber");
-
-                            b1.Property<string>("NationalCode")
-                                .HasMaxLength(10)
-                                .HasColumnType("nvarchar(10)")
-                                .HasColumnName("NationalCode");
-
-                            b1.Property<string>("Password")
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)")
-                                .HasColumnName("Password");
-
-                            b1.HasKey("ApplicantId");
-
-                            b1.HasIndex("MobileNumber")
-                                .IsUnique()
-                                .HasFilter("[MobileNumber] IS NOT NULL");
-
-                            b1.ToTable("Applicant");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ApplicantId");
-                        });
-
-                    b.Navigation("IdentityInformation")
-                        .IsRequired();
+                    b.Navigation("CurrentLoanLadderFrame");
                 });
 
             modelBuilder.Entity("LoanWithUs.Domain.UserAggregate.Supporter", b =>
@@ -720,45 +939,31 @@ namespace LoanWithUs.Persistense.EF.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.IdentityInformation", "IdentityInformation", b1 =>
+                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.SupporterCredit", "SupporterCredit", b1 =>
                         {
                             b1.Property<int>("SupporterId")
                                 .HasColumnType("int");
 
-                            b1.Property<string>("EmailAddress")
-                                .HasMaxLength(150)
-                                .HasColumnType("nvarchar(150)")
-                                .HasColumnName("EmailAddress");
+                            b1.Property<DateTime>("CreateDate")
+                                .HasColumnType("datetime2");
 
-                            b1.Property<string>("MobileNumber")
+                            b1.Property<int>("Id")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("InitialAmount")
                                 .IsRequired()
-                                .HasMaxLength(11)
-                                .HasColumnType("nvarchar(11)")
-                                .HasColumnName("MobileNumber");
-
-                            b1.Property<string>("NationalCode")
-                                .HasMaxLength(10)
-                                .HasColumnType("nvarchar(10)")
-                                .HasColumnName("NationalCode");
-
-                            b1.Property<string>("Password")
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)")
-                                .HasColumnName("Password");
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Amount");
 
                             b1.HasKey("SupporterId");
 
-                            b1.HasIndex("MobileNumber")
-                                .IsUnique()
-                                .HasFilter("[MobileNumber] IS NOT NULL");
-
-                            b1.ToTable("Supporter");
+                            b1.ToTable("SupporterCredit", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("SupporterId");
                         });
 
-                    b.Navigation("IdentityInformation")
+                    b.Navigation("SupporterCredit")
                         .IsRequired();
                 });
 

@@ -67,6 +67,7 @@ namespace LoanWithUs.IntegrationTest.Utility.WebFactory
 
 
                 var app = services.BuildServiceProvider();
+
                 using (var scope = app.CreateScope())
                 {
                     var scopedServices = scope.ServiceProvider;

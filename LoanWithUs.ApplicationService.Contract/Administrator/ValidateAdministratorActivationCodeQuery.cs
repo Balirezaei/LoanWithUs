@@ -16,7 +16,7 @@ namespace LoanWithUs.ApplicationService.Contract
     }
     public class AdministratorOTPValidationResult : ValidateOtpQueryResult
     {
-        public AdministratorOTPValidationResult(bool isValid) : base(isValid)
+        public AdministratorOTPValidationResult(bool isValid) : base(isValid,Common.Enum.LoanRoleNames.Admin)
         {
         }
         public int UserId { get; set; }

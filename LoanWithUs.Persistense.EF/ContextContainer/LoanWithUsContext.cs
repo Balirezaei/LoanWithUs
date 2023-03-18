@@ -19,6 +19,7 @@ namespace LoanWithUs.Persistense.EF.ContextContainer
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);      
             base.OnModelCreating(modelBuilder);
         }
+        
         public DbSet<User> Users { get; set; }
         public DbSet<Applicant> Applicants { get; set; }
 
@@ -28,5 +29,7 @@ namespace LoanWithUs.Persistense.EF.ContextContainer
         public DbSet<City> Cities { get; set; }
 
         public DbSet<Administrator> Administrators { get; set; }
+
+        public DbSet<LoanLadderFrame> LoanLadderFrames { get; set; }
     }
 }

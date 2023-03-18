@@ -1,4 +1,5 @@
 ﻿using LoanWithUs.Common.DefinedType;
+using LoanWithUs.Common.Enum;
 using LoanWithUs.Domain.UserAggregate;
 
 namespace LoanWithUs.Domain
@@ -8,7 +9,6 @@ namespace LoanWithUs.Domain
     /// </summary>
     public class Administrator
     {
-
         protected Administrator() { }
         public Administrator(int id, string firstName, string lastName, string mobileNumber, string nationalCode, string userName, string password)
         {
@@ -43,9 +43,9 @@ namespace LoanWithUs.Domain
             return this.FirstName + " " + this.LastName;
         }
 
-        public Supporter DefineNewSupporter(string nationalCode, MobileNumber mobileNumber,ISupporterDomainService supporterDomainService)
+        public Supporter DefineNewSupporter(string nationalCode, MobileNumber mobileNumber, ISupporterDomainService supporterDomainService)
         {
-            return new Supporter(nationalCode, mobileNumber, new SupporterCredit(StaticDataForBegining.InitCreditForSupporter, MoneyUnit.NewToman()), supporterDomainService);
+            return new Supporter(nationalCode, mobileNumber, new Amount(StaticDataForBegining.InitCreditForSupporter, MoneyType.Toman), supporterDomainService);
         }
     }
 

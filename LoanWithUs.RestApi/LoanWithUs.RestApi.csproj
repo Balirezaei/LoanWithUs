@@ -27,6 +27,7 @@
 	<ItemGroup>
 		<InternalsVisibleTo Include="LoanWithUs.IntegrationTest" />
 	</ItemGroup>
+
 	
   <ItemGroup>
     <ProjectReference Include="..\LoanWithUs.ApplicationService\LoanWithUs.ApplicationService.csproj" />

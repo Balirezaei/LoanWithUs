@@ -1,11 +1,6 @@
 ﻿using FluentAssertions;
 using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.IntegrationTest.Utility.WebFactory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LoanWithUs.IntegrationTest
 {

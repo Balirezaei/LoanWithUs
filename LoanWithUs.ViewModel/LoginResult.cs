@@ -1,3 +1,5 @@
+using LoanWithUs.Common.Enum;
+
 namespace LoanWithUs.ViewModel
 {
     public class LoginResult
@@ -10,5 +12,6 @@ namespace LoanWithUs.ViewModel
 
         public string JWT { get; set; }
         public bool IsValid { get; set; }
+        public LoanRole Role { get; set; }
     }
 }

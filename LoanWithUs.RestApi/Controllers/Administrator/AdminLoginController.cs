@@ -53,7 +53,7 @@ namespace LoanWithUs.RestApi.Controllers.Administrator
                 {
                     new Claim(ClaimTypes.Name, res.FullName),
                     new Claim(ClaimTypes.NameIdentifier, res.UserId.ToString()),
-                    new Claim(ClaimTypes.Role, LoanRole.Admin.ToString())
+                    new Claim(ClaimTypes.Role, LoanRoleNames.Admin)
                 };
 
                 var jwtToken = _tokenService.GenerateAccessToken(usersClaims);

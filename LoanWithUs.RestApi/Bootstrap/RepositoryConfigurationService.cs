@@ -11,7 +11,6 @@ namespace LoanWithUs.RestApi.Bootstrap
     {
         public static IServiceCollection AddRepositoryConfigurationService(this IServiceCollection services)
         {
-
             services.AddScoped<IUnitOfWork, LoanWithUsUnitOfWork>();
             services.AddScoped<IApplicantRepository, ApplicantRepository>();
             services.AddScoped<IApplicantReadRepository, ApplicantReadRepository>();
@@ -19,6 +18,9 @@ namespace LoanWithUs.RestApi.Bootstrap
             services.AddScoped<ISupporterDomainService, SupporterDomainService>();
             services.AddScoped<IAdministratorRepository, AdministratorRepository>();
             services.AddScoped<ISupporterRepository, SupporterRepository>();
+            services.AddScoped<ILoanLadderFrameRepository, LoanLadderFrameRepository>();
+            services.AddScoped<ILoanLadderFrameDomainService, LoanLadderFrameDomainService>();
+            services.AddScoped<IUserRepository, UserRepository>();            
 
             return services;
         }

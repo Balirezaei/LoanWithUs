@@ -1,5 +1,4 @@
 ﻿using LoanWithUs.Common;
-using LoanWithUs.Domain;
 using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Exceptions;
 
@@ -62,6 +61,7 @@ namespace LoanWithUs.Domain
 
             Responses.Add(new ApplicantLoanRequestResponse(State, description));
         }
+
         public Loan PaiedRequest(LoanWithUsFile receipt)
         {
             //Check Previous State

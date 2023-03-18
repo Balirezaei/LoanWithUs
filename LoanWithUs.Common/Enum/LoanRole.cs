@@ -12,4 +12,11 @@ namespace LoanWithUs.Common.Enum
         Supporter,
         Applicant
     }
+    public static class LoanRoleNames
+    {
+        public const string Admin = "Admin";
+        public const string Supporter = "Supporter";
+        public const string Applicant = "Applicant";
+    }
+
 }

@@ -29,7 +29,7 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests.ApiAutomation
             //Setup         
             var vm = new AdminRegisterSupporterVm()
             {
-                MobileNumber = new MobileNumber("09174566547"),
+                MobileNumber = "09174566547",
                 NationalCode = "1034567899"
             };
 
@@ -41,9 +41,6 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests.ApiAutomation
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var responseText = await response.Content.ReadAsStringAsync();
-
-
-
         }
 
 

@@ -21,12 +21,15 @@ namespace LoanWithUs.ApplicationService.Command
 
         public async Task<ApplicantCompleteInformationCommandResult> Handle(ApplicantCompleteBankInformationCommand request, CancellationToken cancellationToken)
         {
-            var applicant = await _applicantReadRepository.FindApplicantByIdIncludeEducationalInformation(request.ApplicantId);
-            if (applicant == null)
-                throw new NotFoundException("چنین درخواستگری موجود نیست!");
+
+            throw new NotImplementedException();
+
+            //var applicant = await _applicantReadRepository.FindApplicantByIdIncludeEducationalInformation(request.ApplicantId);
+            //if (applicant == null)
+            //    throw new NotFoundException("چنین درخواستگری موجود نیست!");
 
 
-            applicant.UpdateBankInformation(new BankAccountInformation("", ""))
+            //applicant.UpdateBankInformation(new BankAccountInformation("", ""));
 
         }
 

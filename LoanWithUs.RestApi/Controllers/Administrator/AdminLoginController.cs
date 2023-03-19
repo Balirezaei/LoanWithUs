@@ -12,7 +12,7 @@ namespace LoanWithUs.RestApi.Controllers.Administrator
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    [Authorize(Roles = LoanRoleNames.Admin)]
+    //[Authorize(Roles = LoanRoleNames.Admin)]
     public class AdminLoginController : ControllerBase
     {
         private readonly IMediator _mediator;

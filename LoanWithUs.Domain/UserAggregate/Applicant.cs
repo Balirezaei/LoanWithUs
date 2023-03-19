@@ -68,6 +68,17 @@ namespace LoanWithUs.Domain.UserAggregate
                 this.EducationalInformation.UpdateInformation(educationallevel, educationalSubject);
             }
         }
+
+        public void UpdateBankInformation(string shabaNumber, string cardNumber, BankType bankType)
+        {
+            var bankIformation = new BankAccountInformation(shabaNumber, cardNumber, bankType);
+            if (this.BankAccountInformations == null)
+            {
+                BankAccountInformations = new List<BankAccountInformation>();
+            }
+            this.BankAccountInformations.Add(bankIformation);
+
+        }
     }
 
 }

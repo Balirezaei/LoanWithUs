@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using LoanWithUs.Common;
+using MediatR;
 
 namespace LoanWithUs.ApplicationService.Contract
 {

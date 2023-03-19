@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LoanWithUs.ApplicationService.Contract.Administrator;
+using LoanWithUs.Common.Enum;
 using LoanWithUs.ViewModel;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,7 @@ namespace LoanWithUs.RestApi.Controllers.Administrator
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = LoanRoleNames.Admin)]
     public class RgisterSupporterController : ControllerBase
     {
 

@@ -4,6 +4,7 @@ using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.RestApi.Utility;
 using LoanWithUs.ViewModel;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -11,6 +12,7 @@ namespace LoanWithUs.RestApi.Controllers.Administrator
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize(Roles = LoanRoleNames.Admin)]
     public class AdminLoginController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -53,7 +55,7 @@ namespace LoanWithUs.RestApi.Controllers.Administrator
                 {
                     new Claim(ClaimTypes.Name, res.FullName),
                     new Claim(ClaimTypes.NameIdentifier, res.UserId.ToString()),
-                    new Claim(ClaimTypes.Role, LoanRole.Admin.ToString())
+                    new Claim(ClaimTypes.Role, LoanRoleNames.Admin)
                 };
 
                 var jwtToken = _tokenService.GenerateAccessToken(usersClaims);

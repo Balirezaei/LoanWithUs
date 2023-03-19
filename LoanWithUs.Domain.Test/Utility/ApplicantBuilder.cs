@@ -19,6 +19,14 @@ namespace LoanWithUs.Domain.Test.Utility
         {
             var _applicantDomainService = Substitute.For<IApplicantDomainService>();
             _applicantDomainService.IsMobileReservedWithAllUserType(default, default).ReturnsForAnyArgs(false);
+            var loanLadderApplicantDomainService = Substitute.For<ILoanLadderFrameDomainService>();
+            var stepOne = new LoanLadderFrameBuilder(loanLadderApplicantDomainService)
+                           .WithTitle("نردبان اول")
+                           .WithStep(1)
+                           .WithTomanAmount(1000000)
+                           .Build(1);
+            _applicantDomainService.InitLoaderForApplicant().Returns(stepOne);
+
             applicantDomainService = _applicantDomainService;
         }
 

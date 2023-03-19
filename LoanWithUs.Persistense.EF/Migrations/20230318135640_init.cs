@@ -10,6 +10,25 @@ namespace LoanWithUs.Persistense.EF.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Administrator",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    MobileNumber = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
+                    NationalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RegisterationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Administrator", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "City",
                 columns: table => new
                 {
@@ -26,6 +45,27 @@ namespace LoanWithUs.Persistense.EF.Migrations
                         name: "FK_City_City_ProvinceId",
                         column: x => x.ProvinceId,
                         principalTable: "City",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LoanLadderFrames",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Step = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RequiredParentLoanId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LoanLadderFrames", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LoanLadderFrames_LoanLadderFrames_RequiredParentLoanId",
+                        column: x => x.RequiredParentLoanId,
+                        principalTable: "LoanLadderFrames",
                         principalColumn: "Id");
                 });
 
@@ -52,11 +92,78 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    NationalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    MobileNumber = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    EmailAddress = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     RegisterationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AdminLogin",
+                columns: table => new
+                {
+                    AdministratorId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ExpireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Key = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserAgent = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdminLogin", x => new { x.AdministratorId, x.Id });
+                    table.ForeignKey(
+                        name: "FK_AdminLogin_Administrator_AdministratorId",
+                        column: x => x.AdministratorId,
+                        principalTable: "Administrator",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LoanLadderFrameRequiredDocument",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LoanLadderFrameId = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LoanLadderFrameRequiredDocument", x => new { x.LoanLadderFrameId, x.Id });
+                    table.ForeignKey(
+                        name: "FK_LoanLadderFrameRequiredDocument_LoanLadderFrames_LoanLadderFrameId",
+                        column: x => x.LoanLadderFrameId,
+                        principalTable: "LoanLadderFrames",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LoanLadderInstallmentsCount",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LoanLadderFrameId = table.Column<int>(type: "int", nullable: false),
+                    Count = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LoanLadderInstallmentsCount", x => new { x.LoanLadderFrameId, x.Id });
+                    table.ForeignKey(
+                        name: "FK_LoanLadderInstallmentsCount_LoanLadderFrames_LoanLadderFrameId",
+                        column: x => x.LoanLadderFrameId,
+                        principalTable: "LoanLadderFrames",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,14 +217,17 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    NationalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    MobileNumber = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    EmailAddress = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true)
+                    CurrentLoanLadderFrameId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Applicant", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Applicant_LoanLadderFrames_CurrentLoanLadderFrameId",
+                        column: x => x.CurrentLoanLadderFrameId,
+                        principalTable: "LoanLadderFrames",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Applicant_User_Id",
                         column: x => x.Id,
@@ -149,13 +259,13 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MatherFullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FatherFullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    MatherFullName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    FatherFullName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdentityNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Job = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    IdentityNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    Job = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -172,11 +282,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 name: "Supporter",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    NationalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    MobileNumber = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    EmailAddress = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -246,7 +352,9 @@ namespace LoanWithUs.Persistense.EF.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ExpireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Key = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserAgent = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -258,6 +366,31 @@ namespace LoanWithUs.Persistense.EF.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "SupporterCredit",
+                columns: table => new
+                {
+                    SupporterId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Amount = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SupporterCredit", x => x.SupporterId);
+                    table.ForeignKey(
+                        name: "FK_SupporterCredit_Supporter_SupporterId",
+                        column: x => x.SupporterId,
+                        principalTable: "Supporter",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Administrator",
+                columns: new[] { "Id", "FirstName", "LastName", "MobileNumber", "NationalCode", "Password", "RegisterationDate", "UserName" },
+                values: new object[] { 1, "Admin", "admin", "09124444444", "0099887766", "o4r8d5bV0uH4wxMOIP+8SG8plc4dLZ4iUsgbUonSDL+y1wEWURrhqJEeK7qpyViSZMpVZOhDWbtiEPt00fZr2vWfjKDgEIA8982GNs+Atr2PRpV3+8epUbP6egn4ifS1UsGV3iiZJj3cdMLczNkvBAV05BKi97L+OVQaj4b741gsrDw5p2oa2CE6BLAMAcFfxBpLSuYnLfycfQJlQ7nxP10eSCpeLEpnuX+YqextxzkL1510HPkpJxHspruuijuT3LFMrhqWnNr0e7YuJlft3354QYLkGXAIn2zJYEo/ppfpVXe7IAI9zx7FsLPgXD3z62gEjJHiF+TjeegmDuQ5CA==", new DateTime(2023, 3, 18, 17, 26, 40, 202, DateTimeKind.Local).AddTicks(6045), "admin" });
 
             migrationBuilder.InsertData(
                 table: "City",
@@ -298,6 +431,11 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "LoanLadderFrames",
+                columns: new[] { "Id", "Amount", "RequiredParentLoanId", "Step", "Title" },
+                values: new object[] { 1, "{\"amount\":1000000,\"moneyType\":1}", null, 1, "نردبان اول" });
+
+            migrationBuilder.InsertData(
                 table: "City",
                 columns: new[] { "Id", "PrefixNumber", "ProvinceId", "Title" },
                 values: new object[,]
@@ -320,11 +458,9 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Applicant_MobileNumber",
+                name: "IX_Applicant_CurrentLoanLadderFrameId",
                 table: "Applicant",
-                column: "MobileNumber",
-                unique: true,
-                filter: "[MobileNumber] IS NOT NULL");
+                column: "CurrentLoanLadderFrameId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_City_ProvinceId",
@@ -332,11 +468,15 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 column: "ProvinceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Supporter_MobileNumber",
-                table: "Supporter",
+                name: "IX_LoanLadderFrames_RequiredParentLoanId",
+                table: "LoanLadderFrames",
+                column: "RequiredParentLoanId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_MobileNumber",
+                table: "User",
                 column: "MobileNumber",
-                unique: true,
-                filter: "[MobileNumber] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserDocument_FileId",
@@ -353,6 +493,9 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 name: "AddressInformation");
 
             migrationBuilder.DropTable(
+                name: "AdminLogin");
+
+            migrationBuilder.DropTable(
                 name: "Applicant");
 
             migrationBuilder.DropTable(
@@ -362,10 +505,16 @@ namespace LoanWithUs.Persistense.EF.Migrations
                 name: "EducationalInformation");
 
             migrationBuilder.DropTable(
+                name: "LoanLadderFrameRequiredDocument");
+
+            migrationBuilder.DropTable(
+                name: "LoanLadderInstallmentsCount");
+
+            migrationBuilder.DropTable(
                 name: "PersonalInformation");
 
             migrationBuilder.DropTable(
-                name: "Supporter");
+                name: "SupporterCredit");
 
             migrationBuilder.DropTable(
                 name: "UserConfirmation");
@@ -375,6 +524,15 @@ namespace LoanWithUs.Persistense.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserLogin");
+
+            migrationBuilder.DropTable(
+                name: "Administrator");
+
+            migrationBuilder.DropTable(
+                name: "LoanLadderFrames");
+
+            migrationBuilder.DropTable(
+                name: "Supporter");
 
             migrationBuilder.DropTable(
                 name: "LoanWithUsFile");

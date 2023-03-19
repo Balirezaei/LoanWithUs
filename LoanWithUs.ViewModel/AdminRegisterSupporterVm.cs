@@ -12,6 +12,11 @@ namespace LoanWithUs.ViewModel
     {
 
     }
+    
+    public class LoanLadderFrameContractGridContractVm : PagingContractVm
+    {
+
+    }
 
     public class PagingContractVm
     {

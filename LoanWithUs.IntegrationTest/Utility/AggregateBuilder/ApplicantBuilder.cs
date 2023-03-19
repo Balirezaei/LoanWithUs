@@ -1,4 +1,5 @@
 ﻿using LoanWithUs.Common.DefinedType;
+using LoanWithUs.Domain;
 using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Persistense.EF.ContextContainer;
 using NSubstitute;
@@ -19,6 +20,14 @@ namespace LoanWithUs.IntegrationTest.Utility
         {
             var _applicantDomainService = Substitute.For<IApplicantDomainService>();
             _applicantDomainService.IsMobileReservedWithAllUserType(default, default).ReturnsForAnyArgs(false);
+            var loanLadderApplicantDomainService = Substitute.For<ILoanLadderFrameDomainService>();
+            var stepOne = new LoanLadderFrameBuilder(loanLadderApplicantDomainService)
+                              .WithTitle("نردبان اول")
+                              .WithStep(1)
+                              .WithTomanAmount(1000000)
+                              .Build(1);
+            _applicantDomainService.InitLoaderForApplicant().Returns(stepOne);
+
             applicantDomainService = _applicantDomainService;
             _loanWithUsContext = loanWithUsContext;
             _supporter = _loanWithUsContext.Supporters.FirstOrDefault();

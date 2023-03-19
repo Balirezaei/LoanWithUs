@@ -29,15 +29,15 @@ namespace LoanWithUs.ViewModel
     }
     public class ValidateUserOtpViewModel
     {
-        public MobileNumber MobileNumber { get; set; }
+        public string MobileNumber { get; set; }
         public string code { get; set; }
     }
     public class RequestNewOTPCodeForUserViewModel
     {
-        public MobileNumber MobileNumber { get; set; }
+        public string MobileNumber { get; set; }
     }
     public class LoginUserViewModel
     {
-        public MobileNumber MobileNumber { get; set; }
+        public string MobileNumber { get; set; }
     }
 }

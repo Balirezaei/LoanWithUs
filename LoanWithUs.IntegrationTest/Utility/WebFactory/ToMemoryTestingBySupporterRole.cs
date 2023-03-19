@@ -1,10 +1,9 @@
 ﻿namespace LoanWithUs.IntegrationTest.Utility.WebFactory
 {
-    public class ToMemoryTestingBySupporterRole : ToMemoryTesting
+    public class ToMemoryTestingBySupporterRole : ToTesting
     {
-        public ToMemoryTestingBySupporterRole()
+        public ToMemoryTestingBySupporterRole() : base(WebFactoryType.InMemory, new TestUserLogined(StaticDate.SupporterId, Common.Enum.LoanRole.Supporter))
         {
-            base.CurrentUser = new TestUserLogined(StaticDate.SupporterId, Common.Enum.LoanRole.Supporter);
         }
     }
 }

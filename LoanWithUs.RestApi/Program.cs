@@ -1,25 +1,10 @@
-﻿using System.Security.Cryptography;
-using FluentValidation.AspNetCore;
-using LoanWithUs.ApplicationService;
-using LoanWithUs.ApplicationService.Contract;
-using LoanWithUs.Common;
-using LoanWithUs.Domain;
-using LoanWithUs.Domain.UserAggregate;
-using LoanWithUs.DomainService;
+﻿using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.Encryption;
-using LoanWithUs.MediatR.PreRequest;
 using LoanWithUs.Persistense.EF.ContextContainer;
-using LoanWithUs.Persistense.EF.Repository;
-using LoanWithUs.Persistense.EF.UnitOfWork;
 using LoanWithUs.RestApi.Bootstrap;
 using LoanWithUs.RestApi.Filter;
-using MediatR;
-using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
-
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration Configuration = builder.Configuration;
 IWebHostEnvironment environment = builder.Environment;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LoanWithUs.Common.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,4 +14,5 @@ namespace LoanWithUs.Common.DefinedType
             return this.mobileNumber;
         }
     }
+    public readonly record struct Amount(int amount, MoneyType moneyType);
 }

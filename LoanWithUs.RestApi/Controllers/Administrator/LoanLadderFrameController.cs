@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
 using LoanWithUs.ApplicationService.Contract.Administrator;
+using LoanWithUs.Common.Enum;
 using LoanWithUs.ViewModel;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LoanWithUs.RestApi.Controllers.Administrator
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(Roles = LoanRoleNames.Admin)]
     public class LoanLadderFrameController : ControllerBase
     {
         private readonly IMediator _mediator;

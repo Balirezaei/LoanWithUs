@@ -4,6 +4,7 @@ using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.RestApi.Utility;
 using LoanWithUs.ViewModel;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -11,6 +12,7 @@ namespace LoanWithUs.RestApi.Controllers.Administrator
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize(Roles = LoanRoleNames.Admin)]
     public class AdminLoginController : ControllerBase
     {
         private readonly IMediator _mediator;

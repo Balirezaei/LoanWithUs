@@ -8,17 +8,17 @@ namespace LoanWithUs.ApplicationService.Command
 {
     public class RequestNewOTPCodeForUserCommandHandler : IRequestHandler<RequestNewOTPCodeForUserCommand, UserLoginCommandResult>
     {
-        private readonly IApplicantReadRepository _applicantReadRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public RequestNewOTPCodeForUserCommandHandler(IApplicantRepository applicantRepository, IUnitOfWork unitOfWork, IApplicantReadRepository applicantReadRepository, IApplicantDomainService applicantDomainService)
+        public RequestNewOTPCodeForUserCommandHandler(IApplicantRepository applicantRepository, IUnitOfWork unitOfWork, IUserRepository userRepository, IApplicantDomainService applicantDomainService)
         {
             _unitOfWork = unitOfWork;
-            _applicantReadRepository = applicantReadRepository;
+            _userRepository = userRepository;
         }
         public async Task<UserLoginCommandResult> Handle(RequestNewOTPCodeForUserCommand request, CancellationToken cancellationToken)
         {
-            var applicant = await _applicantReadRepository.FindApplicantByMobile(request.MobileNumber);
+            var applicant = await _userRepository.FindUserByMobile(request.MobileNumber);
             if (applicant == null)
             {
                 throw new NotFoundException("شماره موبایل نامعتبر!");

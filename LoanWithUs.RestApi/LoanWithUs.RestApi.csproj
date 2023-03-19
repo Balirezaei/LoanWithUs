@@ -27,6 +27,7 @@
 	<ItemGroup>
 		<InternalsVisibleTo Include="LoanWithUs.IntegrationTest" />
 	</ItemGroup>
+
 	
   <ItemGroup>
     <ProjectReference Include="..\LoanWithUs.ApplicationService\LoanWithUs.ApplicationService.csproj" />
@@ -38,10 +39,6 @@
     <ProjectReference Include="..\LoanWithUs.ViewModel\LoanWithUs.ViewModel.csproj" />
     <ProjectReference Include="..\LoanWithUs.Encryption\LoanWithUs.Encryption.csproj" />
     
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\Supporter\" />
   </ItemGroup>
 
 </Project>

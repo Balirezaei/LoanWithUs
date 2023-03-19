@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LoanWithUs.ApplicationService.Contract.Administrator;
+using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Common.ExtentionMethod;
 using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.ViewModel;
@@ -22,8 +23,12 @@ namespace LoanWithUs.Mapper
                 .ForMember(desc => desc.RegisterationDate, opt => opt.MapFrom(o =>o.RegisterationDate.M2S()))
                 ;
 
-            CreateMap<AdminRegisteredSupporterVm, AdminRegisteredSupporterContract>();
-            CreateMap<AdminRegisterSupporterVm, AdminRegisterSupporterCommand>();
+            CreateMap<AdminRegisteredSupporterVm, AdminRegisteredSupporterContract>()
+                 
+                ;
+            CreateMap<AdminRegisterSupporterVm, AdminRegisterSupporterCommand>()
+                  .ForMember(desc => desc.MobileNumber, opt => opt.MapFrom(o => new MobileNumber(o.MobileNumber)))
+                ;
             
                 
         }

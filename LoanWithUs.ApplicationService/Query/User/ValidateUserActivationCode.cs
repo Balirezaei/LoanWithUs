@@ -12,18 +12,33 @@ namespace LoanWithUs.ApplicationService.Query
 {
     public class ValidateUserActivationCodeQueryHandler : IRequestHandler<ValidateUserOtpQuery, ValidateOtpQueryResult>
     {
-        private readonly IApplicantReadRepository _applicantRepository;
+        private readonly IUserRepository _userRepository;
 
-        public ValidateUserActivationCodeQueryHandler(IApplicantReadRepository applicantRepository)
+        public ValidateUserActivationCodeQueryHandler(IUserRepository userRepository)
         {
-            _applicantRepository = applicantRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<ValidateOtpQueryResult> Handle(ValidateUserOtpQuery request, CancellationToken cancellationToken)
         {
             var mobile = request.MobileNumber.RecheckMobileNumber();
-            var result = await _applicantRepository.CheckUserActivationCode(mobile, request.code,request.UserAgent);
-            return new ValidateOtpQueryResult(result);
+            var result = await _userRepository.CheckUserActivationCode(mobile, request.code, request.UserAgent);
+            if (result == null)
+            {
+                return new ValidateOtpQueryResult(false,null);
+            }
+            else
+            {
+                if (result.GetType().Name == "Applicant")
+                {
+                    return new ValidateOtpQueryResult(true, Common.Enum.LoanRoleNames.Applicant);
+                }
+                else
+                {
+                    return new ValidateOtpQueryResult(true, Common.Enum.LoanRoleNames.Supporter);
+                }
+            }
+   
         }
     }
 }

@@ -18,7 +18,7 @@ namespace LoanWithUs.Domain.UserAggregate
         //}
         public SupporterCredit SupporterCredit { get; set; }
 
-        internal Supporter(string nationalCode, MobileNumber mobileNumber, SupporterCredit initCredit, ISupporterDomainService supporterDomainService)
+        internal Supporter(string nationalCode, MobileNumber mobileNumber, Amount initialAmount, ISupporterDomainService supporterDomainService)
         {
             if (supporterDomainService.IsNationalReservedWithOtherSupporter(0, nationalCode).Result)
                 throw new InvalidDomainInputException("کد ملی تکراریست");
@@ -26,9 +26,9 @@ namespace LoanWithUs.Domain.UserAggregate
             if (supporterDomainService.IsMobileReservedWithOtherSupporter(0, mobileNumber).Result)
                 throw new InvalidDomainInputException("شماره موبایل تکراریست");
 
-            
+
             IdentityInformation = new IdentityInformation(mobileNumber, nationalCode);
-            this.SupporterCredit = initCredit;
+            this.SupporterCredit = new SupporterCredit(initialAmount);
             this.RegisterationDate = DateTime.Now;
         }
 
@@ -37,9 +37,9 @@ namespace LoanWithUs.Domain.UserAggregate
             return new Applicant(mobileNumber, nationalCode, firstName, lastName, domainService);
         }
 
-        public long GetAvailableCredit()
+        public Amount GetAvailableCredit()
         {
-            return SupporterCredit.Amount;
+            return SupporterCredit.InitialAmount;
         }
     }
 
@@ -51,14 +51,15 @@ namespace LoanWithUs.Domain.UserAggregate
         }
 
         public int Id { get; set; }
-        public DateTime CreateDate { get; set; }
-        public long Amount { get; set; }
-        public MoneyUnit Money { get; set; }
+        public DateTime CreateDate { get; private set; }
+        public Amount InitialAmount { get; private set; }
 
-        public SupporterCredit(long amount, MoneyUnit money)
+        public SupporterCredit(Amount amount)
         {
-            Amount = amount;
-            Money = money;
+            InitialAmount = amount;
+            this.CreateDate = DateTime.Now;
         }
     }
+
+
 }

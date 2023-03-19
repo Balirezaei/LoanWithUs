@@ -17,28 +17,10 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
             builder.ToTable("Applicant");
             //builder.HasKey(m => m.Id);
             //builder.HasIndex(m => m.IdentityInformation.MobileNumber).IsUnique();
-            builder.OwnsOne(o => o.IdentityInformation,
-               sa =>
-               {
-                   sa.Property(p => p.MobileNumber)
-                   .HasMaxLength(11)
-                   .IsRequired(true)
-                   .HasColumnName("MobileNumber")
-                    .HasConversion(
-                            v => v.mobileNumber,
-                            v => new MobileNumber(v)
-                                );
-                   ;
-                   sa.Property(p => p.EmailAddress).HasMaxLength(150).IsRequired(false).HasColumnName("EmailAddress");
-                   sa.Property(p => p.Password).HasMaxLength(50).IsRequired(false).HasColumnName("Password");
-                   sa.Property(p => p.NationalCode).HasMaxLength(10).IsRequired(false).HasColumnName("NationalCode");
-                   sa.HasIndex(p => p.MobileNumber).IsUnique();
-               });
+        
 
-
-
-            //builder.Ignore(m => m.AddressInformation);
-
+            builder.HasOne(m => m.CurrentLoanLadderFrame);//.WithMany(z=>z.Applicants).;
+           
         }
     }
 

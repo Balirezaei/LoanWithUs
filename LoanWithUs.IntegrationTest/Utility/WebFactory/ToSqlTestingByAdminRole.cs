@@ -1,10 +1,10 @@
 ﻿namespace LoanWithUs.IntegrationTest.Utility.WebFactory
 {
-    public class ToSqlTestingByAdminRole : ToSqlTesting
+    public class ToSqlTestingByAdminRole : ToTesting
     {
-        public ToSqlTestingByAdminRole()
+        public ToSqlTestingByAdminRole() : base(WebFactoryType.SQL, new TestUserLogined(StaticDate.AdministratorId, Common.Enum.LoanRole.Admin))
         {
-            base.CurrentUser = new TestUserLogined(StaticDate.AdministratorId, Common.Enum.LoanRole.Admin);
+
         }
     }
 }

@@ -59,6 +59,7 @@
 
 	<ItemGroup>
 		<Folder Include="APIAutomated\" />
+		<Folder Include="InSqlTest\ApiAutomation\" />
 	</ItemGroup>
 
 	<ItemGroup>

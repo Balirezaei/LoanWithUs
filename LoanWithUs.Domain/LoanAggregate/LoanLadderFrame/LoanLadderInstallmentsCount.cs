@@ -12,20 +12,13 @@
         protected LoanLadderInstallmentsCount()
         {
         }
-        public LoanLadderInstallmentsCount(int count, string title)
+        public LoanLadderInstallmentsCount(int count)
         {
-            this.Title = title;
-            this.Count = count;
+            Count = count;
         }
-        public int Id { get; private set; }
-        public string Title { get; private set; }
+        public int Id { get; set; }
         public int Count { get; private set; }
 
     }
-
-
-
-
-
 
 }

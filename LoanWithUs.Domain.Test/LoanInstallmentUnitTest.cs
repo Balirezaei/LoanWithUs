@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Domain.Test.Utility;
 using LoanWithUs.Domain.UserAggregate;
 using NSubstitute;
@@ -26,7 +27,7 @@ namespace LoanWithUs.Domain.Test
         [InlineData(4000000, 10, 400000)]
         public void TheInstalmentShouldWorkProperlyWithRoundPricingAndCount(int amount, int instalmentCount, int installmentExpect)
         {
-            var loan = new Loan( amount, applicant, instalmentCount);
+            var loan = new Loan(new Amount(amount, Common.Enum.MoneyType.Toman), applicant, instalmentCount);
             loan.LoanInstallments.Should().HaveCount(c => c == instalmentCount);
             loan.LoanInstallments.Select(c => c.Amount).First().Should().Be(installmentExpect);
         }
@@ -40,7 +41,7 @@ namespace LoanWithUs.Domain.Test
         [InlineData(4000000, 24, 166666, 166682)]
         public void TheInstalmentShouldWorkProperlyWithNOTRoundPricingAndCount(int amount, int instalmentCount, int installmentExpect,int lastInstallmentExpect)
         {
-            var loan = new Loan(amount, applicant, instalmentCount);
+            var loan = new Loan(new Amount(amount,Common.Enum.MoneyType.Toman), applicant, instalmentCount);
 
             loan.LoanInstallments.Should().HaveCount(c => c == instalmentCount);
             loan.LoanInstallments.Select(c => c.Amount).First().Should().Be(installmentExpect);

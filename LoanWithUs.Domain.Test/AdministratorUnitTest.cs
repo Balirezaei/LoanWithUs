@@ -21,7 +21,7 @@ namespace LoanWithUs.Domain.Test
 
             supporet.IdentityInformation.MobileNumber.Should().Be(suporterMobileNumber);
             supporet.IdentityInformation.NationalCode.Should().Be(suporterNationalCode);
-            supporet.GetAvailableCredit().Should().Be(StaticDataForBegining.InitCreditForSupporter);
+            supporet.GetAvailableCredit().amount.Should().Be(StaticDataForBegining.InitCreditForSupporter);
         }
 
         [Fact]

@@ -1,4 +1,6 @@
 ﻿using LoanWithUs.Common;
+using LoanWithUs.Common.DefinedType;
+using LoanWithUs.Domain.LoanAggregate;
 using LoanWithUs.Domain.UserAggregate;
 
 namespace LoanWithUs.Domain
@@ -11,7 +13,7 @@ namespace LoanWithUs.Domain
         /// <summary>
         /// مبلغ وام
         /// </summary>
-        public int Amount { get;private set; }
+        public Amount Amount { get;private set; }
         /// <summary>
         /// درخواستگر وام 
         /// پشتیبان یا درخواستگران
@@ -26,7 +28,7 @@ namespace LoanWithUs.Domain
         /// </summary>
         public bool IsSettled { get; set; }
         public List<LoanInstallment> LoanInstallments { get; private set; }
-        public  Loan(int amount,User loanRequester,int installmentCount)
+        public  Loan(Amount amount, User loanRequester,int installmentCount)
         {
             Amount = amount;
             LoanRequester = loanRequester;
@@ -38,7 +40,7 @@ namespace LoanWithUs.Domain
         private IEnumerable<LoanInstallment> GenerateLoanInstallment(int installmentCount)
         {
             int count = installmentCount;
-            int price = Amount;
+            int price = this.Amount.amount;
             if ((price%count) == 0)
             {
                 for (int i = 0; i < count; i++)

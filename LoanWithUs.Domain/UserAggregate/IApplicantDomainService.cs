@@ -6,6 +6,7 @@ namespace LoanWithUs.Domain.UserAggregate
     {
         Task<bool> IsMobileReservedWithAllUserType(int currentUser, MobileNumber mobileNumber);
         Task<bool> IsNationalReservedWithAllUserType(int currentUser, string nationalCode);
+        Task<LoanLadderFrame> InitLoaderForApplicant();
     }
 
 }

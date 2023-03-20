@@ -25,20 +25,20 @@ namespace LoanWithUs.ApplicationService.Query
             var result = await _userRepository.CheckUserActivationCode(mobile, request.code, request.UserAgent);
             if (result == null)
             {
-                return new ValidateOtpQueryResult(false,null);
+                return new ValidateOtpQueryResult(false, null, 0);
             }
             else
             {
                 if (result.GetType().Name == "Applicant")
                 {
-                    return new ValidateOtpQueryResult(true, Common.Enum.LoanRoleNames.Applicant);
+                    return new ValidateOtpQueryResult(true, Common.Enum.LoanRoleNames.Applicant, result.Id);
                 }
                 else
                 {
-                    return new ValidateOtpQueryResult(true, Common.Enum.LoanRoleNames.Supporter);
+                    return new ValidateOtpQueryResult(true, Common.Enum.LoanRoleNames.Supporter, result.Id);
                 }
             }
-   
+
         }
     }
 }

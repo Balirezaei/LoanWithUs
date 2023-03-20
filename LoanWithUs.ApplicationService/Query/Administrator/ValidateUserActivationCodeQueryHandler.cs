@@ -18,14 +18,13 @@ namespace LoanWithUs.ApplicationService.Query.Administrator
             var result = await _administratorRepository.CheckOtpCode(request.key, request.code, request.UserAgent);
             if (result==null)
             {
-                return new AdministratorOTPValidationResult(false);
+                return new AdministratorOTPValidationResult(false,0);
             }
             else
             {
-                return new AdministratorOTPValidationResult(true)
+                return new AdministratorOTPValidationResult(true, result.Id)
                 {
                     FullName = result.FullName(),
-                    UserId = result.Id
                 };
             }
          

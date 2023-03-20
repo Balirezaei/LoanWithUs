@@ -17,6 +17,11 @@ namespace LoanWithUs.ViewModel
     {
 
     }
+    public class RegisteredApplicantGridVm : PagingContractVm
+    {
+
+
+    }
 
     public class PagingContractVm
     {
@@ -26,5 +31,12 @@ namespace LoanWithUs.ViewModel
         public string Sort { get; set; }
         public string Order { get; set; }
 
+    }
+    public class SupporterRegistereApplicantVm
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string MobileNumber { get; set; }
+        public string NationalCode { get; set; }
     }
 }

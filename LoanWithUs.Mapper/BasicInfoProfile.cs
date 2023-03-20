@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.ApplicationService.Contract.Administrator;
+using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Common.ExtentionMethod;
 using LoanWithUs.Domain;
 using LoanWithUs.ViewModel;
@@ -18,6 +19,12 @@ namespace LoanWithUs.Mapper
                 .ForMember(desc => desc.Installments, opt => opt.MapFrom(o => string.Join(',',o.AvalableInstallments.Select(z=>z.Count).ToArray())))
                 ;
             CreateMap<LoanLadderFrameContractGridContractVm, LoanLadderFrameContractGridContract>();
+
+            CreateMap<SupporterRegistereApplicantVm, SupporterRegistereApplicantCommand>()
+                   .ForMember(desc => desc.MobileNumber, opt => opt.MapFrom(o => new MobileNumber(o.MobileNumber)))
+                ;
+
+            
         }
     }
 }

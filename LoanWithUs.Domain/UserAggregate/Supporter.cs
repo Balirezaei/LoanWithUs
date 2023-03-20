@@ -34,7 +34,7 @@ namespace LoanWithUs.Domain.UserAggregate
 
         public Applicant RegisterNewApplicant(MobileNumber mobileNumber, string nationalCode, string firstName, string lastName, IApplicantDomainService domainService)
         {
-            return new Applicant(mobileNumber, nationalCode, firstName, lastName, domainService);
+            return new Applicant(this, mobileNumber, nationalCode, firstName, lastName, domainService);
         }
 
         public Amount GetAvailableCredit()

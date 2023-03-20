@@ -28,6 +28,7 @@ namespace LoanWithUs.Domain.UserAggregate
         Task<Applicant> FindApplicantById(int id);
         Task<Applicant> FindFullApplicantAggregateById(int id);
         Task<Applicant> FindApplicantByIdIncludeEducationalInformation(int id);
+        IQueryable<Applicant> GetAllApplicantBySupporter(int supporterId);
     }
 
 }

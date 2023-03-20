@@ -11,8 +11,10 @@ namespace LoanWithUs.Domain.UserAggregate
     {
         protected Applicant() { }
 
-        public LoanLadderFrame CurrentLoanLadderFrame { get; set; }
-        public int CurrentLoanLadderFrameId { get; set; }
+        public LoanLadderFrame CurrentLoanLadderFrame { get;private set; }
+        public int CurrentLoanLadderFrameId { get; private set; }
+
+        public Supporter Supporter { get; private set; }
 
         ////ToDo:Remove Imediatelyyy
         //public Applicant(MobileNumber mobileNumber, string nationalCode)
@@ -35,13 +37,15 @@ namespace LoanWithUs.Domain.UserAggregate
         /// <param name="mobileNumber"></param>
         /// <param name="domainService"></param>
         /// <exception cref="InvalidDomainInputException"></exception>
-        internal Applicant(MobileNumber mobileNumber, string nationalCode, string firstName, string lastName, IApplicantDomainService domainService)
+        internal Applicant(Supporter supporter,MobileNumber mobileNumber, string nationalCode, string firstName, string lastName, IApplicantDomainService domainService)
         {
             var isMobileAvailable = domainService.IsMobileReservedWithAllUserType(this.Id, mobileNumber).Result;
             if (isMobileAvailable)
             {
                 throw new InvalidDomainInputException("امکان ثبت نام شماره تلفن به عنوان درخواستگر فراهم نمی باشد.لطفن با مدیر سامانه تماس بگیرید.");
             }
+            this.Supporter = supporter;
+
             var isNationalCodeAvailable = domainService.IsNationalReservedWithAllUserType(this.Id, nationalCode).Result;
             if (isNationalCodeAvailable)
             {

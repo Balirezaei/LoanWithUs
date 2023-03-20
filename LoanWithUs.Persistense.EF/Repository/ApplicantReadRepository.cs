@@ -84,6 +84,11 @@ namespace LoanWithUs.Persistense.EF.Repository
                 .FirstOrDefaultAsync();
         }
 
+        public IQueryable<Applicant> GetAllApplicantBySupporter(int supporterId)
+        {
+            return _context.Applicants.Where(m => m.Supporter.Id == supporterId);
+        }
+
         Task<Applicant> IApplicantReadRepository.FindApplicantById(int id)
         {
             return _context.Applicants.Where(m => m.Id == id).FirstOrDefaultAsync();

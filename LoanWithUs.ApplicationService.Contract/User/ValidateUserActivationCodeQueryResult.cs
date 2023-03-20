@@ -9,9 +9,10 @@ namespace LoanWithUs.ApplicationService.Contract
         public int UserId { get; set; }
         //public string FullName { get; set; }
 
-        public ValidateOtpQueryResult(bool isValid, string role)
+        public ValidateOtpQueryResult(bool isValid, string role,int userId)
         {
             IsValid = isValid;
+            UserId = userId;
             RoleName = role;
         }
     }

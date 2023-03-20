@@ -10,10 +10,11 @@ namespace LoanWithUs.ApplicationService.Contract.Administrator
 {
     public class LoanLadderFrameContractGridContract : PagingContract, IRequest<List<LoanLadderFrameDto>>
     {
-
+        public int SupporterId { get; set; }
     }
     public class LoanLadderFrameDto
     {
+        public int Id { get; set; }
         public string Title { get; set; }
 
         public int Step { get; set; }

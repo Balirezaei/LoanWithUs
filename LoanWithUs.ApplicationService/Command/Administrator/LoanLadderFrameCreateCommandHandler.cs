@@ -1,11 +1,13 @@
 ﻿using LoanWithUs.ApplicationService.Contract.Administrator;
 using LoanWithUs.Common;
+using LoanWithUs.Common.ExtentionMethod;
 using LoanWithUs.Domain;
+using LoanWithUs.Exceptions;
 using MediatR;
 
 namespace LoanWithUs.ApplicationService.Command.Administrator
 {
-    public class LoanLadderFrameCreateCommandHandler : IRequestHandler<LoanLadderFrameCreateCommand , LoanLadderFrameCreateCommandResult>
+    public class LoanLadderFrameCreateCommandHandler : IRequestHandler<LoanLadderFrameCreateCommand, LoanLadderFrameCreateCommandResult>
     {
         private readonly ILoanLadderFrameRepository _loanLadderFrameRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -18,12 +20,18 @@ namespace LoanWithUs.ApplicationService.Command.Administrator
             _domainService = domainService;
         }
 
-        public async Task<LoanLadderFrameCreateCommandResult> Handle(LoanLadderFrameCreateCommand  request, CancellationToken cancellationToken)
+        public async Task<LoanLadderFrameCreateCommandResult> Handle(LoanLadderFrameCreateCommand request, CancellationToken cancellationToken)
         {
-            var builder=new LoanLadderFrameBuilder(_domainService)
+            var parent = await _loanLadderFrameRepository.GetById(request.ParentId);
+            if (parent == null)
+            {
+                throw new DomainException("انتخاب نردبان مرحله قبل الزامیست!");
+            }
+            var builder = new LoanLadderFrameBuilder(_domainService)
                 .WithTitle(request.Title)
                 .WithStep(request.Step)
-                .WithTomanAmount(request.Amount.amount);
+                .WithParentLadder(parent)
+                .WithTomanAmount(request.Amount);
 
             if (request.InstallmentCouts.Any())
             {
@@ -52,7 +60,7 @@ namespace LoanWithUs.ApplicationService.Command.Administrator
                 }
             }
             var loanLoadderFrame = builder.Build();
-            
+
             await _loanLadderFrameRepository.Add(loanLoadderFrame);
             await _unitOfWork.CommitAsync();
 

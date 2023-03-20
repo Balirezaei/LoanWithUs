@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.ApplicationService.Contract.Administrator;
+using LoanWithUs.Common.ExtentionMethod;
 using LoanWithUs.Domain;
 using LoanWithUs.ViewModel;
 
@@ -12,7 +13,10 @@ namespace LoanWithUs.Mapper
         {
             CreateMap<LoanWithUsFile, FileDto>();
 
-            CreateMap<LoanLadderFrame, LoanLadderFrameDto>();
+            CreateMap<LoanLadderFrame, LoanLadderFrameDto>()
+                .ForMember(desc => desc.Amount, opt => opt.MapFrom(o => $"{o.Amount.amount.ToStringSplit3Digit()} {o.Amount.moneyType.GetDisplayName()}"))
+                .ForMember(desc => desc.Installments, opt => opt.MapFrom(o => string.Join(',',o.AvalableInstallments.Select(z=>z.Count).ToArray())))
+                ;
             CreateMap<LoanLadderFrameContractGridContractVm, LoanLadderFrameContractGridContract>();
         }
     }

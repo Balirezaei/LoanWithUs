@@ -18,7 +18,8 @@ namespace LoanWithUs.ApplicationService.Contract.Administrator
 
         public int Step { get; set; }
 
-        public Amount Amount { get; set; }
+        public string Amount { get; set; }
+        public string Installments { get; set; }
     }
 
 
@@ -28,7 +29,8 @@ namespace LoanWithUs.ApplicationService.Contract.Administrator
 
         public int Step { get; set; }
 
-        public Amount Amount { get; set; }
+        public int Amount { get; set; }
+        public int ParentId { get; set; }
         public LoanLadderFrameInstallmentCountDto[] InstallmentCouts { get; set; }
     }
 

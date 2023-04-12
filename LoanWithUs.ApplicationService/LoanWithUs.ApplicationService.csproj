@@ -20,8 +20,4 @@
     <ProjectReference Include="..\LoanWithUs.Encryption\LoanWithUs.Encryption.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Query\Applicant\" />
-  </ItemGroup>
-
 </Project>

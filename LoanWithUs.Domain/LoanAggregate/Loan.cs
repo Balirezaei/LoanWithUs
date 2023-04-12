@@ -10,6 +10,7 @@ namespace LoanWithUs.Domain
     /// </summary>
     public class Loan : AggregateRoot
     {
+        protected Loan() { }
         /// <summary>
         /// مبلغ وام
         /// </summary>
@@ -28,10 +29,11 @@ namespace LoanWithUs.Domain
         /// </summary>
         public bool IsSettled { get; set; }
         public List<LoanInstallment> LoanInstallments { get; private set; }
-        public  Loan(Amount amount, User loanRequester,int installmentCount)
+
+        public  Loan(Amount amount, Applicant applicant,int installmentCount)
         {
             Amount = amount;
-            LoanRequester = loanRequester;
+            LoanRequester = applicant;
             StartDate = DateTime.Now;
             this.LoanInstallments = GenerateLoanInstallment(installmentCount).ToList();
         } 

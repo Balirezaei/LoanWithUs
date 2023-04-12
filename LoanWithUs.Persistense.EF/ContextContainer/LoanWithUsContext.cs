@@ -31,5 +31,6 @@ namespace LoanWithUs.Persistense.EF.ContextContainer
         public DbSet<Administrator> Administrators { get; set; }
 
         public DbSet<LoanLadderFrame> LoanLadderFrames { get; set; }
+        //public DbSet<Loan> Loans { get; set; }
     }
 }

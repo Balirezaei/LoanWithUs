@@ -20,7 +20,8 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
         
 
             builder.HasOne(m => m.CurrentLoanLadderFrame);//.WithMany(z=>z.Applicants).;
-           
+
+            //builder.HasOne(m => m.ActiveLoan);
         }
     }
 

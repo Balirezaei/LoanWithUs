@@ -71,7 +71,10 @@ namespace LoanWithUs.Persistense.EF.Repository
             return _context.Applicants.Where(m => m.Id == id).Include(m => m.EducationalInformation).FirstOrDefaultAsync();
         }
 
-
+        public Task<Applicant> FindApplicantByIdWithLadderInclude(int id)
+        {
+            return _context.Applicants.Where(m => m.Id == id).Include(m=>m.CurrentLoanLadderFrame).FirstOrDefaultAsync();
+        }
 
         public Task<Applicant> FindFullApplicantAggregateById(int id)
         {

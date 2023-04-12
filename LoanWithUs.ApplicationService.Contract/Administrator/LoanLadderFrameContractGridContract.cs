@@ -21,6 +21,7 @@ namespace LoanWithUs.ApplicationService.Contract.Administrator
 
         public string Amount { get; set; }
         public string Installments { get; set; }
+        public int? ParentId { get; set; }
     }
 
 

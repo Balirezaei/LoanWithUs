@@ -33,6 +33,10 @@
         public virtual List<BankAccountInformation> BankAccountInformations { get; set; }
         public bool HasCertificate { get { return UserConfirmation.TotalConfirmation; } }
         public virtual List<UserLogin> UserLogins { get; protected set; }
+
+        //public List<Loan> RequestedLoans { get; set; }
+
+
         public DateTime RegisterationDate { get; protected set; }
 
         public UserLogin AddNewLogin(string userAgent)

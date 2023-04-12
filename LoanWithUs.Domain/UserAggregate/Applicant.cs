@@ -11,10 +11,26 @@ namespace LoanWithUs.Domain.UserAggregate
     {
         protected Applicant() { }
 
-        public LoanLadderFrame CurrentLoanLadderFrame { get;private set; }
+        public LoanLadderFrame CurrentLoanLadderFrame { get; private set; }
         public int CurrentLoanLadderFrameId { get; private set; }
 
         public Supporter Supporter { get; private set; }
+        //public Loan ActiveLoan { get; set; }
+
+        public void RequestNewLoan( LoanLadderInstallmentsCount installmentsCount)
+        {
+            var supporterCredit = this.Supporter.GetAvailableCredit();
+            if (supporterCredit < CurrentLoanLadderFrame.Amount)
+            {
+                throw new DomainException("اعتبار پشتیبان ناکافی می باشد.");
+            }
+
+           //this.RequestedLoans.Any(m=>m.LoanRequester.Id==this.Id && m.)
+
+           // this.ActiveLoan = new Loan(CurrentLoanLadderFrame.Amount, this, installmentsCount.Count);
+
+
+        }
 
         ////ToDo:Remove Imediatelyyy
         //public Applicant(MobileNumber mobileNumber, string nationalCode)
@@ -37,7 +53,7 @@ namespace LoanWithUs.Domain.UserAggregate
         /// <param name="mobileNumber"></param>
         /// <param name="domainService"></param>
         /// <exception cref="InvalidDomainInputException"></exception>
-        internal Applicant(Supporter supporter,MobileNumber mobileNumber, string nationalCode, string firstName, string lastName, IApplicantDomainService domainService)
+        internal Applicant(Supporter supporter, MobileNumber mobileNumber, string nationalCode, string firstName, string lastName, IApplicantDomainService domainService)
         {
             var isMobileAvailable = domainService.IsMobileReservedWithAllUserType(this.Id, mobileNumber).Result;
             if (isMobileAvailable)

@@ -16,7 +16,8 @@ namespace LoanWithUs.Mapper
 
             CreateMap<LoanLadderFrame, LoanLadderFrameDto>()
                 .ForMember(desc => desc.Amount, opt => opt.MapFrom(o => $"{o.Amount.amount.ToStringSplit3Digit()} {o.Amount.moneyType.GetDisplayName()}"))
-                .ForMember(desc => desc.Installments, opt => opt.MapFrom(o => string.Join(',',o.AvalableInstallments.Select(z=>z.Count).ToArray())))
+                .ForMember(desc => desc.Installments, opt => opt.MapFrom(o => string.Join(',', o.AvalableInstallments.Select(z => z.Count).ToArray())))
+                .ForMember(desc => desc.ParentId, opt => opt.MapFrom(o => o.RequiredParentLoanId))
                 ;
             CreateMap<LoanLadderFrameContractGridContractVm, LoanLadderFrameContractGridContract>();
 
@@ -24,7 +25,7 @@ namespace LoanWithUs.Mapper
                    .ForMember(desc => desc.MobileNumber, opt => opt.MapFrom(o => new MobileNumber(o.MobileNumber)))
                 ;
 
-            
+
         }
     }
 }

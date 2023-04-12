@@ -5,6 +5,8 @@ using LoanWithUs.RestApi.Bootstrap;
 using LoanWithUs.RestApi.Filter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration Configuration = builder.Configuration;
 IWebHostEnvironment environment = builder.Environment;
@@ -17,14 +19,24 @@ builder.Services.AddControllers(options =>
     options.Filters.Add<ApiExceptionFilterAttribute>();
     options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
 });
-   
-        //.AddFluentValidation(x => x.AutomaticValidationEnabled = false)
-        ;
+
+//.AddFluentValidation(x => x.AutomaticValidationEnabled = false)
+;
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Scheme = "Bearer",
+    });
+}
+
+    );
 
 builder.Services.AddApplicationServices();
 builder.Services.AddFrameworkConfigurationService(Configuration);
@@ -32,7 +44,7 @@ builder.Services.AddFrameworkConfigurationService(Configuration);
 var privatekeyDir = Path.Combine(Directory.GetCurrentDirectory(), "Keys", Configuration["Key:PrivateKey"]);
 var publicDir = Path.Combine(Directory.GetCurrentDirectory(), "Keys", Configuration["Key:PublicKey"]);
 var rsaEcryptionConfig = new RSAEncryptionConfig(privatekeyDir, publicDir, Configuration["Key:PrivatePassword"]);
-var rSAEncryption=new LoanRSAEncryption(rsaEcryptionConfig);
+var rSAEncryption = new LoanRSAEncryption(rsaEcryptionConfig);
 builder.Services.AddScoped<ILoanRSAEncryption>(m =>
 {
     return rSAEncryption;
@@ -63,25 +75,25 @@ builder.Services.AddScoped<UserDataSecurityDate>(provider =>
         LocalIp = httpContext?.Connection.LocalIpAddress.ToString(),
         //OsType = (short)OsDetection.GetOsType(userAgentHeader),
         //SqlTokenInfoKey = sqlToken
-        UserAgent= userAgentHeader
+        UserAgent = userAgentHeader
     };
     return userAgent;
 });
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-    builder.Services.AddCors(options =>
-    {
-        options.AddPolicy(name: MyAllowSpecificOrigins,
-                          policy =>
-                          {
-                              policy.WithOrigins("*")
-                                .AllowAnyMethod()
-                                .AllowAnyHeader()
-                                .WithHeaders(HeaderNames.ContentType, "x-custom-header")
-                                .WithExposedHeaders("Token-Expired");
-                          });
-    });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("*")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .WithHeaders(HeaderNames.ContentType, "x-custom-header")
+                            .WithExposedHeaders("Token-Expired");
+                      });
+});
 
 
 

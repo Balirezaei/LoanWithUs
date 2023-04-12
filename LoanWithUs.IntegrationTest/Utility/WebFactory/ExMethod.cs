@@ -6,6 +6,10 @@ namespace LoanWithUs.IntegrationTest
     {
         public static string ToQueryString(this object obj)
         {
+            if (obj == null)
+            {
+                return string.Empty;
+            }
 
             var properties = from p in obj.GetType().GetProperties()
                              where p.GetValue(obj, null) != null
@@ -19,7 +23,7 @@ namespace LoanWithUs.IntegrationTest
 
     //    protected ToMemoryTesting(TestUserLogined currentUser):base("ToMemory", currentUser)
     //    {
-          
+
     //    }
 
     //}

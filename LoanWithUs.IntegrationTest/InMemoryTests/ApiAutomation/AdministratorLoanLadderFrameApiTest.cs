@@ -80,6 +80,7 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests.ApiAutomation
             var list = await _toTesting.SendAsync<List<LoanLadderFrameDto>>(query);
 
             list.OrderBy(z=>z.Step).Last().Amount.Should().Contain(cmd.Amount.ToStringSplit3Digit());
+            list.First(m => m.Id == result.Id).ParentId.Should().Be(1);
         }
 
 

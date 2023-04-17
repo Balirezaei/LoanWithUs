@@ -1,4 +1,4 @@
-﻿using LoanWithUs.Domain.UserAggregate;
+﻿using LoanWithUs.Domain;
 using LoanWithUs.IntegrationTest.Utility;
 using LoanWithUs.IntegrationTest.Utility.WebFactory;
 using LoanWithUs.Persistense.EF.ContextContainer;
@@ -53,6 +53,19 @@ namespace LoanWithUs.IntegrationTest
         //    return response;
         //}
 
+        public async Task<HttpResponseMessage> CallGetApi(string url)
+        {
+            using var client = _factory.CreateClient();
+
+            url = $"{BaseUrl}{url}";
+            var response = await client.GetAsync(url);
+
+            //var responseText = await response.Content.ReadAsStringAsync();
+            //response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            //var authorithyDelegatedCreated = JsonConvert.DeserializeObject<TResponse>(responseText);
+            //authorithyDelegatedCreated.Error.Message.Should().Be(MessageResource.AuthorityDelegationExceptionJuniorHasOpenWork);
+            return response;
+        }
         public async Task<HttpResponseMessage> CallGetApi<TRequest>(TRequest request, string url)
         {
             using var client = _factory.CreateClient();

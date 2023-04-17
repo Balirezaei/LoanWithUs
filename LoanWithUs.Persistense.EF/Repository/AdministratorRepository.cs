@@ -24,7 +24,7 @@ namespace LoanWithUs.Persistense.EF.Repository
                 .FirstOrDefaultAsync();
         }
 
-        public Task<Administrator> GetAdministratorById(int id)
+        public Task<Administrator> FindAdministratorById(int id)
         {
             return _context.Administrators.FirstOrDefaultAsync(m => m.Id == id);
         }

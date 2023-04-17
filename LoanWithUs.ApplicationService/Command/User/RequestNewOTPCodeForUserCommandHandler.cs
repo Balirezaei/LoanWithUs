@@ -1,6 +1,6 @@
 ﻿using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.Common;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Domain;
 using LoanWithUs.Exceptions;
 using MediatR;
 

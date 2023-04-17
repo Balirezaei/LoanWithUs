@@ -1,7 +1,6 @@
 ﻿using LoanWithUs.ApplicationService.Contract.Administrator;
 using LoanWithUs.Common;
 using LoanWithUs.Domain;
-using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Encryption;
 using MediatR;
 
@@ -23,7 +22,7 @@ namespace LoanWithUs.ApplicationService.Command.Administrator
 
         public async Task<AdminRegisterSupporterCommandResult> Handle(AdminRegisterSupporterCommand request, CancellationToken cancellationToken)
         {
-            var admin = await _administratorRepository.GetAdministratorById(request.AdminId);
+            var admin = await _administratorRepository.FindAdministratorById(request.AdminId);
             if (admin == null)
             {
                 throw new Exception("Current User Not Found");

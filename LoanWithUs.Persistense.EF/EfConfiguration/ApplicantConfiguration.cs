@@ -1,12 +1,6 @@
-﻿using LoanWithUs.Common.DefinedType;
-using LoanWithUs.Domain.UserAggregate;
+﻿using LoanWithUs.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LoanWithUs.Persistense.EF.EfConfiguration
 {
@@ -19,7 +13,19 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
             //builder.HasIndex(m => m.IdentityInformation.MobileNumber).IsUnique();
         
 
-            builder.HasOne(m => m.CurrentLoanLadderFrame);//.WithMany(z=>z.Applicants).;
+            builder.HasOne(m => m.CurrentLoanLadderFrame).WithMany().HasForeignKey(m=>m.CurrentLoanLadderFrameId);
+
+            //builder.OwnsMany(m => m.ApplicantLoanLadderHistory, sa =>
+            //{
+            //    sa.Property(z=>z.LoanLaddrFrameId).
+            //});
+            builder.HasMany(m => m.ApplicantLoanLadderHistory);
+            builder.HasMany(m => m.LoanRequests);
+
+            //builder.HasOne(m => m.Reporter)
+            // .WithMany(m => m.ReporterRiskReports)
+            // .HasForeignKey(m => m.ReporterId)
+            // .OnDelete(DeleteBehavior.NoAction);
 
             //builder.HasOne(m => m.ActiveLoan);
         }

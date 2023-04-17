@@ -72,7 +72,16 @@ namespace LoanWithUs.IntegrationTest.Utility.WebFactory
                 {
                     var scopedServices = scope.ServiceProvider;
                     var db = scopedServices.GetRequiredService<LoanWithUsContext>();
-                    db.Database.EnsureDeleted();
+                    try
+                    {
+                        db.Database.EnsureDeleted();
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                 
                     db.Database.EnsureCreated();
                     db.DbDataInitializer();
                 }

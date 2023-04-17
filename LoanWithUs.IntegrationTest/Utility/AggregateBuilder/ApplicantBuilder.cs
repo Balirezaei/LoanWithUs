@@ -1,6 +1,5 @@
 ﻿using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Domain;
-using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Persistense.EF.ContextContainer;
 using NSubstitute;
 

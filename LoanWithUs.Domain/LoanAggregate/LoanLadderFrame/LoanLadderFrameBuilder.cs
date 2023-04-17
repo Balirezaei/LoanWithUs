@@ -2,7 +2,7 @@
 
 namespace LoanWithUs.Domain
 {
-    public class LoanLadderFrameBuilder : ILoanLadderFrameBasiInfoBuilder, ILoanLadderFrameInstallmentBuilder
+    public class LoanLadderFrameBuilder : ILoanLadderFrameBasicInfoBuilder, ILoanLadderFrameInstallmentBuilder
     {
         private List<LoanLadderInstallmentsCount> _loanLadderInstallments;
         private string _title;
@@ -24,17 +24,17 @@ namespace LoanWithUs.Domain
         //    return this;
         //}
 
-        public ILoanLadderFrameBasiInfoBuilder WithTitle(string title)
+        public ILoanLadderFrameBasicInfoBuilder WithTitle(string title)
         {
             _title = title;
             return this;
         }
-        public ILoanLadderFrameBasiInfoBuilder WithParentLadder(LoanLadderFrame parentLoanLadderFrame)
+        public ILoanLadderFrameBasicInfoBuilder WithParentLadder(LoanLadderFrame parentLoanLadderFrame)
         {
             _parentLoanLadderFrame = parentLoanLadderFrame;
             return this;
         }
-        public ILoanLadderFrameBasiInfoBuilder WithStep(int step)
+        public ILoanLadderFrameBasicInfoBuilder WithStep(int step)
         {
             _step = step;
             return this;

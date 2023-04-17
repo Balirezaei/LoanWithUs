@@ -1,6 +1,6 @@
 using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.Common.Enum;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Domain;
 using LoanWithUs.RestApi.Utility;
 using LoanWithUs.ViewModel;
 using MediatR;

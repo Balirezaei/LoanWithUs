@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using LoanWithUs.ApplicationService.Contract.Administrator;
 using LoanWithUs.Common.DefinedType;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Domain;
 using LoanWithUs.IntegrationTest.Utility.WebFactory;
 using LoanWithUs.ViewModel;
 using System;

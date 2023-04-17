@@ -2,7 +2,7 @@
 using LoanWithUs.ApplicationService.Contract.Administrator;
 using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Common.ExtentionMethod;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Domain;
 using LoanWithUs.ViewModel;
 using System;
 using System.Collections.Generic;

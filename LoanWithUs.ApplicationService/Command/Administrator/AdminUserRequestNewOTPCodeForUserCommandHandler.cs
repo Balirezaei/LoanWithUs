@@ -19,7 +19,7 @@ namespace LoanWithUs.ApplicationService.Command.Administrator
 
         public async Task<AdminRequestOtpResult> Handle(AdminUserRequestNewOTPCodeForUserCommand request, CancellationToken cancellationToken)
         {
-            var admin = await _administratorRepository.GetAdministratorById(request.AdminId);
+            var admin = await _administratorRepository.FindAdministratorById(request.AdminId);
             var newAttempdToLogin = admin.AddNewAttempdToLogin(request.UserAgent);
             await _unitOfWork.CommitAsync();
 

@@ -1,7 +1,5 @@
 ﻿using LoanWithUs.Common;
 using LoanWithUs.Common.DefinedType;
-using LoanWithUs.Domain.LoanAggregate;
-using LoanWithUs.Domain.UserAggregate;
 
 namespace LoanWithUs.Domain
 {
@@ -14,12 +12,17 @@ namespace LoanWithUs.Domain
         /// <summary>
         /// مبلغ وام
         /// </summary>
-        public Amount Amount { get;private set; }
+        public Amount Amount { get; private set; }
         /// <summary>
         /// درخواستگر وام 
         /// پشتیبان یا درخواستگران
         /// </summary>
-        public User LoanRequester { get; private set; }
+        public User Requester { get; private set; }
+        public int RequesterId { get; private set; }
+
+        public LoanWithUsFile ReciptFile { get; private set; }
+
+
         /// <summary>
         /// تاریخ واریز وام
         /// </summary>
@@ -30,27 +33,27 @@ namespace LoanWithUs.Domain
         public bool IsSettled { get; set; }
         public List<LoanInstallment> LoanInstallments { get; private set; }
 
-        public  Loan(Amount amount, Applicant applicant,int installmentCount)
+        public Loan(Amount amount, Applicant applicant, int installmentCount)
         {
             Amount = amount;
-            LoanRequester = applicant;
+            Requester = applicant;
             StartDate = DateTime.Now;
             this.LoanInstallments = GenerateLoanInstallment(installmentCount).ToList();
-        } 
-
+        }
+      
 
         private IEnumerable<LoanInstallment> GenerateLoanInstallment(int installmentCount)
         {
             int count = installmentCount;
             int price = this.Amount.amount;
-            if ((price%count) == 0)
+            if ((price % count) == 0)
             {
                 for (int i = 0; i < count; i++)
                 {
                     var amount = (price / count);
                     var startDate = DateTime.Now.AddMonths(i + 1).AddDays(1).Date;
                     var endDate = startDate.AddDays(3).Date.AddHours(23);
-                    yield return new LoanInstallment(amount,(i+1), startDate, endDate);
+                    yield return new LoanInstallment(amount, (i + 1), startDate, endDate);
                 }
             }
             else
@@ -59,7 +62,7 @@ namespace LoanWithUs.Domain
                 var amount = (int)Math.Floor(installment);
                 for (int i = 0; i < count; i++)
                 {
-                    if (i==count-1)
+                    if (i == count - 1)
                     {
                         var remain = price - (amount * (i));
                         amount = remain;
@@ -78,9 +81,9 @@ namespace LoanWithUs.Domain
         //TODO:....
         public void PaidLastByApplicant()
         {
-            var installment=this.LoanInstallments.FirstOrDefault(m => m.PaiedDate == null);
+            var installment = this.LoanInstallments.FirstOrDefault(m => m.PaiedDate == null);
             installment.PaidByApplicant();
-            if(this.LoanInstallments.All(m => m.PaiedDate != null))
+            if (this.LoanInstallments.All(m => m.PaiedDate != null))
             {
                 LoanSettlement();
             }

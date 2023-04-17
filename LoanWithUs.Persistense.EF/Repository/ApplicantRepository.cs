@@ -1,4 +1,4 @@
-﻿using LoanWithUs.Domain.UserAggregate;
+﻿using LoanWithUs.Domain;
 using LoanWithUs.Persistense.EF.ContextContainer;
 using System;
 using System.Collections.Generic;

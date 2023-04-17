@@ -1,4 +1,4 @@
-﻿using LoanWithUs.Domain.UserAggregate;
+﻿using LoanWithUs.Domain;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LoanWithUs.Domain;
 
 namespace LoanWithUs.Persistense.EF.EfConfiguration
 {
+
     public class AdministratorConfiguration : IEntityTypeConfiguration<Administrator>
     {
         public void Configure(EntityTypeBuilder<Administrator> builder)

@@ -2,7 +2,6 @@
 using LoanWithUs.Common;
 using LoanWithUs.Common.ExtentionMethod;
 using LoanWithUs.Domain;
-using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Encryption;
 using MediatR;
 using System;

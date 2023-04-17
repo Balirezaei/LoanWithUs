@@ -1,4 +1,4 @@
-﻿namespace LoanWithUs.Domain.LoanAggregate
+﻿namespace LoanWithUs.Domain
 {
     /// <summary>
     /// اقساط وام

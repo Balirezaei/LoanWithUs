@@ -1,41 +1,10 @@
 ﻿using LoanWithUs.Common.DefinedType;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Domain;
 using LoanWithUs.Persistense.EF.ContextContainer;
 using Microsoft.EntityFrameworkCore;
 
 namespace LoanWithUs.Persistense.EF.Repository
 {
-    public class UserRepository : IUserRepository
-    {
-        private readonly LoanWithUsContext _context;
-
-        public UserRepository(LoanWithUsContext context)
-        {
-            _context = context;
-        }
-
-        public Task<User> CheckUserActivationCode(MobileNumber mobileNumber, string code, string userAgent)
-        {
-            return _context.Users
-                .Where(m => m.IdentityInformation.MobileNumber == mobileNumber
-                &&
-                m.UserLogins.Any(z => z.Code == code && z.ExpireDate > DateTime.Now && z.UserAgent == userAgent)
-
-                )
-                .FirstOrDefaultAsync();
-        }
-
-        public Task<User> FindUserByMobile(MobileNumber mobileNumber)
-        {
-            return _context.Users
-                 .FirstOrDefaultAsync(m => m.IdentityInformation.MobileNumber == mobileNumber);
-        }
-
-        public void Update(User user)
-        {
-            _context.Users.Update(user);
-        }
-    }
     public class ApplicantReadRepository : IApplicantReadRepository
     {
         private readonly LoanWithUsContext _context;
@@ -66,14 +35,23 @@ namespace LoanWithUs.Persistense.EF.Repository
             return _context.Supporters.AnyAsync(m => m.Id != currentUserId && m.IdentityInformation.NationalCode == nationalCode);
         }
 
+        public Task<Applicant> FindApplicantByIdForLoanRequest(int id)
+        {
+            return _context.Applicants.Where(m => m.Id == id)
+                .Include(m => m.CurrentLoanLadderFrame)
+                .Include(m => m.LoanRequests)
+                .Include(m => m.Supporter)
+                .SingleOrDefaultAsync();
+        }
+
         public Task<Applicant> FindApplicantByIdIncludeEducationalInformation(int id)
         {
-            return _context.Applicants.Where(m => m.Id == id).Include(m => m.EducationalInformation).FirstOrDefaultAsync();
+            return _context.Applicants.Where(m => m.Id == id).Include(m => m.EducationalInformation).SingleOrDefaultAsync();
         }
 
         public Task<Applicant> FindApplicantByIdWithLadderInclude(int id)
         {
-            return _context.Applicants.Where(m => m.Id == id).Include(m=>m.CurrentLoanLadderFrame).FirstOrDefaultAsync();
+            return _context.Applicants.Where(m => m.Id == id).Include(m=>m.CurrentLoanLadderFrame).SingleOrDefaultAsync();
         }
 
         public Task<Applicant> FindFullApplicantAggregateById(int id)
@@ -90,6 +68,14 @@ namespace LoanWithUs.Persistense.EF.Repository
         public IQueryable<Applicant> GetAllApplicantBySupporter(int supporterId)
         {
             return _context.Applicants.Where(m => m.Supporter.Id == supporterId);
+        }
+
+        public async Task<List<ApplicantLoanLadder>> GetApplicantLoanLadders(int id)
+        {
+            var applicant= await _context.Applicants.Where(m => m.Id == id)
+                .Include(m=>m.ApplicantLoanLadderHistory)
+                .FirstOrDefaultAsync()                ;
+            return applicant.ApplicantLoanLadderHistory;
         }
 
         Task<Applicant> IApplicantReadRepository.FindApplicantById(int id)

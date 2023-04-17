@@ -1,5 +1,5 @@
 ﻿using LoanWithUs.Common.DefinedType;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;

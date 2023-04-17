@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using LoanWithUs.ApplicationService.Contract;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Domain;
 using MediatR;
 
 namespace LoanWithUs.ApplicationService.Query.Applicant

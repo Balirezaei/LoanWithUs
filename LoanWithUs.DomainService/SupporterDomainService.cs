@@ -1,5 +1,5 @@
 ﻿using LoanWithUs.Common.DefinedType;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Domain;
 
 namespace LoanWithUs.DomainService
 {

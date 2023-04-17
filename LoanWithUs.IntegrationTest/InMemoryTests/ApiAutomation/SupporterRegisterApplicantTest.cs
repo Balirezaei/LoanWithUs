@@ -46,7 +46,7 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests.ApiAutomation
         }
 
         [Fact]
-        public async Task Register_Applicant_With_Curreect_info()
+        public async Task Register_Applicant_With_Currect_info()
         {
             //Setup         
             var vm = new SupporterRegistereApplicantVm()

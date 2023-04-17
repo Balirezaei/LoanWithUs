@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using LoanWithUs.ApplicationService.Contract;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Domain;
 
 namespace LoanWithUs.ApplicationService.Command
 {

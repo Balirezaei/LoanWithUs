@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using LoanWithUs.ApplicationService.Contract;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.ApplicationService.Contract.Applicant;
+using LoanWithUs.Common.ExtentionMethod;
+using LoanWithUs.Domain;
 using LoanWithUs.ViewModel;
 
 namespace LoanWithUs.Mapper
@@ -22,8 +24,12 @@ namespace LoanWithUs.Mapper
 
                 ;
 
+            CreateMap<ApplicantRequestLoanVm, ApplicantRequestLoanCommand>()
+                .ForMember(m=>m.Amount,opt=>opt.MapFrom(src=> src.Amount.ToToamnAmount()))
 
-
+                ;
+            
+            
 
         }
     }

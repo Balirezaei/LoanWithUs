@@ -1,8 +1,12 @@
-﻿using LoanWithUs.Common.Enum;
+﻿using AutoMapper;
+using LoanWithUs.ApplicationService.Contract.Applicant;
+using LoanWithUs.Common.Enum;
+using LoanWithUs.ViewModel;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LoanWithUs.RestApi.Controllers.Applicant
 {
@@ -12,20 +16,28 @@ namespace LoanWithUs.RestApi.Controllers.Applicant
     public class LoanRequestController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public LoanRequestController(IMediator mediator)
+        private readonly IMapper _mapper;
+        public LoanRequestController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
+
         [HttpGet]
-        public void GetLatestLoanStatus()
+        public Task<ApplicantLoanRequestAvailability> GetLatestLoanRequestAvailability()
         {
+            var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
 
+            return _mediator.Send(new GetApplicantLoanRequestAvailability(int.Parse(userId)));
         }
-        
-        [HttpPost]
-        public void RequestNewLoan()
-        {
 
+        [HttpPost]
+        public Task<ApplicantRequestLoanResult> RequestNewLoan(ApplicantRequestLoanVm loanVm)
+        {
+            var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
+            var cmd = _mapper.Map<ApplicantRequestLoanCommand>(loanVm);
+            cmd.ApplicantId = int.Parse(userId);
+            return _mediator.Send(cmd);
         }
     }
 }

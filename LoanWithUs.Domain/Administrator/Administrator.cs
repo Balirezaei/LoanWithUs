@@ -1,6 +1,5 @@
 ﻿using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Common.Enum;
-using LoanWithUs.Domain.UserAggregate;
 
 namespace LoanWithUs.Domain
 {
@@ -46,6 +45,12 @@ namespace LoanWithUs.Domain
         public Supporter DefineNewSupporter(string nationalCode, MobileNumber mobileNumber, ISupporterDomainService supporterDomainService)
         {
             return new Supporter(nationalCode, mobileNumber, new Amount(StaticDataForBegining.InitCreditForSupporter, MoneyType.Toman), supporterDomainService);
+        }
+
+        public Applicant ConfirmApplicant(Applicant applicant)
+        {
+            applicant.ConfirmInfo();
+            return applicant;
         }
     }
 

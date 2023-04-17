@@ -1,7 +1,7 @@
 using FluentAssertions;
 using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Domain.Test.Utility;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Domain;
 using LoanWithUs.Exceptions;
 using NSubstitute;
 

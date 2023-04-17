@@ -1,5 +1,5 @@
 ﻿using LoanWithUs.Common.DefinedType;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -81,6 +81,7 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
             builder.OwnsMany(m => m.UserDocuments).ToTable("UserDocument");
             builder.OwnsMany(m => m.BankAccountInformations).ToTable("AccountInformation");
             builder.OwnsMany(m => m.UserLogins).ToTable("UserLogin");
+
         }
     }
 

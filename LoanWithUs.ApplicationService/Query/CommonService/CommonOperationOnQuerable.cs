@@ -1,5 +1,5 @@
 ﻿using LoanWithUs.ApplicationService.Contract;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

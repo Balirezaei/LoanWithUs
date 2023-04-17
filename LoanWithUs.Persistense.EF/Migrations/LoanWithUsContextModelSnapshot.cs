@@ -22,6 +22,9 @@ namespace LoanWithUs.Persistense.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.HasSequence<int>("Sequence-TrackingNumber")
+                .StartsAt(1000L);
+
             modelBuilder.Entity("LoanWithUs.Domain.Administrator", b =>
                 {
                     b.Property<int>("Id")
@@ -74,9 +77,115 @@ namespace LoanWithUs.Persistense.EF.Migrations
                             MobileNumber = "09124444444",
                             NationalCode = "0099887766",
                             Password = "o4r8d5bV0uH4wxMOIP+8SG8plc4dLZ4iUsgbUonSDL+y1wEWURrhqJEeK7qpyViSZMpVZOhDWbtiEPt00fZr2vWfjKDgEIA8982GNs+Atr2PRpV3+8epUbP6egn4ifS1UsGV3iiZJj3cdMLczNkvBAV05BKi97L+OVQaj4b741gsrDw5p2oa2CE6BLAMAcFfxBpLSuYnLfycfQJlQ7nxP10eSCpeLEpnuX+YqextxzkL1510HPkpJxHspruuijuT3LFMrhqWnNr0e7YuJlft3354QYLkGXAIn2zJYEo/ppfpVXe7IAI9zx7FsLPgXD3z62gEjJHiF+TjeegmDuQ5CA==",
-                            RegisterationDate = new DateTime(2023, 4, 12, 12, 59, 47, 232, DateTimeKind.Local).AddTicks(8665),
+                            RegisterationDate = new DateTime(2023, 4, 17, 14, 19, 29, 807, DateTimeKind.Local).AddTicks(2685),
                             UserName = "admin"
                         });
+                });
+
+            modelBuilder.Entity("LoanWithUs.Domain.ApplicantLoanLadder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("ApplicantId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LoanLaddrFrameId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicantId");
+
+                    b.HasIndex("LoanLaddrFrameId");
+
+                    b.ToTable("ApplicantLoanLadder");
+                });
+
+            modelBuilder.Entity("LoanWithUs.Domain.ApplicantLoanRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ApplicantId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("InstallmentsCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastState")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LoanLadderFrameId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SupporterId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TrackingNumber")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValueSql("(FORMAT(GETDATE(), 'yyyy', 'fa')+'/'+cast((NEXT VALUE FOR [Sequence-TrackingNumber]) AS NVARCHAR))");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicantId");
+
+                    b.HasIndex("LoanLadderFrameId");
+
+                    b.HasIndex("SupporterId");
+
+                    b.ToTable("ApplicantLoanRequest", (string)null);
+                });
+
+            modelBuilder.Entity("LoanWithUs.Domain.ApplicantLoanRequestFlow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("ApplicantLoanRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicantLoanRequestId");
+
+                    b.ToTable("ApplicantLoanRequestFlow");
                 });
 
             modelBuilder.Entity("LoanWithUs.Domain.City", b =>
@@ -473,7 +582,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                     b.ToTable("LoanWithUsFile", (string)null);
                 });
 
-            modelBuilder.Entity("LoanWithUs.Domain.UserAggregate.User", b =>
+            modelBuilder.Entity("LoanWithUs.Domain.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -490,9 +599,9 @@ namespace LoanWithUs.Persistense.EF.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("LoanWithUs.Domain.UserAggregate.Applicant", b =>
+            modelBuilder.Entity("LoanWithUs.Domain.Applicant", b =>
                 {
-                    b.HasBaseType("LoanWithUs.Domain.UserAggregate.User");
+                    b.HasBaseType("LoanWithUs.Domain.User");
 
                     b.Property<int>("CurrentLoanLadderFrameId")
                         .HasColumnType("int");
@@ -507,16 +616,16 @@ namespace LoanWithUs.Persistense.EF.Migrations
                     b.ToTable("Applicant", (string)null);
                 });
 
-            modelBuilder.Entity("LoanWithUs.Domain.UserAggregate.Supporter", b =>
+            modelBuilder.Entity("LoanWithUs.Domain.Supporter", b =>
                 {
-                    b.HasBaseType("LoanWithUs.Domain.UserAggregate.User");
+                    b.HasBaseType("LoanWithUs.Domain.User");
 
                     b.ToTable("Supporter", (string)null);
                 });
 
             modelBuilder.Entity("LoanWithUs.Domain.Administrator", b =>
                 {
-                    b.OwnsMany("LoanWithUs.Domain.UserAggregate.UserLogin", "UserLogins", b1 =>
+                    b.OwnsMany("LoanWithUs.Domain.UserLogin", "UserLogins", b1 =>
                         {
                             b1.Property<int>("AdministratorId")
                                 .HasColumnType("int");
@@ -550,6 +659,55 @@ namespace LoanWithUs.Persistense.EF.Migrations
                         });
 
                     b.Navigation("UserLogins");
+                });
+
+            modelBuilder.Entity("LoanWithUs.Domain.ApplicantLoanLadder", b =>
+                {
+                    b.HasOne("LoanWithUs.Domain.Applicant", null)
+                        .WithMany("ApplicantLoanLadderHistory")
+                        .HasForeignKey("ApplicantId");
+
+                    b.HasOne("LoanWithUs.Domain.LoanLadderFrame", "LoanLadderFrame")
+                        .WithMany("ApplicantLoanLadders")
+                        .HasForeignKey("LoanLaddrFrameId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("LoanLadderFrame");
+                });
+
+            modelBuilder.Entity("LoanWithUs.Domain.ApplicantLoanRequest", b =>
+                {
+                    b.HasOne("LoanWithUs.Domain.Applicant", "Applicant")
+                        .WithMany("LoanRequests")
+                        .HasForeignKey("ApplicantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LoanWithUs.Domain.LoanLadderFrame", "LoanLadderFrame")
+                        .WithMany()
+                        .HasForeignKey("LoanLadderFrameId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("LoanWithUs.Domain.Supporter", "Supporter")
+                        .WithMany()
+                        .HasForeignKey("SupporterId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Applicant");
+
+                    b.Navigation("LoanLadderFrame");
+
+                    b.Navigation("Supporter");
+                });
+
+            modelBuilder.Entity("LoanWithUs.Domain.ApplicantLoanRequestFlow", b =>
+                {
+                    b.HasOne("LoanWithUs.Domain.ApplicantLoanRequest", null)
+                        .WithMany("Flows")
+                        .HasForeignKey("ApplicantLoanRequestId");
                 });
 
             modelBuilder.Entity("LoanWithUs.Domain.City", b =>
@@ -619,9 +777,9 @@ namespace LoanWithUs.Persistense.EF.Migrations
                     b.Navigation("RequiredParentLoan");
                 });
 
-            modelBuilder.Entity("LoanWithUs.Domain.UserAggregate.User", b =>
+            modelBuilder.Entity("LoanWithUs.Domain.User", b =>
                 {
-                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.AddressInformation", "AddressInformation", b1 =>
+                    b.OwnsOne("LoanWithUs.Domain.AddressInformation", "AddressInformation", b1 =>
                         {
                             b1.Property<int>("UserId")
                                 .HasColumnType("int");
@@ -660,7 +818,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsMany("LoanWithUs.Domain.UserAggregate.BankAccountInformation", "BankAccountInformations", b1 =>
+                    b.OwnsMany("LoanWithUs.Domain.BankAccountInformation", "BankAccountInformations", b1 =>
                         {
                             b1.Property<int>("UserId")
                                 .HasColumnType("int");
@@ -690,7 +848,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.EducationalInformation", "EducationalInformation", b1 =>
+                    b.OwnsOne("LoanWithUs.Domain.EducationalInformation", "EducationalInformation", b1 =>
                         {
                             b1.Property<int>("UserId")
                                 .HasColumnType("int");
@@ -710,7 +868,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.IdentityInformation", "IdentityInformation", b1 =>
+                    b.OwnsOne("LoanWithUs.Domain.IdentityInformation", "IdentityInformation", b1 =>
                         {
                             b1.Property<int>("UserId")
                                 .HasColumnType("int");
@@ -747,7 +905,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.PersonalInformation", "PersonalInformation", b1 =>
+                    b.OwnsOne("LoanWithUs.Domain.PersonalInformation", "PersonalInformation", b1 =>
                         {
                             b1.Property<int>("UserId")
                                 .HasColumnType("int");
@@ -795,7 +953,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsMany("LoanWithUs.Domain.UserAggregate.UserLogin", "UserLogins", b1 =>
+                    b.OwnsMany("LoanWithUs.Domain.UserLogin", "UserLogins", b1 =>
                         {
                             b1.Property<int>("UserId")
                                 .HasColumnType("int");
@@ -828,7 +986,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.UserConfirmation", "UserConfirmation", b1 =>
+                    b.OwnsOne("LoanWithUs.Domain.UserConfirmation", "UserConfirmation", b1 =>
                         {
                             b1.Property<int>("UserId")
                                 .HasColumnType("int");
@@ -859,7 +1017,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsMany("LoanWithUs.Domain.UserAggregate.UserDocument", "UserDocuments", b1 =>
+                    b.OwnsMany("LoanWithUs.Domain.UserDocument", "UserDocuments", b1 =>
                         {
                             b1.Property<int>("UserId")
                                 .HasColumnType("int");
@@ -916,7 +1074,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                     b.Navigation("UserLogins");
                 });
 
-            modelBuilder.Entity("LoanWithUs.Domain.UserAggregate.Applicant", b =>
+            modelBuilder.Entity("LoanWithUs.Domain.Applicant", b =>
                 {
                     b.HasOne("LoanWithUs.Domain.LoanLadderFrame", "CurrentLoanLadderFrame")
                         .WithMany()
@@ -924,13 +1082,13 @@ namespace LoanWithUs.Persistense.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LoanWithUs.Domain.UserAggregate.User", null)
+                    b.HasOne("LoanWithUs.Domain.User", null)
                         .WithOne()
-                        .HasForeignKey("LoanWithUs.Domain.UserAggregate.Applicant", "Id")
+                        .HasForeignKey("LoanWithUs.Domain.Applicant", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.HasOne("LoanWithUs.Domain.UserAggregate.Supporter", "Supporter")
+                    b.HasOne("LoanWithUs.Domain.Supporter", "Supporter")
                         .WithMany()
                         .HasForeignKey("SupporterId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -941,15 +1099,15 @@ namespace LoanWithUs.Persistense.EF.Migrations
                     b.Navigation("Supporter");
                 });
 
-            modelBuilder.Entity("LoanWithUs.Domain.UserAggregate.Supporter", b =>
+            modelBuilder.Entity("LoanWithUs.Domain.Supporter", b =>
                 {
-                    b.HasOne("LoanWithUs.Domain.UserAggregate.User", null)
+                    b.HasOne("LoanWithUs.Domain.User", null)
                         .WithOne()
-                        .HasForeignKey("LoanWithUs.Domain.UserAggregate.Supporter", "Id")
+                        .HasForeignKey("LoanWithUs.Domain.Supporter", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.OwnsOne("LoanWithUs.Domain.UserAggregate.SupporterCredit", "SupporterCredit", b1 =>
+                    b.OwnsOne("LoanWithUs.Domain.SupporterCredit", "SupporterCredit", b1 =>
                         {
                             b1.Property<int>("SupporterId")
                                 .HasColumnType("int");
@@ -977,9 +1135,26 @@ namespace LoanWithUs.Persistense.EF.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("LoanWithUs.Domain.ApplicantLoanRequest", b =>
+                {
+                    b.Navigation("Flows");
+                });
+
             modelBuilder.Entity("LoanWithUs.Domain.City", b =>
                 {
                     b.Navigation("Cities");
+                });
+
+            modelBuilder.Entity("LoanWithUs.Domain.LoanLadderFrame", b =>
+                {
+                    b.Navigation("ApplicantLoanLadders");
+                });
+
+            modelBuilder.Entity("LoanWithUs.Domain.Applicant", b =>
+                {
+                    b.Navigation("ApplicantLoanLadderHistory");
+
+                    b.Navigation("LoanRequests");
                 });
 #pragma warning restore 612, 618
         }

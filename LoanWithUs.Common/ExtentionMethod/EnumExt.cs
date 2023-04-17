@@ -22,5 +22,15 @@ namespace LoanWithUs.Common.ExtentionMethod
             }
 
         }
+
+        public static ApplicantLoanRequestState[] GetInprogressRequestState(this ApplicantLoanRequestState state)
+        {
+            return new ApplicantLoanRequestState[]
+            {
+                ApplicantLoanRequestState.ApplicantRequested,
+                ApplicantLoanRequestState.SupporterAccepted,
+                ApplicantLoanRequestState.ReadyToPay,
+            };
+        }
     }
 }

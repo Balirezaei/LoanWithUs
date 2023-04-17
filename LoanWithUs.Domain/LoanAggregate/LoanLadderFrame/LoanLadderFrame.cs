@@ -1,5 +1,4 @@
 ﻿using LoanWithUs.Common.DefinedType;
-using LoanWithUs.Domain.UserAggregate;
 using LoanWithUs.Exceptions;
 
 namespace LoanWithUs.Domain
@@ -30,6 +29,7 @@ namespace LoanWithUs.Domain
         public LoanLadderFrame? RequiredParentLoan { get; private set; }
         public int? RequiredParentLoanId { get; private set; }
         public List<LoanLadderInstallmentsCount> AvalableInstallments { get; private set; }
+        public List<ApplicantLoanLadder> ApplicantLoanLadders { get;private set; }
 
         /// <summary>
         ///  مدارک مورد نیاز، چک یا سفته

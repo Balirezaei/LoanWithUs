@@ -8,4 +8,15 @@ namespace LoanWithUs.ApplicationService.Contract.Administrator
 
     }
 
+    public class ApplicantVerificationCommand: IRequest<ApplicantVerificationCommandResult>
+    {
+        public int ApplicantId { get; set; }
+        public int AdminId { get; set; }
+    }
+    
+    public class ApplicantVerificationCommandResult
+    {
+
+    }
+
 }

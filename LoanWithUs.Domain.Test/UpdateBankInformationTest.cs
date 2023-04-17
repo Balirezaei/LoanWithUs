@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using LoanWithUs.Domain.Test.Utility;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Domain;
 
 namespace LoanWithUs.Domain.Test
 {

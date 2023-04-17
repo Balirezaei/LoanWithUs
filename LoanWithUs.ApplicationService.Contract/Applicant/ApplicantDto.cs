@@ -37,15 +37,6 @@ namespace LoanWithUs.ApplicationService.Contract
 
     }
 
-    public class RequestNewLoan : IRequest<RequestNewLoanResult>
-    {
-        public int ApplicantId { get; set; }
-    }
-
-
-    public class RequestNewLoanResult
-    {
-
-    }
+ 
 
 }

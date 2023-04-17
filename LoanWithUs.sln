@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoanWithUs.ViewModel", "Loa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoanWithUs.Encryption", "LoanWithUs.Encryption\LoanWithUs.Encryption.csproj", "{006834A5-38A2-4240-BBAF-3735E24CE871}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanWithUs.Resources", "LoanWithUs.Resources\LoanWithUs.Resources.csproj", "{095CDFCC-CF94-43D1-9B55-6D4A9E15FA12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{006834A5-38A2-4240-BBAF-3735E24CE871}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{006834A5-38A2-4240-BBAF-3735E24CE871}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{006834A5-38A2-4240-BBAF-3735E24CE871}.Release|Any CPU.Build.0 = Release|Any CPU
+		{095CDFCC-CF94-43D1-9B55-6D4A9E15FA12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{095CDFCC-CF94-43D1-9B55-6D4A9E15FA12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{095CDFCC-CF94-43D1-9B55-6D4A9E15FA12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{095CDFCC-CF94-43D1-9B55-6D4A9E15FA12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +143,7 @@ Global
 		{2F63D116-F422-41EB-99BA-D2CEC8FDF4E3} = {9F92A270-C63E-488A-8039-A2A977258C0F}
 		{34D8FEA4-E6DE-4FB7-80AE-D2FCCB6163D6} = {9F92A270-C63E-488A-8039-A2A977258C0F}
 		{006834A5-38A2-4240-BBAF-3735E24CE871} = {9F92A270-C63E-488A-8039-A2A977258C0F}
+		{095CDFCC-CF94-43D1-9B55-6D4A9E15FA12} = {9F92A270-C63E-488A-8039-A2A977258C0F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CB13E185-F7C4-4003-A750-E03A0E354587}

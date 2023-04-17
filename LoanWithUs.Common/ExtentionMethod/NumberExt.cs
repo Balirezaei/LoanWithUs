@@ -22,5 +22,6 @@ namespace LoanWithUs.Common.ExtentionMethod
         {
             return n.ToString("#,##0");
         }
+     
     }
 }

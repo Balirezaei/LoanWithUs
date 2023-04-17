@@ -1,5 +1,4 @@
 ﻿using LoanWithUs.Domain;
-using LoanWithUs.Domain.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,6 +15,7 @@ namespace LoanWithUs.Persistense.EF.ContextContainer
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasSequence<int>("Sequence-TrackingNumber").IncrementsBy(1).StartsAt(1000);
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);      
             base.OnModelCreating(modelBuilder);
         }
@@ -31,6 +31,8 @@ namespace LoanWithUs.Persistense.EF.ContextContainer
         public DbSet<Administrator> Administrators { get; set; }
 
         public DbSet<LoanLadderFrame> LoanLadderFrames { get; set; }
+        public DbSet<ApplicantLoanRequest> ApplicantLoanRequests { get; set; }
+
         //public DbSet<Loan> Loans { get; set; }
     }
 }

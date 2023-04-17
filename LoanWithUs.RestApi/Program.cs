@@ -60,7 +60,7 @@ builder.Services.AddDbContext<LoanWithUsContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("LoanWithUsContext")));
 
 
-builder.Services.AddRepositoryConfigurationService();
+builder.Services.AddRepositoryAndDomainService();
 
 //if (builder.Environment.ApplicationName != "IntegrationTest") { }
 builder.Services.AddScoped<UserDataSecurityDate>(provider =>

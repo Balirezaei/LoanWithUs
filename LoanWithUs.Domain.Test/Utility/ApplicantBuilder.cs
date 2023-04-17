@@ -1,5 +1,5 @@
 ﻿using LoanWithUs.Common.DefinedType;
-using LoanWithUs.Domain.UserAggregate;
+using LoanWithUs.Domain;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -20,11 +20,12 @@ namespace LoanWithUs.Domain.Test.Utility
             var _applicantDomainService = Substitute.For<IApplicantDomainService>();
             _applicantDomainService.IsMobileReservedWithAllUserType(default, default).ReturnsForAnyArgs(false);
             var loanLadderApplicantDomainService = Substitute.For<ILoanLadderFrameDomainService>();
-            var stepOne = new LoanLadderFrameBuilder(loanLadderApplicantDomainService)
-                           .WithTitle("نردبان اول")
-                           .WithStep(1)
-                           .WithTomanAmount(1000000)
-                           .Build(1);
+            var stepOne = LoanLadderFrameFactory.StepOne();
+                //new LoanLadderFrameBuilder(loanLadderApplicantDomainService)
+                //           .WithTitle("نردبان اول")
+                //           .WithStep(1)
+                //           .WithTomanAmount(1000000)
+                //           .Build(1);
             _applicantDomainService.InitLoaderForApplicant().Returns(stepOne);
 
             applicantDomainService = _applicantDomainService;
@@ -60,14 +61,6 @@ namespace LoanWithUs.Domain.Test.Utility
         {
             educationalInformation = new EducationalInformation(Common.EducationLevel.Bachelor, "تست");
             return this;
-        }
-    }
-
-    public class AdministratorBuilder
-    {
-        public Administrator Build()
-        {
-            return new Administrator(1, "admin", "admin", "09121231234", "1234567891", "admin", "admin");
         }
     }
 }

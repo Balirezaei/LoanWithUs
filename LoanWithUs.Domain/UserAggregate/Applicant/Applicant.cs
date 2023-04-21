@@ -20,6 +20,7 @@ namespace LoanWithUs.Domain
         public int CurrentLoanLadderFrameId { get; private set; }
 
         public virtual Supporter Supporter { get; private set; }
+        public int SupporterId { get; private set; }
         public virtual List<ApplicantLoanRequest> LoanRequests { get; set; }
 
         //public Loan ActiveLoan { get; set; }
@@ -42,7 +43,7 @@ namespace LoanWithUs.Domain
                 throw new InvalidDomainInputException(Messages.ApplicantLoanRequestInvalidAmount);
             }
 
-            var request = new ApplicantLoanRequest(this, Supporter, CurrentLoanLadderFrame, installmentsCount, reason, _applicantLoanRequestDomainService);
+            var request = new ApplicantLoanRequest(this, Supporter, CurrentLoanLadderFrame, installmentsCount, amount, reason, _applicantLoanRequestDomainService);
             if (LoanRequests == null)
             {
                 LoanRequests = new List<ApplicantLoanRequest>();
@@ -58,13 +59,13 @@ namespace LoanWithUs.Domain
             {
                 var inprogressState = ApplicantLoanRequestState.ApplicantRequested.GetInprogressRequestState();
 
-                var openRequest= LoanRequests.Where(m => inprogressState.Contains(m.LastState)).FirstOrDefault();
+                var openRequest = LoanRequests.Where(m => inprogressState.Contains(m.LastState)).FirstOrDefault();
                 openRequest.StateMachine.Cancel();
-                
+
                 return openRequest;
             }
             throw new Exception(Messages.LoanRequestInvalidStateChange);
-        } 
+        }
 
         #endregion
 

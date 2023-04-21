@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using LoanWithUs.Common.Enum;
+using Newtonsoft.Json;
+using LoanWithUs.Common.DefinedType;
 
 namespace LoanWithUs.Persistense.EF.EfConfiguration
 {
@@ -31,6 +33,12 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
                     v => (ApplicantLoanRequestState)Enum.Parse(typeof(ApplicantLoanRequestState), v));
 
             builder.Ignore(e => e.StateMachine);
+
+            builder.Property(o => o.Amount)
+                .HasColumnName("Amount")
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<Amount>(v));
 
             builder.Property(m => m.TrackingNumber)
              .HasDefaultValueSql("(FORMAT(GETDATE(), 'yyyy', 'fa')+'/'+cast((NEXT VALUE FOR [Sequence-TrackingNumber]) AS NVARCHAR))");

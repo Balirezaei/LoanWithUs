@@ -46,6 +46,10 @@
             return userLogin;
         }
 
+        public string DisplayName()
+        {
+            return $"{this.PersonalInformation.FirstName} {this.PersonalInformation.LastName}";
+        }
 
     }
 }

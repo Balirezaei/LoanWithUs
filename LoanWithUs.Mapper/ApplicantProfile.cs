@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using LoanWithUs.ApplicationService.Contract;
-using LoanWithUs.ApplicationService.Contract.Applicant;
-using LoanWithUs.Common.ExtentionMethod;
 using LoanWithUs.Domain;
 using LoanWithUs.ViewModel;
 
@@ -18,18 +16,10 @@ namespace LoanWithUs.Mapper
 
             CreateMap<RegisteredApplicantGridVm, RegisteredApplicantGridContract>();
             CreateMap<Applicant, RegisteredApplicantDto>()
-                   .ForMember(m => m.FullName, opt => opt.MapFrom(src => src.PersonalInformation.FirstName +" "+ src.PersonalInformation.LastName))
+                   .ForMember(m => m.FullName, opt => opt.MapFrom(src => src.PersonalInformation.FirstName + " " + src.PersonalInformation.LastName))
                    .ForMember(m => m.MobileNumber, opt => opt.MapFrom(src => src.IdentityInformation.MobileNumber))
                    .ForMember(m => m.NationalCode, opt => opt.MapFrom(src => src.IdentityInformation.NationalCode))
-
                 ;
-
-            CreateMap<ApplicantRequestLoanVm, ApplicantRequestLoanCommand>()
-                .ForMember(m=>m.Amount,opt=>opt.MapFrom(src=> src.Amount.ToToamnAmount()))
-
-                ;
-            
-            
 
         }
     }

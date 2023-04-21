@@ -27,6 +27,7 @@ namespace LoanWithUs.Domain
 
         Task<Applicant> FindApplicantById(int id);
         Task<Applicant> FindApplicantByIdWithLadderInclude(int id);
+        Task<Applicant> FindApplicantByIdIncludePersonalInfo(int id);
         Task<Applicant> FindFullApplicantAggregateById(int id);
         Task<Applicant> FindApplicantByIdIncludeEducationalInformation(int id);
         Task<Applicant> FindApplicantByIdForLoanRequest(int id);

@@ -88,6 +88,69 @@ namespace LoanWithUs.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to عدم تایید ادمین.
+        /// </summary>
+        public static string ApplicantLoanRequestState_AdminRejected {
+            get {
+                return ResourceManager.GetString("ApplicantLoanRequestState_AdminRejected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ثبت شده.
+        /// </summary>
+        public static string ApplicantLoanRequestState_ApplicantRequested {
+            get {
+                return ResourceManager.GetString("ApplicantLoanRequestState_ApplicantRequested", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to کنسل شده.
+        /// </summary>
+        public static string ApplicantLoanRequestState_Canceled {
+            get {
+                return ResourceManager.GetString("ApplicantLoanRequestState_Canceled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to پرداخت شده.
+        /// </summary>
+        public static string ApplicantLoanRequestState_Paied {
+            get {
+                return ResourceManager.GetString("ApplicantLoanRequestState_Paied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to در صف پرداخت.
+        /// </summary>
+        public static string ApplicantLoanRequestState_ReadyToPay {
+            get {
+                return ResourceManager.GetString("ApplicantLoanRequestState_ReadyToPay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تایید پشتیبان.
+        /// </summary>
+        public static string ApplicantLoanRequestState_SupporterAccepted {
+            get {
+                return ResourceManager.GetString("ApplicantLoanRequestState_SupporterAccepted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to عدم تایید پشتیبان.
+        /// </summary>
+        public static string ApplicantLoanRequestState_SupporterRejected {
+            get {
+                return ResourceManager.GetString("ApplicantLoanRequestState_SupporterRejected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تعداد اقساط انتخابی صحیح نیست.
         /// </summary>
         public static string ApplicantLoanRequestWithInvalidInstallment {
@@ -120,6 +183,15 @@ namespace LoanWithUs.Resources {
         public static string LoanRequestInvalidStateChange {
             get {
                 return ResourceManager.GetString("LoanRequestInvalidStateChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to پشتیبان گرامی شما به درخواستگر مذکور دسترسی ندارید..
+        /// </summary>
+        public static string SupporterNotAllowedToViewApplicant {
+            get {
+                return ResourceManager.GetString("SupporterNotAllowedToViewApplicant", resourceCulture);
             }
         }
     }

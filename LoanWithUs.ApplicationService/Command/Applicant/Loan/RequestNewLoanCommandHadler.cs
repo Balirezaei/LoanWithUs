@@ -7,7 +7,6 @@ using MediatR;
 
 namespace LoanWithUs.ApplicationService.Command.Applicant.Loan
 {
-
     public class ApplicantRequestLoanCommandHadler : IRequestHandler<ApplicantRequestLoanCommand, ApplicantRequestLoanResult>
     {
         private readonly IApplicantRepository _applicantRepository;

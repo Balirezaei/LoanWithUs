@@ -27,9 +27,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoanWithUs.ApplicationService.Contract", "LoanWithUs.ApplicationService.Contract\LoanWithUs.ApplicationService.Contract.csproj", "{14443AE1-04A7-463C-ABF2-995CF98C8556}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interface", "Interface", "{FA0FF26F-A64E-4CCC-8AF8-69E2F520BF72}"
-	ProjectSection(SolutionItems) = preProject
-		LoanWithUs.RestApi\Bootstrap\FrameworkConfigurationService.cs = LoanWithUs.RestApi\Bootstrap\FrameworkConfigurationService.cs
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoanWithUs.RestApi", "LoanWithUs.RestApi\LoanWithUs.RestApi.csproj", "{2146E08B-C898-4333-A982-FEE28C8C6AFE}"
 EndProject
@@ -51,7 +48,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoanWithUs.ViewModel", "Loa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoanWithUs.Encryption", "LoanWithUs.Encryption\LoanWithUs.Encryption.csproj", "{006834A5-38A2-4240-BBAF-3735E24CE871}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanWithUs.Resources", "LoanWithUs.Resources\LoanWithUs.Resources.csproj", "{095CDFCC-CF94-43D1-9B55-6D4A9E15FA12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoanWithUs.Resources", "LoanWithUs.Resources\LoanWithUs.Resources.csproj", "{095CDFCC-CF94-43D1-9B55-6D4A9E15FA12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

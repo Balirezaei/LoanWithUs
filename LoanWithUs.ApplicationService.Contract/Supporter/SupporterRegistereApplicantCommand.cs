@@ -16,15 +16,4 @@ namespace LoanWithUs.ApplicationService.Contract
         public string NationalCode { get; set; }
         public int SupporterId { get; set; }
     }
-    public class RegisteredApplicantGridContract : PagingContract, IRequest<List<RegisteredApplicantDto>>
-    {
-        public int SupporterId { get; set; }
-    }
-    public class RegisteredApplicantDto
-    {
-        public int Id { get; set; }
-        public string FullName { get; set; }
-        public string MobileNumber { get; set; }
-        public string NationalCode { get; set; }
-    }
 }

@@ -14,7 +14,6 @@ namespace LoanWithUs.RestApi.Controllers.Supporter
     [Authorize(Roles = LoanRoleNames.Supporter)]
     public class RegisterApplicantController : ControllerBase
     {
-
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
@@ -26,12 +25,22 @@ namespace LoanWithUs.RestApi.Controllers.Supporter
 
 
         [HttpGet]
-        public async Task<IEnumerable<RegisteredApplicantDto>> Get([FromQuery] RegisteredApplicantGridVm vm)
+        public async Task<PagedListResult<RegisteredApplicantDto>> Get([FromQuery] RegisteredApplicantGridVm vm)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
             var query = _mapper.Map<RegisteredApplicantGridContract>(vm);
             query.SupporterId = int.Parse(userId);
-            return await _mediator.Send(query);
+            
+            var list = await _mediator.Send(query);
+            var count = await _mediator.Send(new RegisteredApplicantCountContract { SupporterId=query.SupporterId});
+            
+            return new PagedListResult<RegisteredApplicantDto>()
+            {
+                List = list,
+                TotalCount = count.Count,
+                PageNumber = vm.PageNumber,
+                PageSize = vm.PageSize,
+            };
         }
 
 

@@ -29,4 +29,6 @@ namespace LoanWithUs.ApplicationService.Query.Supporter
             return _mapper.Map<List<RegisteredApplicantDto>>(query);
         }
     }
+
+    
 }

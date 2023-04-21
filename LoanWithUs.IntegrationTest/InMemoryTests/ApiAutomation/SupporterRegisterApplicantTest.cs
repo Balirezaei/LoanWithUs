@@ -40,9 +40,9 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests.ApiAutomation
             //Verification
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var responseText = await response.Content.ReadAsStringAsync();
-            var loanFrameLadders = JsonConvert.DeserializeObject<List<RegisteredApplicantDto>>(responseText);
+            var loanFrameLadders = JsonConvert.DeserializeObject<PagedListResult<RegisteredApplicantDto>>(responseText);
 
-            loanFrameLadders.Count().Should().NotBe(0);
+            loanFrameLadders.List.Count().Should().NotBe(0);
         }
 
         [Fact]

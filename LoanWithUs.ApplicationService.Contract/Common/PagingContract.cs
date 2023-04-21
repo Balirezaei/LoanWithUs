@@ -25,4 +25,5 @@ namespace LoanWithUs.ApplicationService.Contract
         public string Order { get; set; }
 
     }
+
 }

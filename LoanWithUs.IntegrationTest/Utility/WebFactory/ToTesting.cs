@@ -1,4 +1,7 @@
-﻿using LoanWithUs.Domain;
+﻿using LoanWithUs.ApplicationService.Contract.Administrator;
+using LoanWithUs.ApplicationService.Contract.Applicant;
+using LoanWithUs.Common.ExtentionMethod;
+using LoanWithUs.Domain;
 using LoanWithUs.IntegrationTest.Utility;
 using LoanWithUs.IntegrationTest.Utility.WebFactory;
 using LoanWithUs.Persistense.EF.ContextContainer;
@@ -156,6 +159,16 @@ namespace LoanWithUs.IntegrationTest
             await context.SaveChangesAsync();
             return adminLogin;
 
+        }
+
+        public async Task WithMockLoanRequestByApplicant()
+        {
+            await ConfirmApplicant();
+            await SendAsync(new ApplicantRequestLoanCommand() { ApplicantId = StaticDate.ApplicantId, Amount = 100000.ToToamnAmount(), LoanLadderInstallmentsCount = 6, Reason = "Integratation Test " });
+        }
+        public async Task ConfirmApplicant()
+        {
+            await SendAsync(new ApplicantVerificationCommand() { ApplicantId = StaticDate.ApplicantId, AdminId = 1 });
         }
 
     }

@@ -44,6 +44,12 @@ namespace LoanWithUs.Persistense.EF.Repository
                 .SingleOrDefaultAsync();
         }
 
+        public Task<Applicant> FindApplicantByIdIncludePersonalInfo(int id)
+        {
+            return _context.Applicants.Where(m => m.Id == id).Include(m => m.PersonalInformation).SingleOrDefaultAsync();
+        }
+
+
         public Task<Applicant> FindApplicantByIdIncludeEducationalInformation(int id)
         {
             return _context.Applicants.Where(m => m.Id == id).Include(m => m.EducationalInformation).SingleOrDefaultAsync();

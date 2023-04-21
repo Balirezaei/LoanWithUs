@@ -22,6 +22,12 @@ namespace LoanWithUs.ViewModel
 
 
     }
+    public class ApplicantOpenRequestGridVm : PagingContractVm
+    {
+
+
+    }
+
 
     public class PagingContractVm
     {

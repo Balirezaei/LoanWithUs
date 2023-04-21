@@ -1,4 +1,5 @@
 ﻿using LoanWithUs.Common.Enum;
+using LoanWithUs.Resources;
 using System.ComponentModel.DataAnnotations;
 
 namespace LoanWithUs.Common.ExtentionMethod
@@ -21,6 +22,19 @@ namespace LoanWithUs.Common.ExtentionMethod
                 return "";
             }
 
+        }
+        public static string GetDisplayName(this ApplicantLoanRequestState state)
+        {
+            return state switch
+            {
+                ApplicantLoanRequestState.ApplicantRequested => Messages.ApplicantLoanRequestState_ApplicantRequested,
+                ApplicantLoanRequestState.SupporterRejected => Messages.ApplicantLoanRequestState_SupporterRejected,
+                ApplicantLoanRequestState.SupporterAccepted => Messages.ApplicantLoanRequestState_SupporterAccepted,
+                ApplicantLoanRequestState.AdminRejected => Messages.ApplicantLoanRequestState_AdminRejected,
+                ApplicantLoanRequestState.ReadyToPay => Messages.ApplicantLoanRequestState_ReadyToPay,
+                ApplicantLoanRequestState.Paied => Messages.ApplicantLoanRequestState_Paied,
+                ApplicantLoanRequestState.Canceled => Messages.ApplicantLoanRequestState_Canceled
+            };
         }
 
         public static ApplicantLoanRequestState[] GetInprogressRequestState(this ApplicantLoanRequestState state)

@@ -1,4 +1,5 @@
 ﻿using LoanWithUs.Common;
+using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Common.Enum;
 using LoanWithUs.Exceptions;
 using LoanWithUs.Resources;
@@ -14,7 +15,7 @@ namespace LoanWithUs.Domain
         {
         }
 
-        internal ApplicantLoanRequest(Applicant applicant, Supporter supporter, LoanLadderFrame loanLadderFrame, LoanLadderInstallmentsCount loanLadderInstallments, string reason, IApplicantLoanRequestDomainService _applicantLoanRequestDomainService)
+        internal ApplicantLoanRequest(Applicant applicant, Supporter supporter, LoanLadderFrame loanLadderFrame, LoanLadderInstallmentsCount loanLadderInstallments,Amount amount, string reason, IApplicantLoanRequestDomainService _applicantLoanRequestDomainService)
         {
             var isValid = _applicantLoanRequestDomainService.ValidateFrameByApplicant(applicant, loanLadderFrame).Result;
             if (!isValid)
@@ -42,7 +43,11 @@ namespace LoanWithUs.Domain
             InstallmentsCount = loanLadderInstallments.Count;
             LastState = ApplicantLoanRequestState.ApplicantRequested;
             Reason = reason;
+
+            this.Amount = amount;
+
             CreateDate = DateTime.Now;
+
             if (Flows == null)
             {
                 Flows = new List<ApplicantLoanRequestFlow>();
@@ -101,6 +106,7 @@ namespace LoanWithUs.Domain
         public LoanLadderFrame LoanLadderFrame { get; private set; }
         public int LoanLadderFrameId { get; private set; }
         public int InstallmentsCount { get; private set; }
+        public Amount Amount { get; private set; }
         public List<ApplicantLoanRequestFlow> Flows { get; private set; }
         public Applicant Applicant { get; private set; }
         public int ApplicantId { get; private set; }

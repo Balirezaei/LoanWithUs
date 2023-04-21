@@ -28,12 +28,64 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
         Name = "Authorization",
-        Scheme = "Bearer",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
     });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+
+    //c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    //{
+    //    Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
+    //    In = ParameterLocation.Header,
+    //    Name = "Authorization",
+    //    Type = SecuritySchemeType.ApiKey
+    //});
+
+    //c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    //{
+    //    In = ParameterLocation.Header,
+    //    Name = "Authorization",
+    //    Scheme = "Bearer",
+    //});
+
+    //c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    //            {
+    //                {
+    //                    new OpenApiSecurityScheme()
+    //                    {
+    //                        Reference = new OpenApiReference()
+    //                        {
+    //                            Type = ReferenceType.SecurityScheme,
+    //                            Id = "Bearer"
+    //                        },
+    //                        Scheme = "Bearer",
+    //                        Type = SecuritySchemeType.Http,
+    //                        Name = "Bearer",
+    //                        In = ParameterLocation.Header
+    //                    }, new List<string>()
+    //                }
+    //            });
+
 }
 
     );

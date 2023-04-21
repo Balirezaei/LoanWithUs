@@ -126,6 +126,27 @@
   <data name="ApplicantLoanRequestNotConfirmedInfo" xml:space="preserve">
     <value>اطلاعات شما در دست بررسی می باشد، پس از تایید مدیر سامانه امکان تقاضای وام برای شما وجود دارد.</value>
   </data>
+  <data name="ApplicantLoanRequestState_AdminRejected" xml:space="preserve">
+    <value>عدم تایید ادمین</value>
+  </data>
+  <data name="ApplicantLoanRequestState_ApplicantRequested" xml:space="preserve">
+    <value>ثبت شده</value>
+  </data>
+  <data name="ApplicantLoanRequestState_Canceled" xml:space="preserve">
+    <value>کنسل شده</value>
+  </data>
+  <data name="ApplicantLoanRequestState_Paied" xml:space="preserve">
+    <value>پرداخت شده</value>
+  </data>
+  <data name="ApplicantLoanRequestState_ReadyToPay" xml:space="preserve">
+    <value>در صف پرداخت</value>
+  </data>
+  <data name="ApplicantLoanRequestState_SupporterAccepted" xml:space="preserve">
+    <value>تایید پشتیبان</value>
+  </data>
+  <data name="ApplicantLoanRequestState_SupporterRejected" xml:space="preserve">
+    <value>عدم تایید پشتیبان</value>
+  </data>
   <data name="ApplicantLoanRequestWithInvalidInstallment" xml:space="preserve">
     <value>تعداد اقساط انتخابی صحیح نیست</value>
   </data>
@@ -137,5 +158,8 @@
   </data>
   <data name="LoanRequestInvalidStateChange" xml:space="preserve">
     <value>درخواست شما نامعتبر است</value>
+  </data>
+  <data name="SupporterNotAllowedToViewApplicant" xml:space="preserve">
+    <value>پشتیبان گرامی شما به درخواستگر مذکور دسترسی ندارید.</value>
   </data>
 </root>

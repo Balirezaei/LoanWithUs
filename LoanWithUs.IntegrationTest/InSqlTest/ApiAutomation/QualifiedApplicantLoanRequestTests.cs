@@ -6,12 +6,8 @@ using LoanWithUs.IntegrationTest.Utility.WebFactory;
 using LoanWithUs.Resources;
 using LoanWithUs.ViewModel;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
 {
@@ -35,7 +31,8 @@ namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
                 LoanLadderInstallmentsCount = 6,
                 Reason = "Integration Test"
             };
-            await _toTesting.SendAsync(new ApplicantVerificationCommand() { ApplicantId = _toTesting.CurrentUser.UserId, AdminId = StaticDate.AdministratorId });
+
+            await _toTesting.ConfirmApplicant();
 
             //Exersice
             var response = await _toTesting.CallPostApi<ApplicantRequestLoanVm>(vm, "/LoanRequest/RequestNewLoan");
@@ -63,7 +60,7 @@ namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
                 LoanLadderInstallmentsCount = 7,
                 Reason = "Integration Test"
             };
-            await _toTesting.SendAsync(new ApplicantVerificationCommand() { ApplicantId = _toTesting.CurrentUser.UserId, AdminId = 1 });
+            await _toTesting.ConfirmApplicant();
 
             //Exersice
             var response = await _toTesting.CallPostApi<ApplicantRequestLoanVm>(vm, "/LoanRequest/RequestNewLoan");
@@ -82,7 +79,7 @@ namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
         [Fact]
         public async Task With_Valid_Supporter_On_First_Ladder_Get_Corresponding_Info_Of_Loan()
         {
-            await _toTesting.SendAsync(new ApplicantVerificationCommand() { ApplicantId = _toTesting.CurrentUser.UserId, AdminId = 1 });
+            await _toTesting.ConfirmApplicant();
 
 
             var response = await _toTesting.CallGetApi("/LoanRequest/GetLatestLoanRequestAvailability");
@@ -104,10 +101,10 @@ namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
         [Fact]
         public async Task With_Active_Loan_Request_Get_Corresponding_Info()
         {
-            await _toTesting.SendAsync(new ApplicantVerificationCommand() { ApplicantId = _toTesting.CurrentUser.UserId, AdminId = 1 });
+            await _toTesting.ConfirmApplicant();
 
             //Fixture
-            await _toTesting.SendAsync(new ApplicantRequestLoanCommand() { ApplicantId = _toTesting.CurrentUser.UserId, Amount = 100000.ToToamnAmount(), LoanLadderInstallmentsCount = 6, Reason = "Integratation Test " });
+            await _toTesting.WithMockLoanRequestByApplicant();
 
             //Exersice
             var response = await _toTesting.CallGetApi("/LoanRequest/GetLatestLoanRequestAvailability");

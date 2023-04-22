@@ -159,6 +159,12 @@
   <data name="LoanRequestInvalidStateChange" xml:space="preserve">
     <value>درخواست شما نامعتبر است</value>
   </data>
+  <data name="SupporterInsufficientAmountToConfirmRequest" xml:space="preserve">
+    <value>پشتیبان گرامی اعتبار شما جهت تایید این درخواست وام کافی نیست.</value>
+  </data>
+  <data name="SupporterNotAllowedForThisApplicant" xml:space="preserve">
+    <value>پشتیبان گرامی شما دسترسی به اطلاعات این درخواستگر را ندارید</value>
+  </data>
   <data name="SupporterNotAllowedToViewApplicant" xml:space="preserve">
     <value>پشتیبان گرامی شما به درخواستگر مذکور دسترسی ندارید.</value>
   </data>

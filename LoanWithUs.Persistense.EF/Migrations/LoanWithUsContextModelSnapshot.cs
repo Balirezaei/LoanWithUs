@@ -77,7 +77,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                             MobileNumber = "09124444444",
                             NationalCode = "0099887766",
                             Password = "o4r8d5bV0uH4wxMOIP+8SG8plc4dLZ4iUsgbUonSDL+y1wEWURrhqJEeK7qpyViSZMpVZOhDWbtiEPt00fZr2vWfjKDgEIA8982GNs+Atr2PRpV3+8epUbP6egn4ifS1UsGV3iiZJj3cdMLczNkvBAV05BKi97L+OVQaj4b741gsrDw5p2oa2CE6BLAMAcFfxBpLSuYnLfycfQJlQ7nxP10eSCpeLEpnuX+YqextxzkL1510HPkpJxHspruuijuT3LFMrhqWnNr0e7YuJlft3354QYLkGXAIn2zJYEo/ppfpVXe7IAI9zx7FsLPgXD3z62gEjJHiF+TjeegmDuQ5CA==",
-                            RegisterationDate = new DateTime(2023, 4, 21, 13, 18, 43, 527, DateTimeKind.Local).AddTicks(5534),
+                            RegisterationDate = new DateTime(2023, 4, 22, 17, 9, 49, 113, DateTimeKind.Local).AddTicks(5994),
                             UserName = "admin"
                         });
                 });
@@ -1112,6 +1112,44 @@ namespace LoanWithUs.Persistense.EF.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
+                    b.OwnsMany("LoanWithUs.Domain.AcceptedApplicantLoanRequest", "AcceptedApplicantLoanRequests", b1 =>
+                        {
+                            b1.Property<int>("SupporterId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
+
+                            b1.Property<string>("Amount")
+                                .IsRequired()
+                                .HasMaxLength(500)
+                                .HasColumnType("nvarchar(500)")
+                                .HasColumnName("Amount");
+
+                            b1.Property<int>("ApplicantId")
+                                .HasColumnType("int");
+
+                            b1.Property<DateTime>("ConfirmedDate")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<bool>("IsPaied")
+                                .HasColumnType("bit");
+
+                            b1.Property<string>("TrackingNumber")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("SupporterId", "Id");
+
+                            b1.ToTable("AcceptedApplicantLoanRequest");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SupporterId");
+                        });
+
                     b.OwnsOne("LoanWithUs.Domain.SupporterCredit", "SupporterCredit", b1 =>
                         {
                             b1.Property<int>("SupporterId")
@@ -1135,6 +1173,8 @@ namespace LoanWithUs.Persistense.EF.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("SupporterId");
                         });
+
+                    b.Navigation("AcceptedApplicantLoanRequests");
 
                     b.Navigation("SupporterCredit")
                         .IsRequired();

@@ -1,4 +1,6 @@
 ﻿using FluentAssertions;
+using LoanWithUs.Common;
+using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Domain.Test.Utility;
 using LoanWithUs.Exceptions;
 using LoanWithUs.Resources;
@@ -31,7 +33,11 @@ namespace LoanWithUs.Domain.Test
             _applicantDomainService.HasOpenRequest(default).ReturnsForAnyArgs(openRequest);
             return _applicantDomainService;
         }
-
+        private ApplicantLoanRequest RequestNewLoan(Amount amount, int installment, IApplicantLoanRequestDomainService _applicantDomainService)
+        {
+            IDateTimeServiceProvider dateProvider = new DateTimeServiceProvider();
+            return Applicant.RequestNewLoan(reason, amount, new LoanLadderInstallmentsCount(installment), _applicantDomainService, dateProvider);
+        }
         [Fact]
         public void Applicant_Can_Request_Loan_In_First_Step_With_Sufficient_Supporter_Credit()
         {
@@ -39,7 +45,7 @@ namespace LoanWithUs.Domain.Test
 
             var _applicantDomainService = GetApplicantLoanRequestDomainService(true, false, false);
 
-            var request = Applicant.RequestNewLoan(reason, amount, new LoanLadderInstallmentsCount(6), _applicantDomainService);
+            var request = RequestNewLoan(amount, 6, _applicantDomainService);
             Applicant.LoanRequests.Count().Should().Be(1);
             request.LastState.Should().Be(Common.Enum.ApplicantLoanRequestState.ApplicantRequested);
         }
@@ -54,7 +60,7 @@ namespace LoanWithUs.Domain.Test
             //Excersice
             Action comparison = () =>
             {
-                Applicant.RequestNewLoan(reason, invalidAmount, new LoanLadderInstallmentsCount(6), _applicantDomainService);
+                RequestNewLoan(invalidAmount, 6, _applicantDomainService);
             };
 
             //Assertion
@@ -94,7 +100,7 @@ namespace LoanWithUs.Domain.Test
             //Excersice
             Action comparison = () =>
             {
-                Applicant.RequestNewLoan(reason, amount, new LoanLadderInstallmentsCount(6), _applicantDomainService);
+                RequestNewLoan(amount, 6, _applicantDomainService);
 
             };
 
@@ -113,7 +119,7 @@ namespace LoanWithUs.Domain.Test
             //Excersice
             Action comparison = () =>
             {
-                Applicant.RequestNewLoan(reason, amount, new LoanLadderInstallmentsCount(6), _applicantDomainService);
+                RequestNewLoan(amount, 6, _applicantDomainService);
 
             };
 

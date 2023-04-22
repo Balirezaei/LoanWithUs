@@ -1,4 +1,5 @@
 ﻿using LoanWithUs.Common.Enum;
+using MediatR;
 
 namespace LoanWithUs.ApplicationService.Contract
 {
@@ -14,5 +15,26 @@ namespace LoanWithUs.ApplicationService.Contract
         public string TrackingNumber { get; set; }
         public string CreateDate { get; set; }
     }
+    
+    public class SupporterConfirmLoanRequestCommand : IRequest <SupporterConfirmLoanRequestResult>
+    {
+        public int LoanRequestId { get; set; }
+        public int SupporterId { get; set; }
+    }
 
+    public class SupporterConfirmLoanRequestResult
+    {
+
+    }
+
+    public class SupporterRejectLoanRequestCommand : IRequest<SupporterRejectLoanRequestResult>
+    {
+        public int LoanRequestId { get; set; }
+        public int SupporterId { get; set; }
+    }
+
+    public class SupporterRejectLoanRequestResult
+    {
+
+    }
 }

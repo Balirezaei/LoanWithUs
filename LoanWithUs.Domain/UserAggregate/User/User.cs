@@ -1,4 +1,6 @@
-﻿namespace LoanWithUs.Domain
+﻿using LoanWithUs.Common;
+
+namespace LoanWithUs.Domain
 {
     /// <summary>
     /// کلاس پایه پشتیبان و درخواستگر
@@ -39,9 +41,9 @@
 
         public DateTime RegisterationDate { get; protected set; }
 
-        public UserLogin AddNewLogin(string userAgent)
+        public UserLogin AddNewLogin(string userAgent, IDateTimeServiceProvider dateProvider)
         {
-            var userLogin = new UserLogin(DateTime.Now.AddMinutes(2), userAgent);
+            var userLogin = new UserLogin(dateProvider.GetDate().AddMinutes(2), userAgent);
             UserLogins.Add(userLogin);
             return userLogin;
         }

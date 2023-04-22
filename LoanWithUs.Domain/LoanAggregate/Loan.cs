@@ -33,16 +33,16 @@ namespace LoanWithUs.Domain
         public bool IsSettled { get; set; }
         public List<LoanInstallment> LoanInstallments { get; private set; }
 
-        public Loan(Amount amount, Applicant applicant, int installmentCount)
+        public Loan(Amount amount, Applicant applicant, int installmentCount, IDateTimeServiceProvider dateProvider)
         {
             Amount = amount;
             Requester = applicant;
-            StartDate = DateTime.Now;
-            this.LoanInstallments = GenerateLoanInstallment(installmentCount).ToList();
+            StartDate = dateProvider.GetDate();
+            this.LoanInstallments = GenerateLoanInstallment(installmentCount,dateProvider).ToList();
         }
       
 
-        private IEnumerable<LoanInstallment> GenerateLoanInstallment(int installmentCount)
+        private IEnumerable<LoanInstallment> GenerateLoanInstallment(int installmentCount, IDateTimeServiceProvider dateProvider)
         {
             int count = installmentCount;
             int price = this.Amount.amount;
@@ -51,7 +51,7 @@ namespace LoanWithUs.Domain
                 for (int i = 0; i < count; i++)
                 {
                     var amount = (price / count);
-                    var startDate = DateTime.Now.AddMonths(i + 1).AddDays(1).Date;
+                    var startDate = dateProvider.GetDate().AddMonths(i + 1).AddDays(1).Date;
                     var endDate = startDate.AddDays(3).Date.AddHours(23);
                     yield return new LoanInstallment(amount, (i + 1), startDate, endDate);
                 }
@@ -67,7 +67,7 @@ namespace LoanWithUs.Domain
                         var remain = price - (amount * (i));
                         amount = remain;
                     }
-                    var startDate = DateTime.Now.AddMonths(i + 1).AddDays(1).Date;
+                    var startDate = dateProvider.GetDate().AddMonths(i + 1).AddDays(1).Date;
                     var endDate = startDate.AddDays(3).Date.AddHours(23);
                     yield return new LoanInstallment(amount, (i + 1), startDate, endDate);
                 }
@@ -79,10 +79,10 @@ namespace LoanWithUs.Domain
         /// پرداخت آخرین 
         /// </summary>
         //TODO:....
-        public void PaidLastByApplicant()
+        public void PaidLastByApplicant(IDateTimeServiceProvider dateProvider)
         {
             var installment = this.LoanInstallments.FirstOrDefault(m => m.PaiedDate == null);
-            installment.PaidByApplicant();
+            installment.PaidByApplicant(dateProvider);
             if (this.LoanInstallments.All(m => m.PaiedDate != null))
             {
                 LoanSettlement();

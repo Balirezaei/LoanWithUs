@@ -4,11 +4,18 @@ using LoanWithUs.Domain.Test.Utility;
 using LoanWithUs.Domain;
 using LoanWithUs.Exceptions;
 using NSubstitute;
+using LoanWithUs.Common;
 
 namespace LoanWithUs.Domain.Test
 {
     public class SupporterRegisterAplicantTest
     {
+        IDateTimeServiceProvider dateProvider;
+
+        public SupporterRegisterAplicantTest()
+        {
+            dateProvider = new DateTimeServiceProvider();
+        }
 
         [Fact]
         public void Supporter_Can_Register_Applicant()
@@ -31,7 +38,7 @@ namespace LoanWithUs.Domain.Test
             applicantDomainService.InitLoaderForApplicant().Returns(stepOne);
 
             //Exersice
-            var applicant = supporter.RegisterNewApplicant(mobileNumber, nationalCode, fistName, lastName, applicantDomainService);
+            var applicant = supporter.RegisterNewApplicant(mobileNumber, nationalCode, fistName, lastName, applicantDomainService, dateProvider);
 
             applicant.Should().NotBeNull();
             applicant.PersonalInformation.FirstName.Should().Be(fistName);
@@ -53,7 +60,7 @@ namespace LoanWithUs.Domain.Test
             applicantDomainService.IsMobileReservedWithAllUserType(default, default).ReturnsForAnyArgs(true);
 
             //Exersice
-            var applicantCreatFunc = () => supporter.RegisterNewApplicant(mobileNumber, nationalCode, fistName, lastName, applicantDomainService);
+            var applicantCreatFunc = () => supporter.RegisterNewApplicant(mobileNumber, nationalCode, fistName, lastName, applicantDomainService, dateProvider);
 
             applicantCreatFunc.Should().Throw<InvalidDomainInputException>();
         }

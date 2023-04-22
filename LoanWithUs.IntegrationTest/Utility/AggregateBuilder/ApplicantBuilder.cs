@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Common.DefinedType;
+﻿using LoanWithUs.Common;
+using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Domain;
 using LoanWithUs.Persistense.EF.ContextContainer;
 using NSubstitute;
@@ -14,7 +15,7 @@ namespace LoanWithUs.IntegrationTest.Utility
         private IApplicantDomainService applicantDomainService;
         private Supporter _supporter;
         private LoanWithUsContext _loanWithUsContext;
-
+        IDateTimeServiceProvider dateProvider;
         public ApplicantBuilder(LoanWithUsContext loanWithUsContext)
         {
             var _applicantDomainService = Substitute.For<IApplicantDomainService>();
@@ -30,6 +31,7 @@ namespace LoanWithUs.IntegrationTest.Utility
             applicantDomainService = _applicantDomainService;
             _loanWithUsContext = loanWithUsContext;
             _supporter = _loanWithUsContext.Supporters.FirstOrDefault();
+            dateProvider = new DateTimeServiceProvider();
         }
 
         public ApplicantBuilder WithMobileNumber(string mobile)
@@ -57,7 +59,7 @@ namespace LoanWithUs.IntegrationTest.Utility
 
         public Applicant Build()
         {
-            return _supporter.RegisterNewApplicant(_mobile, _nationalCode, _firstName, _lastName, applicantDomainService);
+            return _supporter.RegisterNewApplicant(_mobile, _nationalCode, _firstName, _lastName, applicantDomainService, dateProvider);
         }
     }
 }

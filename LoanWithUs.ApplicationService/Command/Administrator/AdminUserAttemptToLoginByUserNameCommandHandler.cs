@@ -17,12 +17,14 @@ namespace LoanWithUs.ApplicationService.Command.Administrator
         private readonly IAdministratorRepository _administratorRepository;
         private readonly ILoanRSAEncryption _loanRSAEncryption;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IDateTimeServiceProvider _dateProvider;
 
-        public AdminUserAttemptToLoginByUserNameCommandHandler(IAdministratorRepository administratorRepository, ILoanRSAEncryption loanRSAEncryption, IUnitOfWork unitOfWork)
+        public AdminUserAttemptToLoginByUserNameCommandHandler(IAdministratorRepository administratorRepository, ILoanRSAEncryption loanRSAEncryption, IUnitOfWork unitOfWork, IDateTimeServiceProvider dateProvider)
         {
             _administratorRepository = administratorRepository;
             _loanRSAEncryption = loanRSAEncryption;
             _unitOfWork = unitOfWork;
+            _dateProvider = dateProvider;
         }
 
         public async Task<AdminRequestOtpResult> Handle(AdminUserAttemptToLoginByUserNameCommand request, CancellationToken cancellationToken)
@@ -33,7 +35,7 @@ namespace LoanWithUs.ApplicationService.Command.Administrator
             {
                 throw new Exception("User Not Found");
             }
-            var newAttempdToLogin = admin.AddNewAttempdToLogin(request.UserAgent);
+            var newAttempdToLogin = admin.AddNewAttempdToLogin(request.UserAgent,_dateProvider);
             await _unitOfWork.CommitAsync();
             return new AdminRequestOtpResult(newAttempdToLogin.Key, admin.Id);
         }

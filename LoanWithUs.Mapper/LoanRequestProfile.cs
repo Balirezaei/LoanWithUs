@@ -12,7 +12,7 @@ namespace LoanWithUs.Mapper
         public LoanRequestProfile()
         {
             CreateMap<ApplicantRequestLoanVm, ApplicantRequestLoanCommand>()
-              .ForMember(m => m.Amount, opt => opt.MapFrom(src => src.Amount.ToToamnAmount()));
+              .ForMember(m => m.Amount, opt => opt.MapFrom(src => src.Amount.ToToamn()));
 
             CreateMap<ApplicantLoanRequest, ApplicantLoanRequestDto>();
 

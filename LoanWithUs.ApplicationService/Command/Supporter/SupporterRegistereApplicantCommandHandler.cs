@@ -12,13 +12,15 @@ namespace LoanWithUs.ApplicationService.Command.Supporter
         private readonly IApplicantRepository _applicantRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IApplicantDomainService _applicantDomainService;
+        private readonly IDateTimeServiceProvider _dateProvider;
 
-        public SupporterRegistereApplicantCommandHandler(ISupporterRepository supporterRepository, IUnitOfWork unitOfWork, IApplicantDomainService applicantDomainService, IApplicantRepository applicantRepository)
+        public SupporterRegistereApplicantCommandHandler(ISupporterRepository supporterRepository, IUnitOfWork unitOfWork, IApplicantDomainService applicantDomainService, IApplicantRepository applicantRepository, IDateTimeServiceProvider dateProvider)
         {
             _supporterRepository = supporterRepository;
             _unitOfWork = unitOfWork;
             _applicantDomainService = applicantDomainService;
             _applicantRepository = applicantRepository;
+            _dateProvider = dateProvider;
         }
 
         public async Task<SupporterRegistereApplicantCammandResult> Handle(SupporterRegistereApplicantCommand request, CancellationToken cancellationToken)
@@ -29,7 +31,7 @@ namespace LoanWithUs.ApplicationService.Command.Supporter
                 throw new NotFoundException("Current supporter Not Found");
             }
 
-            var applicant = supporter.RegisterNewApplicant(request.MobileNumber, request.NationalCode, request.FirstName, request.LastName, _applicantDomainService);
+            var applicant = supporter.RegisterNewApplicant(request.MobileNumber, request.NationalCode, request.FirstName, request.LastName, _applicantDomainService, _dateProvider);
             await _applicantRepository.CreateApplicant(applicant);
 
             await _unitOfWork.CommitAsync();

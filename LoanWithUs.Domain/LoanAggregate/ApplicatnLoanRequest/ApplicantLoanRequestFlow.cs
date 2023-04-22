@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Common.Enum;
+﻿using LoanWithUs.Common;
+using LoanWithUs.Common.Enum;
 
 namespace LoanWithUs.Domain
 {
@@ -10,11 +11,15 @@ namespace LoanWithUs.Domain
        
         public DateTime CreateDate { get; set; }
 
-        public ApplicantLoanRequestFlow(ApplicantLoanRequestState state, string description)
+        protected ApplicantLoanRequestFlow()
+        {
+        }
+
+        public ApplicantLoanRequestFlow(ApplicantLoanRequestState state, string description, IDateTimeServiceProvider dateProvider)
         {
             State = state;
             Description = description;
-            CreateDate = DateTime.Now;
+            CreateDate = dateProvider.GetDate();
         }
     }
 

@@ -26,7 +26,7 @@ namespace LoanWithUs.Domain
         //public Loan ActiveLoan { get; set; }
 
         #region LoanRequest
-        public ApplicantLoanRequest RequestNewLoan(string reason, Amount amount, LoanLadderInstallmentsCount installmentsCount, IApplicantLoanRequestDomainService _applicantLoanRequestDomainService)
+        public ApplicantLoanRequest RequestNewLoan(string reason, Amount amount, LoanLadderInstallmentsCount installmentsCount, IApplicantLoanRequestDomainService _applicantLoanRequestDomainService, IDateTimeServiceProvider dateProvider)
         {
 
             if (this.UserConfirmation == null || !this.UserConfirmation.TotalConfirmation)
@@ -43,7 +43,7 @@ namespace LoanWithUs.Domain
                 throw new InvalidDomainInputException(Messages.ApplicantLoanRequestInvalidAmount);
             }
 
-            var request = new ApplicantLoanRequest(this, Supporter, CurrentLoanLadderFrame, installmentsCount, amount, reason, _applicantLoanRequestDomainService);
+            var request = new ApplicantLoanRequest(this, Supporter, CurrentLoanLadderFrame, installmentsCount, amount, reason, _applicantLoanRequestDomainService, dateProvider);
             if (LoanRequests == null)
             {
                 LoanRequests = new List<ApplicantLoanRequest>();
@@ -91,7 +91,7 @@ namespace LoanWithUs.Domain
         /// <param name="mobileNumber"></param>
         /// <param name="domainService"></param>
         /// <exception cref="InvalidDomainInputException"></exception>
-        internal Applicant(Supporter supporter, MobileNumber mobileNumber, string nationalCode, string firstName, string lastName, IApplicantDomainService domainService)
+        internal Applicant(Supporter supporter, MobileNumber mobileNumber, string nationalCode, string firstName, string lastName, IApplicantDomainService domainService, IDateTimeServiceProvider dateProvider)
         {
             var isMobileAvailable = domainService.IsMobileReservedWithAllUserType(Id, mobileNumber).Result;
             if (isMobileAvailable)
@@ -112,9 +112,9 @@ namespace LoanWithUs.Domain
             CurrentLoanLadderFrameId = domainService.InitLoaderForApplicant().Result.Id;
 
             this.ApplicantLoanLadderHistory = new List<ApplicantLoanLadder>();
-            this.ApplicantLoanLadderHistory.Add(new ApplicantLoanLadder(CurrentLoanLadderFrameId, "نردبان یکم _ ثبت نام درخواستگر"));
+            this.ApplicantLoanLadderHistory.Add(new ApplicantLoanLadder(CurrentLoanLadderFrameId, "نردبان یکم _ ثبت نام درخواستگر", dateProvider));
 
-            RegisterationDate = DateTime.Now;
+            RegisterationDate = dateProvider.GetDate();
         }
 
 

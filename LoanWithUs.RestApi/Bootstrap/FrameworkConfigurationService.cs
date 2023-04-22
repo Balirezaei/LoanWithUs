@@ -20,6 +20,8 @@ namespace LoanWithUs.RestApi.Bootstrap
 
             services.AddAutoMapper(typeof(BasicInfoProfile).Assembly);
 
+            services.AddScoped<IDateTimeServiceProvider, DateTimeServiceProvider>();
+            
             //services.AddAutoMapper(new[] { typeof(BasicInfoProfile), typeof(ApplicantProfile),typeof(SupporterProfile) });
             return services;
 

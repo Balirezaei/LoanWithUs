@@ -40,4 +40,9 @@ namespace LoanWithUs.ViewModel
     {
         public string MobileNumber { get; set; }
     }
+    public class SupporterLoanRequestActionViewModel
+    {
+        public int RequestId { get; set; }
+
+    }
 }

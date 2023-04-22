@@ -42,7 +42,7 @@ namespace LoanWithUs.RestApi.Controllers.Supporter
                 PageNumber = vm.PageNumber,
                 PageSize = vm.PageSize,
             };
-            
+
         }
 
         //[HttpGet]
@@ -50,6 +50,31 @@ namespace LoanWithUs.RestApi.Controllers.Supporter
         //{
 
         //}
+
+        [HttpPost]
+        public async Task<SupporterConfirmLoanRequestResult> ConfirmRequest(SupporterLoanRequestActionViewModel vm)
+        {
+            var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
+            return await _mediator.Send(new SupporterConfirmLoanRequestCommand()
+            {
+
+                SupporterId = int.Parse(userId),
+                LoanRequestId = vm.RequestId
+            });
+        }
+
+        [HttpPost]
+        public async Task<SupporterRejectLoanRequestResult> RejectRequest(SupporterLoanRequestActionViewModel vm)
+        {
+            var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
+            return await _mediator.Send(new SupporterRejectLoanRequestCommand()
+            {
+
+                SupporterId = int.Parse(userId),
+                LoanRequestId = vm.RequestId
+            });
+
+        }
 
     }
 

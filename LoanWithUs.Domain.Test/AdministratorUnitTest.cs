@@ -4,11 +4,20 @@ using LoanWithUs.Domain.Test.Utility;
 using LoanWithUs.Domain;
 using LoanWithUs.Exceptions;
 using NSubstitute;
+using LoanWithUs.Common;
+using LoanWithUs.Common.ExtentionMethod;
 
 namespace LoanWithUs.Domain.Test
 {
     public class AdministratorUnitTest
     {
+        IDateTimeServiceProvider dateProvider;
+
+        public AdministratorUnitTest()
+        {
+            dateProvider = new DateTimeServiceProvider();
+        }
+
         [Fact]
         public void Admin_should_create_Supporter_Successfully()
         {
@@ -17,7 +26,7 @@ namespace LoanWithUs.Domain.Test
             var suporterMobileNumber = new MobileNumber("09121231212");
             var domainSupporter = Substitute.For<ISupporterDomainService>();
 
-            var supporet = admin.DefineNewSupporter(suporterNationalCode, suporterMobileNumber, domainSupporter);
+            var supporet = admin.DefineNewSupporter(suporterNationalCode, suporterMobileNumber, StaticDataForBegining.InitCreditForSupporter.ToToamn(), domainSupporter, dateProvider);
 
             supporet.IdentityInformation.MobileNumber.Should().Be(suporterMobileNumber);
             supporet.IdentityInformation.NationalCode.Should().Be(suporterNationalCode);
@@ -34,7 +43,7 @@ namespace LoanWithUs.Domain.Test
 
             var action = () =>
             {
-                admin.DefineNewSupporter(suporterNationalCode, suporterMobileNumber, domainSupporter);
+                admin.DefineNewSupporter(suporterNationalCode, suporterMobileNumber, StaticDataForBegining.InitCreditForSupporter.ToToamn(), domainSupporter, dateProvider);
             };
 
             action.Should().Throw<InvalidDomainInputException>();

@@ -15,19 +15,19 @@ namespace LoanWithUs.Domain
         {
         }
 
-        internal ApplicantLoanRequest(Applicant applicant, Supporter supporter, LoanLadderFrame loanLadderFrame, LoanLadderInstallmentsCount loanLadderInstallments,Amount amount, string reason, IApplicantLoanRequestDomainService _applicantLoanRequestDomainService)
+        internal ApplicantLoanRequest(Applicant applicant, Supporter supporter, LoanLadderFrame loanLadderFrame, LoanLadderInstallmentsCount loanLadderInstallments, Amount amount, string reason, IApplicantLoanRequestDomainService _applicantLoanRequestDomainService, IDateTimeServiceProvider dateProvider)
         {
             var isValid = _applicantLoanRequestDomainService.ValidateFrameByApplicant(applicant, loanLadderFrame).Result;
             if (!isValid)
                 throw new InvalidDomainInputException("امکان درخواست این وام برای شما درخواستگر گرامی وجود ندارد");
-          
+
             var openRequest = _applicantLoanRequestDomainService.HasOpenRequest(applicant).Result;
             if (openRequest)
             {
                 throw new InvalidDomainInputException(Messages.ApplicantLoanRequestWithOpenRequest);
             }
-            
-            var openLoan=_applicantLoanRequestDomainService.HasNotSettelledLoan(applicant).Result;
+
+            var openLoan = _applicantLoanRequestDomainService.HasNotSettelledLoan(applicant).Result;
             if (openLoan)
             {
                 throw new InvalidDomainInputException(Messages.ApplicantLoanRequestWithOpenLoan);
@@ -46,24 +46,35 @@ namespace LoanWithUs.Domain
 
             this.Amount = amount;
 
-            CreateDate = DateTime.Now;
+            CreateDate = dateProvider.GetDate();
 
             if (Flows == null)
             {
                 Flows = new List<ApplicantLoanRequestFlow>();
             }
-            Flows.Add(new ApplicantLoanRequestFlow(LastState, "درخواست وام شما ثبت شد"));
+            Flows.Add(new ApplicantLoanRequestFlow(LastState, "درخواست وام شما ثبت شد", dateProvider));
         }
-        
-        //public void SupporterResponse(bool isAccepted, string description)
-        //{
-        //    if (Flows == null)
-        //    {
-        //        Flows = new List<ApplicantLoanRequestFlow>();
-        //    }
-        //    State = isAccepted ? ApplicantLoanRequestState.SupporterAccepted : ApplicantLoanRequestState.SupporterRejected;
-        //    Flows.Add(new ApplicantLoanRequestFlow(State, description));
-        //}
+
+        public void SupporterResponse(bool isAccepted, string description, IDateTimeServiceProvider dateProvider)
+        {
+            if (LastState != ApplicantLoanRequestState.ApplicantRequested)
+            {
+                throw new DomainException("عملیات غیر مجاز");
+            }
+            if (Flows == null)
+            {
+                Flows = new List<ApplicantLoanRequestFlow>();
+            }
+            if (isAccepted)
+            {
+                StateMachine.Confirm();
+            }
+            else
+            {
+                StateMachine.Reject();
+            }
+            Flows.Add(new ApplicantLoanRequestFlow(this.LastState, description, dateProvider));
+        }
 
         //public void AdminAccept(bool isAccepted, string description)
         //{
@@ -101,7 +112,7 @@ namespace LoanWithUs.Domain
         public ApplicantLoanRequestStateMachine StateMachine
         {
             get => _State ??= ApplicantLoanRequestStateMachine.New(this, LastState);
-           internal set => _State = value;
+            internal set => _State = value;
         }
         public LoanLadderFrame LoanLadderFrame { get; private set; }
         public int LoanLadderFrameId { get; private set; }
@@ -113,7 +124,7 @@ namespace LoanWithUs.Domain
         public Supporter Supporter { get; private set; }
         public int SupporterId { get; private set; }
         public string TrackingNumber { get; private set; }
-        
+
     }
 
 }

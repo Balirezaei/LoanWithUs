@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Common.DefinedType;
+﻿using LoanWithUs.Common;
+using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Domain;
 using NSubstitute;
 using System;
@@ -14,6 +15,8 @@ namespace LoanWithUs.Domain.Test.Utility
         private MobileNumber mobile = new MobileNumber("09124804347");
         private IApplicantDomainService applicantDomainService;
         private EducationalInformation educationalInformation = null;
+        private IDateTimeServiceProvider dateProvider;
+        private Supporter supporter;
 
         public ApplicantBuilder()
         {
@@ -21,15 +24,23 @@ namespace LoanWithUs.Domain.Test.Utility
             _applicantDomainService.IsMobileReservedWithAllUserType(default, default).ReturnsForAnyArgs(false);
             var loanLadderApplicantDomainService = Substitute.For<ILoanLadderFrameDomainService>();
             var stepOne = LoanLadderFrameFactory.StepOne();
-                //new LoanLadderFrameBuilder(loanLadderApplicantDomainService)
-                //           .WithTitle("نردبان اول")
-                //           .WithStep(1)
-                //           .WithTomanAmount(1000000)
-                //           .Build(1);
+            //new LoanLadderFrameBuilder(loanLadderApplicantDomainService)
+            //           .WithTitle("نردبان اول")
+            //           .WithStep(1)
+            //           .WithTomanAmount(1000000)
+            //           .Build(1);
             _applicantDomainService.InitLoaderForApplicant().Returns(stepOne);
-
+            dateProvider = new DateTimeServiceProvider();
+            supporter = new SupporterBuilder().Build();
             applicantDomainService = _applicantDomainService;
         }
+
+        public ApplicantBuilder WithSupporter(Supporter supporter)
+        {
+            this.supporter = supporter;
+            return this;
+        }
+
 
         public ApplicantBuilder WithmobileNumber(string mobile)
         {
@@ -45,9 +56,8 @@ namespace LoanWithUs.Domain.Test.Utility
 
         public Applicant Build()
         {
-            var applicant = new SupporterBuilder()
-                .Build()
-                .RegisterNewApplicant(this.mobile, "0011223366", "firstName", "lastName", applicantDomainService);
+            var applicant = supporter
+                .RegisterNewApplicant(this.mobile, "0011223366", "firstName", "lastName", applicantDomainService, dateProvider);
             //throw new NotImplementedException();
             // var applicant = new Applicant(mobile, applicantDomainService);
             // if (educationalInformation != null)

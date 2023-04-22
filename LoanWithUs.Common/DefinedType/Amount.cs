@@ -12,12 +12,22 @@ namespace LoanWithUs.Common.DefinedType
             }
             return new Amount(a.amount + b.amount, a.moneyType);
         }
-
+        public static Amount operator -(Amount a, Amount b)
+        {
+            if (a.moneyType != b.moneyType)
+            {
+                new Exception("Money Types are not equals!");
+            }
+            return new Amount(a.amount - b.amount, a.moneyType);
+        }
         public static Amount operator +(Amount a, int b)
         {
             return new Amount(a.amount + b, a.moneyType);
         }
-
+        public static Amount operator -(Amount a, int b)
+        {
+            return new Amount(a.amount - b, a.moneyType);
+        }
         public static Amount operator *(Amount a, int b)
         {
             return new Amount(a.amount * b, a.moneyType);

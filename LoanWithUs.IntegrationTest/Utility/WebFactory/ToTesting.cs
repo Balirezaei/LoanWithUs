@@ -1,5 +1,6 @@
 ﻿using LoanWithUs.ApplicationService.Contract.Administrator;
 using LoanWithUs.ApplicationService.Contract.Applicant;
+using LoanWithUs.Common;
 using LoanWithUs.Common.ExtentionMethod;
 using LoanWithUs.Domain;
 using LoanWithUs.IntegrationTest.Utility;
@@ -150,21 +151,30 @@ namespace LoanWithUs.IntegrationTest
             foreach (var entry in changedEntriesCopy)
                 entry.State = EntityState.Detached;
         }
+
         public virtual async Task<UserLogin> WithMockAdminAttempdToLogin()
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<LoanWithUsContext>();
             var admin = await context.Administrators.FirstAsync(m => m.Id == 1);
-            var adminLogin = admin.AddNewAttempdToLogin("IntegrationTest");
+            var dateProvider = new DateTimeServiceProvider();
+
+            var adminLogin = admin.AddNewAttempdToLogin("IntegrationTest", dateProvider);
+
             await context.SaveChangesAsync();
             return adminLogin;
-
         }
 
         public async Task WithMockLoanRequestByApplicant()
         {
-            await ConfirmApplicant();
-            await SendAsync(new ApplicantRequestLoanCommand() { ApplicantId = StaticDate.ApplicantId, Amount = 100000.ToToamnAmount(), LoanLadderInstallmentsCount = 6, Reason = "Integratation Test " });
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<LoanWithUsContext>();
+            if (!context.ApplicantLoanRequests.Any())
+            {
+                await ConfirmApplicant();
+                await SendAsync(new ApplicantRequestLoanCommand() { ApplicantId = StaticDate.ApplicantId, Amount = 100000.ToToamn(), LoanLadderInstallmentsCount = 6, Reason = "Integratation Test " });
+
+            }
         }
         public async Task ConfirmApplicant()
         {

@@ -187,6 +187,24 @@ namespace LoanWithUs.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to پشتیبان گرامی اعتبار شما جهت تایید این درخواست وام کافی نیست..
+        /// </summary>
+        public static string SupporterInsufficientAmountToConfirmRequest {
+            get {
+                return ResourceManager.GetString("SupporterInsufficientAmountToConfirmRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to پشتیبان گرامی شما دسترسی به اطلاعات این درخواستگر را ندارید.
+        /// </summary>
+        public static string SupporterNotAllowedForThisApplicant {
+            get {
+                return ResourceManager.GetString("SupporterNotAllowedForThisApplicant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to پشتیبان گرامی شما به درخواستگر مذکور دسترسی ندارید..
         /// </summary>
         public static string SupporterNotAllowedToViewApplicant {

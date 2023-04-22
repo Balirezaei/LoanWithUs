@@ -1,4 +1,6 @@
-﻿namespace LoanWithUs.Domain
+﻿using LoanWithUs.Common;
+
+namespace LoanWithUs.Domain
 {
     /// <summary>
     /// اقساط وام
@@ -27,14 +29,14 @@
 
 
         //TODO:....
-        public void PaidByApplicant()
+        public void PaidByApplicant(IDateTimeServiceProvider dateProvider)
         {
-            PaiedDate = DateTime.Now;
+            PaiedDate = dateProvider.GetDate();
             //توسط دامین ایونت بعد از پرداخت موفق از زرین پال تایید میشود
-            if (DateTime.Now > EndDate)
+            if (dateProvider.GetDate() > EndDate)
             {
                 //TODO: مکانیزمی بابت جریمه کاربران در نظر گرفته شود
-                PenaltyDay = (EndDate - DateTime.Now.Date).Days;
+                PenaltyDay = (EndDate - dateProvider.GetDate().Date).Days;
             }
         }
     }

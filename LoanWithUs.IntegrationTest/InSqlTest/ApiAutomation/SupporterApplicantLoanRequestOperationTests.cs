@@ -3,12 +3,7 @@ using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.IntegrationTest.Utility.WebFactory;
 using LoanWithUs.ViewModel;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
 {
@@ -19,17 +14,17 @@ namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
         public SupporterApplicantLoanRequestOperationTests(ToSqlTestingBySupporterRole toTesting)
         {
             _toTesting = toTesting;
+            _toTesting.WithMockLoanRequestByApplicant().Wait();
         }
 
         [Fact]
         public async Task SupporterShouldReceiveLoanRequests()
         {
-            await _toTesting.WithMockLoanRequestByApplicant();
-            var url = "api/SupporterApplicantRequest/GetOpenRequests";
+            var url = "/SupporterApplicantRequest/GetOpenRequests";
 
             var vm = new ApplicantOpenRequestGridVm() { PageSize = 10, PageNumber = 1 };
 
-            var response =await _toTesting.CallGetApi<ApplicantOpenRequestGridVm>(vm, url);
+            var response = await _toTesting.CallGetApi<ApplicantOpenRequestGridVm>(vm, url);
 
             //Verification
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -40,5 +35,15 @@ namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
 
         }
 
+        [Fact]
+        public async Task SupporterCanConfirmLoanRequest()
+        {
+            var url = "/SupporterApplicantRequest/ConfirmRequest";
+            var response = await _toTesting.CallPostApi<SupporterLoanRequestActionViewModel>(new SupporterLoanRequestActionViewModel { RequestId = 1 }, url);
+            //Verification
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
     }
+
 }

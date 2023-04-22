@@ -12,6 +12,16 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
         {
             builder.ToTable("Supporter");
 
+            builder.OwnsMany(m => m.AcceptedApplicantLoanRequests, sa =>
+            {
+                sa.Property(x => x.Amount)
+                        .HasColumnName("Amount").HasMaxLength(500)
+                        .HasConversion(
+                            v => JsonConvert.SerializeObject(v),
+                            v => JsonConvert.DeserializeObject<Amount>(v));
+
+            });
+
             //builder.HasKey(m => m.Id);
             //builder.HasIndex(m => m.IdentityInformation.MobileNumber).IsUnique();
 

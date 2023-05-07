@@ -33,6 +33,6 @@ namespace LoanWithUs.Persistense.EF.ContextContainer
         public DbSet<LoanLadderFrame> LoanLadderFrames { get; set; }
         public DbSet<ApplicantLoanRequest> ApplicantLoanRequests { get; set; }
 
-        //public DbSet<Loan> Loans { get; set; }
+        public DbSet<Loan> Loans { get; set; }
     }
 }

@@ -3,11 +3,6 @@ using LoanWithUs.ApplicationService.Contract.Applicant;
 using LoanWithUs.Domain;
 using LoanWithUs.Resources;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LoanWithUs.ApplicationService.Query.Applicant
 {
@@ -15,13 +10,15 @@ namespace LoanWithUs.ApplicationService.Query.Applicant
     {
         private readonly IApplicantLoanRequestDomainService _applicantDomainService;
         private readonly IApplicantReadRepository _applicantRepository;
+        private readonly ISupporterRepository _supporterRepository;
         private readonly IMapper _mapper;
 
-        public GetApplicantLoanRequestAvailabilityQueryHandler(IApplicantLoanRequestDomainService applicantDomainService, IApplicantReadRepository applicantRepository, IMapper mapper)
+        public GetApplicantLoanRequestAvailabilityQueryHandler(IApplicantLoanRequestDomainService applicantDomainService, IApplicantReadRepository applicantRepository, IMapper mapper, ISupporterRepository supporterRepository)
         {
             _applicantDomainService = applicantDomainService;
             _applicantRepository = applicantRepository;
             _mapper = mapper;
+            _supporterRepository = supporterRepository;
         }
 
         public async Task<ApplicantLoanRequestAvailability> Handle(GetApplicantLoanRequestAvailability request, CancellationToken cancellationToken)
@@ -44,10 +41,25 @@ namespace LoanWithUs.ApplicationService.Query.Applicant
             else
             {
                 loanRequestAvailibility.CanRequestALoan = true;
-                loanRequestAvailibility.ApplicantAvailabileLoanDetail = new ApplicantAvailabileLoanDetail
+                var supporter = await _supporterRepository.GetSupporterByIdWithCreditInclude(applicant.SupporterId);
+                if (supporter.GetAvailableCredit() < applicant.CurrentLoanLadderFrame.Amount)
                 {
-                    MaxLoanAmount = applicant.CurrentLoanLadderFrame.Amount.amount
-                };
+                    loanRequestAvailibility.Description = string.Format(Messages.ApplicantLadderInsufficientSupporterCredit, applicant.CurrentLoanLadderFrame.Title);
+
+                    loanRequestAvailibility.ApplicantAvailabileLoanDetail = new ApplicantAvailabileLoanDetail
+                    {
+                        MaxLoanAmount = supporter.GetAvailableCredit().amount,
+                        Installments = applicant.CurrentLoanLadderFrame.AvalableInstallments.Select(m => m.Count).ToArray()
+                    };
+                }
+                else
+                {
+                    loanRequestAvailibility.ApplicantAvailabileLoanDetail = new ApplicantAvailabileLoanDetail
+                    {
+                        MaxLoanAmount = applicant.CurrentLoanLadderFrame.Amount.amount,
+                        Installments = applicant.CurrentLoanLadderFrame.AvalableInstallments.Select(m => m.Count).ToArray()
+                    };
+                }                
                 return loanRequestAvailibility;
             }
 

@@ -38,5 +38,13 @@ namespace LoanWithUs.Persistense.EF.Repository
         {
             return _context.Supporters.Where(m => m.Id == supporterId).FirstOrDefaultAsync();
         }
+
+        public Task<Supporter> GetSupporterByIdWithCreditInclude(int supporterId)
+        {
+            return _context.Supporters.Where(m => m.Id == supporterId)
+                .Include(m=>m.SupporterCredit)
+                .Include(m=>m.AcceptedApplicantLoanRequests).FirstOrDefaultAsync();
+        }
+        
     }
 }

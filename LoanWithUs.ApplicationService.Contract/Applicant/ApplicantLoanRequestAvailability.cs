@@ -22,5 +22,6 @@ namespace LoanWithUs.ApplicationService.Contract.Applicant
     public class ApplicantAvailabileLoanDetail
     {
         public int MaxLoanAmount { get; set; }
+        public int[] Installments { get; set; }
     }
 }

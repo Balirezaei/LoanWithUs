@@ -71,7 +71,7 @@ namespace LoanWithUs.Domain.Test
         /// <summary>
         /// این  تست در حال حاضر امکان اجرا ندارد
         /// مکانیزم های کم شدن اعتبار پشتیبان 
-        /// یا رفتن به نردبان های بعدی
+        /// یا رفتن به نردبان های بعدی در حال حاضر وجود ندارد
         /// </summary>
         [Fact]
         public void Applicant_Can_Not_Request_Loan_In_First_Step_With_Insufficient_Supporter_Credit()

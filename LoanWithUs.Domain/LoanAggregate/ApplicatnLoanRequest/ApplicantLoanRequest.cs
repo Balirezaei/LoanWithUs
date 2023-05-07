@@ -1,6 +1,7 @@
 ﻿using LoanWithUs.Common;
 using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Common.Enum;
+using LoanWithUs.Common.ExtentionMethod;
 using LoanWithUs.Exceptions;
 using LoanWithUs.Resources;
 
@@ -55,7 +56,7 @@ namespace LoanWithUs.Domain
             Flows.Add(new ApplicantLoanRequestFlow(LastState, "درخواست وام شما ثبت شد", dateProvider));
         }
 
-        public void SupporterResponse(bool isAccepted, string description, IDateTimeServiceProvider dateProvider)
+        internal void SupporterResponse(bool isAccepted, string description, IDateTimeServiceProvider dateProvider)
         {
             if (LastState != ApplicantLoanRequestState.ApplicantRequested)
             {
@@ -76,34 +77,54 @@ namespace LoanWithUs.Domain
             Flows.Add(new ApplicantLoanRequestFlow(this.LastState, description, dateProvider));
         }
 
-        //public void AdminAccept(bool isAccepted, string description)
-        //{
-        //    if (Flows == null)
-        //    {
-        //        Flows = new List<ApplicantLoanRequestFlow>();
-        //    }
-        //    //Check Previous State
-        //    if (State != ApplicantLoanRequestState.SupporterAccepted)
-        //    {
-        //        throw new InvalidDomainInputException("پشتیبان درخواست وام درخواستگر را رد کرده است.");
-        //    }
-        //    State = isAccepted ? ApplicantLoanRequestState.ReadyToPay : ApplicantLoanRequestState.AdminRejected;
-        //    Flows.Add(new ApplicantLoanRequestFlow(State, description));
-        //}
+        internal void AdminResponse(bool isAccepted, string description, IDateTimeServiceProvider dateProvider)
+        {
+            if (LastState != ApplicantLoanRequestState.SupporterAccepted)
+            {
+                throw new DomainException("عملیات غیر مجاز");
+            }
+            if (Flows == null)
+            {
+                Flows = new List<ApplicantLoanRequestFlow>();
+            }
+            if (isAccepted)
+            {
+                StateMachine.Confirm();
+            }
+            else
+            {
+                StateMachine.Reject();
+            }
+            Flows.Add(new ApplicantLoanRequestFlow(this.LastState, description, dateProvider));
+        }
 
-        //public Loan PaiedRequest(LoanWithUsFile receipt)
-        //{
-        //    //Check Previous State
-        //    if (State != ApplicantLoanRequestState.ReadyToPay)
-        //    {
-        //        throw new InvalidDomainInputException("ادمین درخواست وام درخواستگر را رد کرده است.");
-        //    }
-        //    State = ApplicantLoanRequestState.Paied;
-        //    //ToDo:add to message resourses
-        //    Flows.Add(new ApplicantLoanRequestFlow(State, "درخواست وام شما با مبلغ 11111 با موفقیت پرداخت شد..."));
-        //    return new Loan(LoanLadderFrame.Amount, Applicant, LoanLadderInstallmentsCount.Count);
+        public void CancelRequest(IDateTimeServiceProvider dateProvider)
+        {
+            if (Flows == null)
+            {
+                Flows = new List<ApplicantLoanRequestFlow>();
+            }
+            StateMachine.Cancel();
+            Flows.Add(new ApplicantLoanRequestFlow(this.LastState, Messages.ApplicantCancelTheRequest, dateProvider));
+        }
 
-        //}
+        public Loan PaiedRequest(LoanWithUsFile receipt, IDateTimeServiceProvider dateProvider)
+        {
+            //Check Previous State
+            if (LastState != ApplicantLoanRequestState.ReadyToPay)
+            {
+                throw new InvalidDomainInputException("ادمین درخواست وام درخواستگر را رد کرده است.");
+            }
+            StateMachine.Confirm();
+            //ToDo:add to message resourses
+            if (Flows == null)
+            {
+                Flows = new List<ApplicantLoanRequestFlow>();
+            }
+            Flows.Add(new ApplicantLoanRequestFlow(LastState, String.Format(Messages.AdminAcceptLoanRequest, this.Amount.amount.ToStringSplit3Digit()), dateProvider));
+            return new Loan(this.ApplicantId, this.Amount, Applicant, InstallmentsCount, receipt, dateProvider);
+        }
+
         public int Id { get; set; }
         public string Reason { get; private set; }
         public DateTime CreateDate { get; private set; }

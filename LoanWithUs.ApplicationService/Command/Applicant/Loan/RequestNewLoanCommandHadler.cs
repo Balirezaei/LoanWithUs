@@ -30,7 +30,7 @@ namespace LoanWithUs.ApplicationService.Command.Applicant.Loan
             if (applicant == null)
                 throw new NotFoundException("چنین درخواستگری موجود نیست!");
 
-            var loanRequest = applicant.RequestNewLoan(request.Reason, request.Amount, new LoanLadderInstallmentsCount(request.LoanLadderInstallmentsCount), _applicantDomainService,_dateProvider);
+            var loanRequest = applicant.RequestNewLoan(request.Reason, request.Amount, new LoanLadderInstallmentsCount(request.LoanLadderInstallmentsCount), _applicantDomainService, _dateProvider);
 
             _applicantRepository.Update(applicant);
             await _unitOfWork.CommitAsync();
@@ -38,11 +38,10 @@ namespace LoanWithUs.ApplicationService.Command.Applicant.Loan
             //ToDo:Sens an SMS
             return new ApplicantRequestLoanResult
             {
+                LoanRequestId = loanRequest.Id,
                 State = loanRequest.LastState,
                 TrackingNumber = loanRequest.TrackingNumber
             };
-
-
 
         }
     }

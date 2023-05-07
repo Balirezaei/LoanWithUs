@@ -45,4 +45,23 @@ namespace LoanWithUs.ViewModel
         public int RequestId { get; set; }
 
     }
+
+    public class AdminLoanRequestAcceptViewModel
+    {
+        public int RequestId { get; set; }
+
+    }
+
+    public class AdminPayLoanRequestViewModel
+    {
+        public int RequestId { get; set; }
+        public int FileId { get; set; }
+    }
+
+    public class AdminLoanRequestRejectViewModel
+    {
+        public int RequestId { get; set; }
+        public string Reason { get; set; }
+
+    }
 }

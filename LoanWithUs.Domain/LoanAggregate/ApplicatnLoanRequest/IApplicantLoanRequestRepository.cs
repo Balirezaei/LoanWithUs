@@ -4,8 +4,11 @@
     {
         Task<bool> HasOpenRequest(int applicant);
         Task<ApplicantLoanRequest> FindApplicantLoanRequest(int requestId);
+        Task<ApplicantLoanRequest> FindApplicantLoanRequestForAdmin(int requestId);
+        
         void Update(ApplicantLoanRequest loanRequest);
-        IQueryable<ApplicantLoanRequest> GetAllOpenRequestOfSupporter(int supporterId);
+        IQueryable<ApplicantLoanRequest> GetAllOpenLoanRequestOfSupporter(int supporterId);
+        IQueryable<ApplicantLoanRequest> GetAllOpenRequest();
     }
 
 }

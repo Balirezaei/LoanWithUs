@@ -61,6 +61,42 @@ namespace LoanWithUs.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to درخواست شما توسط ادمین سامانه تایید شد و وام شما در صف پرداخت قرار گرفت.
+        /// </summary>
+        public static string AdminAcceptLoanRequest {
+            get {
+                return ResourceManager.GetString("AdminAcceptLoanRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to درخواستگر گرامی، وام شما با مبلغ {0} پرداخت شد، خواهشمند است در پرداخت به موقع کوشا باشید.
+        /// </summary>
+        public static string AdminPaidLoanRequest {
+            get {
+                return ResourceManager.GetString("AdminPaidLoanRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to درخواست شما لغو شد.
+        /// </summary>
+        public static string ApplicantCancelTheRequest {
+            get {
+                return ResourceManager.GetString("ApplicantCancelTheRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to در حالی که شما در نردبان {0} قرار دارید اما پشتیبان شما اعتبار کافی جهت پشتیبانی را ندارد.
+        /// </summary>
+        public static string ApplicantLadderInsufficientSupporterCredit {
+            get {
+                return ResourceManager.GetString("ApplicantLadderInsufficientSupporterCredit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to اعتبار پشتیبان ناکافی می باشد.
         /// </summary>
         public static string ApplicantLoanRequestInsufficientSupporterCredit {

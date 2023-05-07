@@ -10,6 +10,7 @@ namespace LoanWithUs.RestApi.Bootstrap
     {
         public static IServiceCollection AddRepositoryAndDomainService(this IServiceCollection services)
         {
+
             services.AddScoped<IUnitOfWork, LoanWithUsUnitOfWork>();
             services.AddScoped<IApplicantRepository, ApplicantRepository>();
             services.AddScoped<IApplicantReadRepository, ApplicantReadRepository>();
@@ -22,6 +23,7 @@ namespace LoanWithUs.RestApi.Bootstrap
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IApplicantLoanRequestDomainService, ApplicantLoanRequestDomainService>();
             services.AddScoped<IApplicantLoanRequestRepository, ApplicantLoanRequestRepository>();
+            services.AddScoped<ILoanRepository, LoanRepository>();
             
             return services;
         }

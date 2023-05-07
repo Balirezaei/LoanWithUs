@@ -9,7 +9,7 @@ namespace LoanWithUs.Common
     public enum FileType
     {
         NationalCodePhoto = 1,
-
+        DepositReceipt = 2,
 
     }
 }

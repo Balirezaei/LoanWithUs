@@ -18,7 +18,7 @@ namespace LoanWithUs.ApplicationService.Query.Supporter
 
         public async Task<List<ApplicantRequestGrid>> Handle(SupporterOpenApplicantRequestGridContract request, CancellationToken cancellationToken)
         {
-            var list =await _applicantLoanRequestRepository.GetAllOpenRequestOfSupporter(request.SupporterId).DoCommonPagin(request);
+            var list =await _applicantLoanRequestRepository.GetAllOpenLoanRequestOfSupporter(request.SupporterId).DoCommonPagin(request);
             return _mapper.Map<List<ApplicantRequestGrid>>(list);
 
         }

@@ -9,5 +9,6 @@ namespace LoanWithUs.Domain
         Task<bool> CheckNationalCode(int exceptCurrentUser, string nationalCode);
         Task<bool> CheckMobileNumber(int exceptCurrentUser, MobileNumber mobileNumber);
         Task<Supporter> GetSupporterById(int supporterId);
+        Task<Supporter> GetSupporterByIdWithCreditInclude(int supporterId);
     }
 }

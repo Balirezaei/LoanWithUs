@@ -64,7 +64,6 @@ namespace LoanWithUs.RestApi.Filter
             context.ExceptionHandled = true;
         }
 
-
         private void HandleValidationException(ExceptionContext context)
         {
             var exception = (ValidationException)context.Exception;
@@ -140,7 +139,6 @@ namespace LoanWithUs.RestApi.Filter
 
             context.ExceptionHandled = true;
         }
-
 
     }
 }

@@ -26,17 +26,32 @@ namespace LoanWithUs.Persistense.EF.Repository
             return _context.ApplicantLoanRequests.Where(m => m.Id == requestId).FirstOrDefaultAsync();
         }
 
+        public Task<ApplicantLoanRequest> FindApplicantLoanRequestForAdmin(int requestId)
+        {
+            return _context.ApplicantLoanRequests.Where(m => m.Id == requestId).FirstOrDefaultAsync();
+        }
+
         public void Update(ApplicantLoanRequest loanRequest)
         {
             _context.ApplicantLoanRequests.Update(loanRequest);
         }
 
-        public IQueryable<ApplicantLoanRequest> GetAllOpenRequestOfSupporter(int supporterId)
+        public IQueryable<ApplicantLoanRequest> GetAllOpenLoanRequestOfSupporter(int supporterId)
         {
             var inprogressState = ApplicantLoanRequestState.ApplicantRequested.GetInprogressRequestState();
             return _context.ApplicantLoanRequests
                 .Where(m => m.Applicant.SupporterId == supporterId && inprogressState.Contains(m.LastState))
                 .Include(m => m.Applicant.PersonalInformation);
+        }
+
+        public IQueryable<ApplicantLoanRequest> GetAllOpenRequest()
+        {
+            var inprogressState = ApplicantLoanRequestState.ApplicantRequested.GetInprogressRequestState();
+            return _context.ApplicantLoanRequests
+                .Where(m => inprogressState.Contains(m.LastState))
+                .Include(m => m.Applicant.PersonalInformation)
+                .Include(m => m.Supporter.PersonalInformation)
+                ;
         }
     }
 }

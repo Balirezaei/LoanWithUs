@@ -25,7 +25,7 @@ namespace LoanWithUs.ApplicationService.Command.Supporter
 
         public async Task<SupporterRegistereApplicantCammandResult> Handle(SupporterRegistereApplicantCommand request, CancellationToken cancellationToken)
         {
-            var supporter = await _supporterRepository.GetSupporterById(request.SupporterId);
+            var supporter = await _supporterRepository.GetSupporterByIdWithCreditInclude(request.SupporterId);
             if (supporter == null)
             {
                 throw new NotFoundException("Current supporter Not Found");

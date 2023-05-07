@@ -24,6 +24,7 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
                 .HasForeignKey(m => m.ApplicantId);
 
             builder.HasOne(m => m.Supporter).WithMany().HasForeignKey(m => m.SupporterId).OnDelete(DeleteBehavior.NoAction);
+
             builder.HasMany(m => m.Flows);
 
             builder
@@ -40,9 +41,9 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
                     v => JsonConvert.SerializeObject(v),
                     v => JsonConvert.DeserializeObject<Amount>(v));
 
-            builder.Property(m => m.TrackingNumber)
-             .HasDefaultValueSql("(FORMAT(GETDATE(), 'yyyy', 'fa')+'/'+cast((NEXT VALUE FOR [Sequence-TrackingNumber]) AS NVARCHAR))");
-
+            builder
+                .Property(m => m.TrackingNumber)
+                .HasDefaultValueSql("(FORMAT(GETDATE(), 'yyyy', 'fa')+'/'+cast((NEXT VALUE FOR [Sequence-TrackingNumber]) AS NVARCHAR))");
 
         }
     }

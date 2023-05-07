@@ -40,6 +40,4 @@ namespace LoanWithUs.ApplicationService.Command.Administrator
         }
 
     }
-
-
 }

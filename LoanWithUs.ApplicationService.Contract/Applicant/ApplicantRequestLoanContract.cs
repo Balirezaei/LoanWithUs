@@ -19,6 +19,7 @@ namespace LoanWithUs.ApplicationService.Contract.Applicant
 
     public class ApplicantRequestLoanResult
     {
+        public int LoanRequestId { get; set; }
         public string TrackingNumber { get; set; }
         public ApplicantLoanRequestState State { get; set; }
     }

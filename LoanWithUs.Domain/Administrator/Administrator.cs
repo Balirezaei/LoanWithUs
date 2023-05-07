@@ -1,6 +1,8 @@
 ﻿using LoanWithUs.Common;
 using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Common.Enum;
+using LoanWithUs.Exceptions;
+using LoanWithUs.Resources;
 
 namespace LoanWithUs.Domain
 {
@@ -53,6 +55,28 @@ namespace LoanWithUs.Domain
             applicant.ConfirmInfo();
             return applicant;
         }
+
+
+        public void ConfirmApplicantLoanRequest(ApplicantLoanRequest loanRequest, IDateTimeServiceProvider dateProvider)
+        {
+            loanRequest.AdminResponse(true, Messages.AdminAcceptLoanRequest, dateProvider);
+        }
+
+        public void RejectApplicantLoanRequest(ApplicantLoanRequest loanRequest, string reason, IDateTimeServiceProvider dateProvider)
+        {
+            loanRequest.AdminResponse(false, reason, dateProvider);
+            loanRequest.Supporter.CloseAcceptedLoanRequest(loanRequest);
+        }
+
+        public Loan PaiedApplicantLoanRequest(ApplicantLoanRequest loanRequest, LoanWithUsFile receipt, IDateTimeServiceProvider dateProvider)
+        {
+            if (receipt == null)
+            {
+                throw new InvalidDomainInputException("ورود تصویر فیش واریزی اجباریست.");
+            }
+            return loanRequest.PaiedRequest(receipt, dateProvider);
+        }
+
     }
 
 }

@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AdminAcceptLoanRequest" xml:space="preserve">
+    <value>درخواست شما توسط ادمین سامانه تایید شد و وام شما در صف پرداخت قرار گرفت</value>
+  </data>
+  <data name="AdminPaidLoanRequest" xml:space="preserve">
+    <value>درخواستگر گرامی، وام شما با مبلغ {0} پرداخت شد، خواهشمند است در پرداخت به موقع کوشا باشید</value>
+  </data>
+  <data name="ApplicantCancelTheRequest" xml:space="preserve">
+    <value>درخواست شما لغو شد</value>
+  </data>
+  <data name="ApplicantLadderInsufficientSupporterCredit" xml:space="preserve">
+    <value>در حالی که شما در نردبان {0} قرار دارید اما پشتیبان شما اعتبار کافی جهت پشتیبانی را ندارد</value>
+  </data>
   <data name="ApplicantLoanRequestInsufficientSupporterCredit" xml:space="preserve">
     <value>اعتبار پشتیبان ناکافی می باشد</value>
   </data>

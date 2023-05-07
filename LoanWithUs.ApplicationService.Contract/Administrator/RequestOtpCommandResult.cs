@@ -10,5 +10,4 @@ namespace LoanWithUs.ApplicationService.Contract
         }
     }
 
-
 }

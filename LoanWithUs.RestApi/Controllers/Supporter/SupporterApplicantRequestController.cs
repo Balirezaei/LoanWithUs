@@ -4,7 +4,6 @@ using LoanWithUs.Common.Enum;
 using LoanWithUs.ViewModel;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -30,10 +29,15 @@ namespace LoanWithUs.RestApi.Controllers.Supporter
             var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
             var query = _mapper.Map<SupporterOpenApplicantRequestGridContract>(vm);
 
+
             query.SupporterId = int.Parse(userId);
 
             var list = await _mediator.Send(query);
-            var count = await _mediator.Send(query);
+            var count = await _mediator.Send(new SupporterOpenApplicantRequestCountContract()
+            {
+                SupporterId = query.SupporterId
+
+            });
 
             return new PagedListResult<ApplicantRequestGrid>()
             {
@@ -42,7 +46,6 @@ namespace LoanWithUs.RestApi.Controllers.Supporter
                 PageNumber = vm.PageNumber,
                 PageSize = vm.PageSize,
             };
-
         }
 
         //[HttpGet]
@@ -69,11 +72,9 @@ namespace LoanWithUs.RestApi.Controllers.Supporter
             var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
             return await _mediator.Send(new SupporterRejectLoanRequestCommand()
             {
-
                 SupporterId = int.Parse(userId),
                 LoanRequestId = vm.RequestId
             });
-
         }
 
     }

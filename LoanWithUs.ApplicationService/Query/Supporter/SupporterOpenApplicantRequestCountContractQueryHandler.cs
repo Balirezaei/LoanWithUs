@@ -19,7 +19,7 @@ namespace LoanWithUs.ApplicationService.Query.Supporter
 
         public async Task<TotalGrid> Handle(SupporterOpenApplicantRequestCountContract request, CancellationToken cancellationToken)
         {
-            var c = await _applicantLoanRequestRepository.GetAllOpenRequestOfSupporter(request.SupporterId).CountAsync();
+            var c = await _applicantLoanRequestRepository.GetAllOpenLoanRequestOfSupporter(request.SupporterId).CountAsync();
             return new TotalGrid(c);
         }
     }

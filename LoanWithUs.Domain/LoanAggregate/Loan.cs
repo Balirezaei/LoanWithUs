@@ -9,6 +9,9 @@ namespace LoanWithUs.Domain
     public class Loan : AggregateRoot
     {
         protected Loan() { }
+
+        public int Id { get; private set; }
+
         /// <summary>
         /// مبلغ وام
         /// </summary>
@@ -17,7 +20,7 @@ namespace LoanWithUs.Domain
         /// درخواستگر وام 
         /// پشتیبان یا درخواستگران
         /// </summary>
-        public User Requester { get; private set; }
+        public virtual User Requester { get; private set; }
         public int RequesterId { get; private set; }
 
         public LoanWithUsFile ReciptFile { get; private set; }
@@ -32,25 +35,33 @@ namespace LoanWithUs.Domain
         /// </summary>
         public bool IsSettled { get; set; }
         public List<LoanInstallment> LoanInstallments { get; private set; }
+        public float LoanWage { get; private set; }
 
-        public Loan(Amount amount, Applicant applicant, int installmentCount, IDateTimeServiceProvider dateProvider)
+        public Loan(int requesterId, Amount amount, Applicant applicant, int installmentCount, LoanWithUsFile ReciptFile, IDateTimeServiceProvider dateProvider)
         {
+            RequesterId = requesterId;
             Amount = amount;
             Requester = applicant;
             StartDate = dateProvider.GetDate();
-            this.LoanInstallments = GenerateLoanInstallment(installmentCount,dateProvider).ToList();
+            this.ReciptFile = ReciptFile;
+            this.LoanWage = StaticDataForBegining.LoanWage;
+            this.LoanInstallments = GenerateLoanInstallment(installmentCount, dateProvider).ToList();
         }
-      
+
 
         private IEnumerable<LoanInstallment> GenerateLoanInstallment(int installmentCount, IDateTimeServiceProvider dateProvider)
         {
+            float wage = this.LoanWage;
             int count = installmentCount;
             int price = this.Amount.amount;
+            int firstMonthWage = (int)(price * wage);
             if ((price % count) == 0)
             {
+
                 for (int i = 0; i < count; i++)
                 {
-                    var amount = (price / count);
+                    var amount = (price / count) + firstMonthWage;
+                    firstMonthWage = 0;
                     var startDate = dateProvider.GetDate().AddMonths(i + 1).AddDays(1).Date;
                     var endDate = startDate.AddDays(3).Date.AddHours(23);
                     yield return new LoanInstallment(amount, (i + 1), startDate, endDate);
@@ -67,9 +78,11 @@ namespace LoanWithUs.Domain
                         var remain = price - (amount * (i));
                         amount = remain;
                     }
+                    var amountToSave = amount + firstMonthWage;
+                    firstMonthWage = 0;
                     var startDate = dateProvider.GetDate().AddMonths(i + 1).AddDays(1).Date;
                     var endDate = startDate.AddDays(3).Date.AddHours(23);
-                    yield return new LoanInstallment(amount, (i + 1), startDate, endDate);
+                    yield return new LoanInstallment(amountToSave, (i + 1), startDate, endDate);
                 }
 
             }

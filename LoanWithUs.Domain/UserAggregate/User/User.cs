@@ -36,7 +36,7 @@ namespace LoanWithUs.Domain
         public bool HasCertificate { get { return UserConfirmation.TotalConfirmation; } }
         public virtual List<UserLogin> UserLogins { get; protected set; }
 
-        //public List<Loan> Loans { get; set; }
+        public virtual List<Loan> Loans { get; set; }
 
 
         public DateTime RegisterationDate { get; protected set; }
@@ -50,7 +50,14 @@ namespace LoanWithUs.Domain
 
         public string DisplayName()
         {
-            return $"{this.PersonalInformation.FirstName} {this.PersonalInformation.LastName}";
+            if (this.PersonalInformation!=null)
+            {
+                return $"{this.PersonalInformation.FirstName} {this.PersonalInformation.LastName}";
+            }
+            else
+            {
+                return $"{this.IdentityInformation.NationalCode}";
+            }
         }
 
     }

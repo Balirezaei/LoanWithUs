@@ -27,7 +27,7 @@ namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
             //Setup
             var vm = new ApplicantRequestLoanVm()
             {
-                Amount = 500000,
+                Amount = 400000,
                 LoanLadderInstallmentsCount = 6,
                 Reason = "Integration Test"
             };

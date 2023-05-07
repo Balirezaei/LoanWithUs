@@ -34,7 +34,8 @@ namespace LoanWithUs.IntegrationTest
             if (webFactoryType == WebFactoryType.SQL)
             {
                 _factory = new SqlWebApplicationFactory(currentUser);
-            } else if (webFactoryType==WebFactoryType.InMemory)
+            }
+            else if (webFactoryType == WebFactoryType.InMemory)
             {
                 _factory = new InMemoryApplicationFactory() { CurrentUser = currentUser };
             }
@@ -119,9 +120,6 @@ namespace LoanWithUs.IntegrationTest
             return response;
         }
 
-
-
-
         public virtual async Task<TEntity?> FindAsync<TEntity>(params object[] keyValues)
        where TEntity : class
         {
@@ -165,17 +163,50 @@ namespace LoanWithUs.IntegrationTest
             return adminLogin;
         }
 
-        public async Task WithMockLoanRequestByApplicant()
+        public async Task<ApplicantRequestLoanResult> WithMockLoanRequestByApplicant()
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<LoanWithUsContext>();
             if (!context.ApplicantLoanRequests.Any())
             {
                 await ConfirmApplicant();
-                await SendAsync(new ApplicantRequestLoanCommand() { ApplicantId = StaticDate.ApplicantId, Amount = 100000.ToToamn(), LoanLadderInstallmentsCount = 6, Reason = "Integratation Test " });
+                return await SendAsync(new ApplicantRequestLoanCommand() { ApplicantId = StaticDate.ApplicantId, Amount = 100000.ToToamn(), LoanLadderInstallmentsCount = 6, Reason = "Integratation Test " });
+            }
+            else
+            {
+                var applicantRequest = context.ApplicantLoanRequests.FirstOrDefault();
 
+                return new ApplicantRequestLoanResult
+                {
+                    LoanRequestId = applicantRequest.Id,
+                    State = applicantRequest.LastState,
+                    TrackingNumber = applicantRequest.TrackingNumber
+                };
             }
         }
+
+        public async Task SupporterConfirmApplicantLoanRequest(int requestId)
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<LoanWithUsContext>();
+            var supporter = await context.Supporters.FirstAsync(m => m.Id == 1);
+            var applicantRequest = context.ApplicantLoanRequests.FirstOrDefault(m => m.Id == requestId);
+            supporter.ConfirmApplicantLoanRequest(applicantRequest, new DateTimeServiceProvider());
+            context.SaveChanges();
+        }
+
+        public async Task RemoveApplicantLoanRequest(int requestId)
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<LoanWithUsContext>();
+            var supporter = await context.Supporters.FirstAsync(m => m.Id == 1);
+            var applicantRequest = context.ApplicantLoanRequests.FirstOrDefault(m => m.Id == requestId);
+
+            applicantRequest.CancelRequest(new DateTimeServiceProvider());
+
+            context.SaveChanges();
+        }
+
         public async Task ConfirmApplicant()
         {
             await SendAsync(new ApplicantVerificationCommand() { ApplicantId = StaticDate.ApplicantId, AdminId = 1 });

@@ -18,6 +18,7 @@ namespace LoanWithUs.IntegrationTest.Utility.WebFactory
                 var dateProvider = new DateTimeServiceProvider();
                 var supporter = admin.DefineNewSupporter(StaticDate.SupporterNationalCode, new MobileNumber(StaticDate.SupporterMobileNumber), StaticDataForBegining.InitCreditForSupporter.ToToamn(), domainServiceSupporter, dateProvider);
                 context.Supporters.Add(supporter);
+                supporter.UpdatePersonalInfo("supporter", "supporter");
                 context.SaveChanges();
             }
 

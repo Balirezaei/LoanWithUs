@@ -46,5 +46,23 @@ namespace LoanWithUs.Common.ExtentionMethod
                 ApplicantLoanRequestState.ReadyToPay,
             };
         }
+
+        public static ApplicantLoanRequestState[] GetSupporterInprogressRequestState(this ApplicantLoanRequestState state)
+        {
+            return new ApplicantLoanRequestState[]
+            {
+                ApplicantLoanRequestState.ApplicantRequested,
+                ApplicantLoanRequestState.SupporterAccepted,
+                ApplicantLoanRequestState.ReadyToPay,
+            };
+        }
+        public static ApplicantLoanRequestState[] GetAdminInprogressRequestState(this ApplicantLoanRequestState state)
+        {
+            return new ApplicantLoanRequestState[]
+            {
+                ApplicantLoanRequestState.SupporterAccepted,
+                ApplicantLoanRequestState.ReadyToPay,
+            };
+        }
     }
 }

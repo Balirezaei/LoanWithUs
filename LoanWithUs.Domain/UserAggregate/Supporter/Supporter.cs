@@ -12,6 +12,7 @@ namespace LoanWithUs.Domain
         {
 
         }
+        
         //public static Supporter DefineNewSupporterByAdministrator(Administrator creator, string nationalCode, string mobileNumber)
         //{
         //   return new Supporter()
@@ -19,7 +20,8 @@ namespace LoanWithUs.Domain
         //        IdentityInformation = new IdentityInformation(mobileNumber, nationalCode)
         //    };
         //}
-        public SupporterCredit SupporterCredit { get; set; }
+
+        public virtual SupporterCredit SupporterCredit { get;private set; }
 
         internal Supporter(string nationalCode, MobileNumber mobileNumber, Amount initialAmount, ISupporterDomainService supporterDomainService, IDateTimeServiceProvider dateProvider)
         {
@@ -33,16 +35,23 @@ namespace LoanWithUs.Domain
             IdentityInformation = new IdentityInformation(mobileNumber, nationalCode);
             SupporterCredit = new SupporterCredit(initialAmount, dateProvider);
             RegisterationDate = dateProvider.GetDate();
+            this.AcceptedApplicantLoanRequests = new List<AcceptedApplicantLoanRequest>();
+        }
+
+        public void UpdatePersonalInfo(string firstName, string lastName)
+        {
+            this.PersonalInformation = new PersonalInformation(firstName, lastName);
         }
 
         public Applicant RegisterNewApplicant(MobileNumber mobileNumber, string nationalCode, string firstName, string lastName, IApplicantDomainService domainService, IDateTimeServiceProvider dateProvider)
         {
+            //TODO: Check Credit to registring new applicant
             return new Applicant(this, mobileNumber, nationalCode, firstName, lastName, domainService, dateProvider);
         }
 
         public Amount GetAvailableCredit()
         {
-            var totalConfirmedRequest = (this.AcceptedApplicantLoanRequests?.Where(m => m.IsPaied == false).Sum(m => m.Amount.amount) ?? 0).ToToamn();
+            var totalConfirmedRequest = (this.AcceptedApplicantLoanRequests.Where(m => m.IsOpen).Sum(m => m.Amount.amount)).ToToamn();
 
             return SupporterCredit.InitialAmount - totalConfirmedRequest;
         }
@@ -66,7 +75,7 @@ namespace LoanWithUs.Domain
             loanRequest.SupporterResponse(false, "درخواست توسط پشتیبان تایید شد.", dateProvider);
 
         }
-        public List<AcceptedApplicantLoanRequest> AcceptedApplicantLoanRequests { get; set; }
+        public virtual List<AcceptedApplicantLoanRequest> AcceptedApplicantLoanRequests { get; set; }
 
         private void AppendToAcceptedApplicantLoanRequests(AcceptedApplicantLoanRequest acceptedApplicantLoanRequest)
         {
@@ -75,6 +84,13 @@ namespace LoanWithUs.Domain
 
             AcceptedApplicantLoanRequests.Add(acceptedApplicantLoanRequest);
 
+        }
+
+        public void CloseAcceptedLoanRequest(ApplicantLoanRequest loanRequest)
+        {
+            var openRequest = AcceptedApplicantLoanRequests.FirstOrDefault(m => m.IsOpen && m.ApplicantId == loanRequest.ApplicantId);
+
+            openRequest.CloseRequest();
         }
     }
 
@@ -88,7 +104,7 @@ namespace LoanWithUs.Domain
             SupporterId = supporterId;
             Amount = amount;
             ConfirmedDate = dateProvider.GetDate();
-            IsPaied = false;
+            IsOpen = true;
         }
 
         public string TrackingNumber { get; private set; }
@@ -96,8 +112,14 @@ namespace LoanWithUs.Domain
         public int SupporterId { get; private set; }
         public Amount Amount { get; private set; }
         public DateTime ConfirmedDate { get; private set; }
-        public bool IsPaied { get; private set; }
+        public bool IsOpen { get; private set; }
+        public void CloseRequest()
+        {
+            IsOpen = false;
+        }
+
     }
+
     public class SupporterCredit
     {
         protected SupporterCredit()

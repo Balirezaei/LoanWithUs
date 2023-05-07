@@ -26,7 +26,7 @@ namespace LoanWithUs.ApplicationService.Command
             var filePath = _fileSettings.PhysicalFilePath + name;
             var url = _fileSettings.FileNetworkUrl + name;
             var file = new LoanWithUsFile(filePath, request.File.FileName, Path.GetExtension(request.File.FileName), url, request.FileType);
-           await _fileService.WriteFile(request.File, filePath);
+            await _fileService.WriteFile(request.File, filePath);
             await _fileRepository.Create(file);
             await _unitOfWork.CommitAsync();
             return new CreateFileCommandResult()

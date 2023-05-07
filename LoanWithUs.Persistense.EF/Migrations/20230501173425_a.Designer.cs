@@ -4,6 +4,7 @@ using LoanWithUs.Persistense.EF.ContextContainer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoanWithUs.Persistense.EF.Migrations
 {
     [DbContext(typeof(LoanWithUsContext))]
-    partial class LoanWithUsContextModelSnapshot : ModelSnapshot
+    [Migration("20230501173425_a")]
+    partial class a
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,7 +79,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                             MobileNumber = "09124444444",
                             NationalCode = "0099887766",
                             Password = "o4r8d5bV0uH4wxMOIP+8SG8plc4dLZ4iUsgbUonSDL+y1wEWURrhqJEeK7qpyViSZMpVZOhDWbtiEPt00fZr2vWfjKDgEIA8982GNs+Atr2PRpV3+8epUbP6egn4ifS1UsGV3iiZJj3cdMLczNkvBAV05BKi97L+OVQaj4b741gsrDw5p2oa2CE6BLAMAcFfxBpLSuYnLfycfQJlQ7nxP10eSCpeLEpnuX+YqextxzkL1510HPkpJxHspruuijuT3LFMrhqWnNr0e7YuJlft3354QYLkGXAIn2zJYEo/ppfpVXe7IAI9zx7FsLPgXD3z62gEjJHiF+TjeegmDuQ5CA==",
-                            RegisterationDate = new DateTime(2023, 5, 7, 15, 2, 14, 604, DateTimeKind.Local).AddTicks(3621),
+                            RegisterationDate = new DateTime(2023, 5, 1, 21, 4, 25, 38, DateTimeKind.Local).AddTicks(6066),
                             UserName = "admin"
                         });
                 });
@@ -512,48 +514,6 @@ namespace LoanWithUs.Persistense.EF.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LoanWithUs.Domain.Loan", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Amount")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Amount");
-
-                    b.Property<bool>("IsSettled")
-                        .HasColumnType("bit");
-
-                    b.Property<float>("LoanWage")
-                        .HasColumnType("real");
-
-                    b.Property<int>("ReciptFileId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RequesterId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReciptFileId");
-
-                    b.HasIndex("RequesterId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Loan", (string)null);
-                });
-
             modelBuilder.Entity("LoanWithUs.Domain.LoanLadderFrame", b =>
                 {
                     b.Property<int>("Id")
@@ -764,68 +724,6 @@ namespace LoanWithUs.Persistense.EF.Migrations
                         .HasForeignKey("ProvinceId");
 
                     b.Navigation("Province");
-                });
-
-            modelBuilder.Entity("LoanWithUs.Domain.Loan", b =>
-                {
-                    b.HasOne("LoanWithUs.Domain.LoanWithUsFile", "ReciptFile")
-                        .WithMany()
-                        .HasForeignKey("ReciptFileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LoanWithUs.Domain.User", "Requester")
-                        .WithMany()
-                        .HasForeignKey("RequesterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LoanWithUs.Domain.User", null)
-                        .WithMany("Loans")
-                        .HasForeignKey("UserId");
-
-                    b.OwnsMany("LoanWithUs.Domain.LoanInstallment", "LoanInstallments", b1 =>
-                        {
-                            b1.Property<int>("LoanId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
-
-                            b1.Property<int>("Amount")
-                                .HasColumnType("int");
-
-                            b1.Property<DateTime>("EndDate")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<DateTime?>("PaiedDate")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<int>("PenaltyDay")
-                                .HasColumnType("int");
-
-                            b1.Property<DateTime>("StartDate")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<int>("Step")
-                                .HasColumnType("int");
-
-                            b1.HasKey("LoanId", "Id");
-
-                            b1.ToTable("LoanInstallment");
-
-                            b1.WithOwner()
-                                .HasForeignKey("LoanId");
-                        });
-
-                    b.Navigation("LoanInstallments");
-
-                    b.Navigation("ReciptFile");
-
-                    b.Navigation("Requester");
                 });
 
             modelBuilder.Entity("LoanWithUs.Domain.LoanLadderFrame", b =>
@@ -1297,11 +1195,6 @@ namespace LoanWithUs.Persistense.EF.Migrations
             modelBuilder.Entity("LoanWithUs.Domain.LoanLadderFrame", b =>
                 {
                     b.Navigation("ApplicantLoanLadders");
-                });
-
-            modelBuilder.Entity("LoanWithUs.Domain.User", b =>
-                {
-                    b.Navigation("Loans");
                 });
 
             modelBuilder.Entity("LoanWithUs.Domain.Applicant", b =>

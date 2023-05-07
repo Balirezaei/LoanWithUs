@@ -2,7 +2,7 @@
 
 namespace LoanWithUs.ApplicationService.Contract
 {
-    public class SupporterOpenApplicantRequestCountContract : PagingContract, IRequest<TotalGrid>
+    public class SupporterOpenApplicantRequestCountContract : IRequest<TotalGrid>
     {
         public int SupporterId { get; set; }
     }

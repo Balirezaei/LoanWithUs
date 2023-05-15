@@ -31,7 +31,7 @@ namespace LoanWithUs.ApplicationService.Command.Administrator
                 throw new Exception("Current User Not Found");
             }
 
-            var supporter = admin.DefineNewSupporter(request.NationalCode, request.MobileNumber, StaticDataForBegining.InitCreditForSupporter.ToToamn(), _supporterDomainService,_dateProvider);
+            var supporter = admin.DefineNewSupporter(request.NationalCode, request.MobileNumber, StaticDataForBegining.InitCreditForSupporter.ToToman(), _supporterDomainService,_dateProvider);
 
             _supporterRepository.Add(supporter);
 

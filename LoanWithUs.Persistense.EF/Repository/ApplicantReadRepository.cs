@@ -38,6 +38,7 @@ namespace LoanWithUs.Persistense.EF.Repository
         public Task<Applicant> FindApplicantByIdForLoanRequest(int id)
         {
             return _context.Applicants.Where(m => m.Id == id)
+                .Include(m => m.UserConfirmation)
                 .Include(m => m.CurrentLoanLadderFrame)
                 .Include(m => m.LoanRequests)
                 .Include(m => m.Supporter)

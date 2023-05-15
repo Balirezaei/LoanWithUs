@@ -4,11 +4,6 @@ using LoanWithUs.Domain.Test.Utility;
 using LoanWithUs.Exceptions;
 using LoanWithUs.Resources;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LoanWithUs.Domain.Test
 {
@@ -35,7 +30,7 @@ namespace LoanWithUs.Domain.Test
             _applicantDomainService.HasOpenRequest(default).ReturnsForAnyArgs(false);
             dateProvider = new DateTimeServiceProvider();
 
-            ApplicantLoanRequest = applicant.RequestNewLoan("Unit Test", new Common.DefinedType.Amount(1000000, Common.Enum.MoneyType.Toman), new LoanLadderInstallmentsCount(6), _applicantDomainService, dateProvider);
+            ApplicantLoanRequest = applicant.RequestNewLoan("Unit Test", "Unit Test", new Common.DefinedType.Amount(1000000, Common.Enum.MoneyType.Toman), new LoanLadderInstallmentsCount(6), _applicantDomainService, dateProvider);
         }
 
 

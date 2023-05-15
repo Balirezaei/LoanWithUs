@@ -12,7 +12,7 @@ namespace LoanWithUs.Mapper
         public LoanRequestProfile()
         {
             CreateMap<ApplicantRequestLoanVm, ApplicantRequestLoanCommand>()
-              .ForMember(m => m.Amount, opt => opt.MapFrom(src => src.Amount.ToToamn()));
+              .ForMember(m => m.Amount, opt => opt.MapFrom(src => src.Amount.ToToman()));
 
             CreateMap<ApplicantLoanRequest, ApplicantLoanRequestDto>();
 
@@ -27,7 +27,7 @@ namespace LoanWithUs.Mapper
 
             CreateMap<ApplicantOpenRequestGridVm, SupporterOpenApplicantRequestGridContract>();
             CreateMap<ApplicantOpenRequestGridVm, AdminOpenApplicantRequestGridContract>();
-            
+
 
 
             CreateMap<ApplicantLoanRequest, AdminApplicantRequestGrid>()
@@ -40,6 +40,21 @@ namespace LoanWithUs.Mapper
                     .ForMember(m => m.State, opt => opt.MapFrom(src => src.LastState))
 
                     ;
+
+
+            CreateMap<ApplicantLoanRequest, CurrentApplicantLoanRequestDetail>()
+                .ForMember(m => m.LastStateDescription, opt => opt.MapFrom(src => src.LastState.GetDisplayName()))
+                .ForMember(m => m.Amount, opt => opt.MapFrom(src => src.Amount.amount.ToStringSplit3Digit()))
+                .ForMember(m => m.InstallmentsCount, opt => opt.MapFrom(src => src.InstallmentsCount))
+
+                ;
+            CreateMap<ApplicantLoanRequestFlow, CurrentApplicantLoanRequestFlow>()
+                .ForMember(m => m.StateDescription, opt => opt.MapFrom(src => src.State.GetDisplayName()))
+                .ForMember(m => m.CreateDate, opt => opt.MapFrom(src => src.CreateDate.M2S()))
+                ;
+
+
+
 
 
         }

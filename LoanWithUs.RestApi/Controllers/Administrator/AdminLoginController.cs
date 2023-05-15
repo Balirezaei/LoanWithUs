@@ -33,9 +33,7 @@ namespace LoanWithUs.RestApi.Controllers.Administrator
         }
 
         [HttpPost]
-        public async Task<IActionResult> RequestNewActivateCode(
-            AdminUserRequestNewOTPCodeForUserViewModel vm
-        )
+        public async Task<IActionResult> RequestNewActivateCode(AdminUserRequestNewOTPCodeForUserViewModel vm)
         {
             var command = new AdminUserRequestNewOTPCodeForUserCommand(vm.AdminId);
             var res = await _mediator.Send(command);
@@ -43,9 +41,7 @@ namespace LoanWithUs.RestApi.Controllers.Administrator
         }
 
         [HttpPost]
-        public async Task<IActionResult> ActivateCodeVerification(
-            ValidateAdministratorOTPViewModel vm
-        )
+        public async Task<IActionResult> ActivateCodeVerification(ValidateAdministratorOTPViewModel vm)
         {
             var query = new ValidateAdministratorOTPQuery(vm.key, vm.code);
             AdministratorOTPValidationResult res = await _mediator.Send(query);

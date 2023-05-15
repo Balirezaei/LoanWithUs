@@ -2,6 +2,10 @@
 {
     public class UserConfirmation
     {
+        public static UserConfirmation NotConfirmedInstance() {
+            return new UserConfirmation();
+            
+        }
         protected UserConfirmation() { }
         public bool NationalCodeConfirmation { get; private set; }
         public bool UserBanckAccountConfirmation { get; private set; }

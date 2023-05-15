@@ -25,6 +25,7 @@ namespace LoanWithUs.Common.ExtentionMethod
         {
             return input.Trim().ToLower();
         }
+
         //public static TokenInfo GetTokenInfoFromJWT(this string jwt)
         //{
         //    return DecodeToken(jwt);

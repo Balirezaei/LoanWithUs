@@ -16,7 +16,7 @@ namespace LoanWithUs.Domain
         {
         }
 
-        internal ApplicantLoanRequest(Applicant applicant, Supporter supporter, LoanLadderFrame loanLadderFrame, LoanLadderInstallmentsCount loanLadderInstallments, Amount amount, string reason, IApplicantLoanRequestDomainService _applicantLoanRequestDomainService, IDateTimeServiceProvider dateProvider)
+        internal ApplicantLoanRequest(Applicant applicant, Supporter supporter, LoanLadderFrame loanLadderFrame, LoanLadderInstallmentsCount loanLadderInstallments, Amount amount, string reason,string description, IApplicantLoanRequestDomainService _applicantLoanRequestDomainService, IDateTimeServiceProvider dateProvider)
         {
             var isValid = _applicantLoanRequestDomainService.ValidateFrameByApplicant(applicant, loanLadderFrame).Result;
             if (!isValid)
@@ -44,6 +44,7 @@ namespace LoanWithUs.Domain
             InstallmentsCount = loanLadderInstallments.Count;
             LastState = ApplicantLoanRequestState.ApplicantRequested;
             Reason = reason;
+            Description = description;
 
             this.Amount = amount;
 
@@ -122,11 +123,12 @@ namespace LoanWithUs.Domain
                 Flows = new List<ApplicantLoanRequestFlow>();
             }
             Flows.Add(new ApplicantLoanRequestFlow(LastState, String.Format(Messages.AdminAcceptLoanRequest, this.Amount.amount.ToStringSplit3Digit()), dateProvider));
-            return new Loan(this.ApplicantId, this.Amount, Applicant, InstallmentsCount, receipt, dateProvider);
+            return new Loan(this, receipt, dateProvider);
         }
 
         public int Id { get; set; }
         public string Reason { get; private set; }
+        public string Description { get;private set; }
         public DateTime CreateDate { get; private set; }
         public ApplicantLoanRequestState LastState { get; internal set; }
         private ApplicantLoanRequestStateMachine _State;
@@ -135,6 +137,7 @@ namespace LoanWithUs.Domain
             get => _State ??= ApplicantLoanRequestStateMachine.New(this, LastState);
             internal set => _State = value;
         }
+        
         public LoanLadderFrame LoanLadderFrame { get; private set; }
         public int LoanLadderFrameId { get; private set; }
         public int InstallmentsCount { get; private set; }

@@ -24,11 +24,21 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
                             v => JsonConvert.DeserializeObject<Amount>(v));
 
             builder.HasOne(m => m.Requester)
-                .WithMany()
+                .WithMany(m => m.Loans)
                 .HasForeignKey(m => m.RequesterId);
 
             builder.OwnsMany(m => m.LoanInstallments);
+            builder.OwnsMany(m => m.LoanRequiredDocuments, sa =>
+            {
+                sa.HasOne(z => z.File).WithMany()
+                .HasForeignKey(z=>z.LoanWithUsFileId)
+                .OnDelete(DeleteBehavior.NoAction);
+            });
+            //Sequence-LoanSerialNumber
 
+            builder
+             .Property(m => m.SerialNumber)
+             .HasDefaultValueSql("(NEXT VALUE FOR [Sequence-LoanSerialNumber])");
 
         }
     }

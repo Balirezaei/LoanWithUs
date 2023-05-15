@@ -11,17 +11,19 @@ namespace LoanWithUs.DomainService
     {
         private readonly IApplicantReadRepository _applicantReadRepository;
         private readonly IApplicantLoanRequestRepository _applicantLoanRequestRepository;
+        private readonly ILoanRepository _loanRepository;
 
-        public ApplicantLoanRequestDomainService(IApplicantReadRepository applicantReadRepository, IApplicantLoanRequestRepository applicantLoanRequestRepository)
+        public ApplicantLoanRequestDomainService(IApplicantReadRepository applicantReadRepository, IApplicantLoanRequestRepository applicantLoanRequestRepository, ILoanRepository loanRepository)
         {
             _applicantReadRepository = applicantReadRepository;
             _applicantLoanRequestRepository = applicantLoanRequestRepository;
+            _loanRepository = loanRepository;
         }
 
         public async Task<bool> HasNotSettelledLoan(Applicant applicant)
         {
-            //TODO : Loan Repository
-            return false;
+            var loan =await _loanRepository.GetActiveLoan(applicant.Id);
+            return loan != null;
         }
 
         public Task<bool> HasOpenRequest(Applicant applicant)

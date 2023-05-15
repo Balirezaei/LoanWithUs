@@ -4,6 +4,7 @@ using LoanWithUs.Persistense.EF.ContextContainer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoanWithUs.Persistense.EF.Migrations
 {
     [DbContext(typeof(LoanWithUsContext))]
-    partial class LoanWithUsContextModelSnapshot : ModelSnapshot
+    [Migration("20230509064035_supporter_debit_Credit")]
+    partial class supporter_debit_Credit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,7 +82,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                             MobileNumber = "09124444444",
                             NationalCode = "0099887766",
                             Password = "o4r8d5bV0uH4wxMOIP+8SG8plc4dLZ4iUsgbUonSDL+y1wEWURrhqJEeK7qpyViSZMpVZOhDWbtiEPt00fZr2vWfjKDgEIA8982GNs+Atr2PRpV3+8epUbP6egn4ifS1UsGV3iiZJj3cdMLczNkvBAV05BKi97L+OVQaj4b741gsrDw5p2oa2CE6BLAMAcFfxBpLSuYnLfycfQJlQ7nxP10eSCpeLEpnuX+YqextxzkL1510HPkpJxHspruuijuT3LFMrhqWnNr0e7YuJlft3354QYLkGXAIn2zJYEo/ppfpVXe7IAI9zx7FsLPgXD3z62gEjJHiF+TjeegmDuQ5CA==",
-                            RegisterationDate = new DateTime(2023, 5, 15, 16, 26, 38, 335, DateTimeKind.Local).AddTicks(148),
+                            RegisterationDate = new DateTime(2023, 5, 9, 10, 10, 35, 229, DateTimeKind.Local).AddTicks(8413),
                             UserName = "admin"
                         });
                 });
@@ -133,10 +135,6 @@ namespace LoanWithUs.Persistense.EF.Migrations
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("InstallmentsCount")
                         .HasColumnType("int");
@@ -504,9 +502,6 @@ namespace LoanWithUs.Persistense.EF.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Amount");
 
-                    b.Property<float>("DailyPenalty")
-                        .HasColumnType("real");
-
                     b.Property<bool>("IsSettled")
                         .HasColumnType("bit");
 
@@ -527,11 +522,16 @@ namespace LoanWithUs.Persistense.EF.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ReciptFileId");
 
                     b.HasIndex("RequesterId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Loan", (string)null);
                 });
@@ -782,10 +782,14 @@ namespace LoanWithUs.Persistense.EF.Migrations
                         .IsRequired();
 
                     b.HasOne("LoanWithUs.Domain.User", "Requester")
-                        .WithMany("Loans")
+                        .WithMany()
                         .HasForeignKey("RequesterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("LoanWithUs.Domain.User", null)
+                        .WithMany("Loans")
+                        .HasForeignKey("UserId");
 
                     b.OwnsMany("LoanWithUs.Domain.LoanInstallment", "LoanInstallments", b1 =>
                         {
@@ -810,17 +814,11 @@ namespace LoanWithUs.Persistense.EF.Migrations
                             b1.Property<int>("PenaltyDay")
                                 .HasColumnType("int");
 
-                            b1.Property<int>("PenaltyFee")
-                                .HasColumnType("int");
-
                             b1.Property<DateTime>("StartDate")
                                 .HasColumnType("datetime2");
 
                             b1.Property<int>("Step")
                                 .HasColumnType("int");
-
-                            b1.Property<Guid>("UniqueIdentity")
-                                .HasColumnType("uniqueidentifier");
 
                             b1.HasKey("LoanId", "Id");
 
@@ -830,47 +828,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                                 .HasForeignKey("LoanId");
                         });
 
-                    b.OwnsMany("LoanWithUs.Domain.LoanRequiredDocument", "LoanRequiredDocuments", b1 =>
-                        {
-                            b1.Property<int>("LoanId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
-
-                            b1.Property<string>("Description")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<int?>("LoanWithUsFileId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Type")
-                                .HasColumnType("int");
-
-                            b1.HasKey("LoanId", "Id");
-
-                            b1.HasIndex("LoanWithUsFileId");
-
-                            b1.ToTable("LoanRequiredDocument");
-
-                            b1.WithOwner()
-                                .HasForeignKey("LoanId");
-
-                            b1.HasOne("LoanWithUs.Domain.LoanWithUsFile", "File")
-                                .WithMany()
-                                .HasForeignKey("LoanWithUsFileId")
-                                .OnDelete(DeleteBehavior.NoAction);
-
-                            b1.Navigation("File");
-                        });
-
                     b.Navigation("LoanInstallments");
-
-                    b.Navigation("LoanRequiredDocuments");
 
                     b.Navigation("ReciptFile");
 

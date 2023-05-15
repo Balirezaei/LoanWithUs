@@ -19,7 +19,13 @@ namespace LoanWithUs.Mapper
                 .ForMember(desc => desc.Installments, opt => opt.MapFrom(o => string.Join(',', o.AvalableInstallments.Select(z => z.Count).ToArray())))
                 .ForMember(desc => desc.ParentId, opt => opt.MapFrom(o => o.RequiredParentLoanId))
                 ;
+
+
+            CreateMap<FileDto, LoanWithUsFile>();
+
+
             CreateMap<LoanLadderFrameContractGridContractVm, LoanLadderFrameContractGridContract>();
+
 
             CreateMap<SupporterRegistereApplicantVm, SupporterRegistereApplicantCommand>()
                    .ForMember(desc => desc.MobileNumber, opt => opt.MapFrom(o => new MobileNumber(o.MobileNumber)))

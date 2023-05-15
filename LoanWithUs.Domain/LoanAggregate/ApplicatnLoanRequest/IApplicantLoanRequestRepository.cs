@@ -4,6 +4,7 @@
     {
         Task<bool> HasOpenRequest(int applicant);
         Task<ApplicantLoanRequest> FindApplicantLoanRequest(int requestId);
+        Task<ApplicantLoanRequest> FindActiveApplicantLoanRequest(int applicantId);
         Task<ApplicantLoanRequest> FindApplicantLoanRequestForAdmin(int requestId);
         
         void Update(ApplicantLoanRequest loanRequest);

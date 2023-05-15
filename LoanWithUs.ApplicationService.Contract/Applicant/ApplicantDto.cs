@@ -19,12 +19,12 @@ namespace LoanWithUs.ApplicationService.Contract
     public class ApplicantDashboard
     {
         public int CurrentLadder { get; set; }
+        public bool ActiveLoan { get; set; }
     }
 
     public class ApplicantAvailableLoanInitDto
     {
         public Amount Amount { get; set; }
-
     }
 
     public class LoanRequestPrerequisite
@@ -34,9 +34,6 @@ namespace LoanWithUs.ApplicationService.Contract
         public int AvailableInstallments { get; set; }
         public bool CanRequestLoan { get; set; }
         public ApplicantLoanRequestState LoanRequestState { get; set; }
-
     }
-
- 
 
 }

@@ -1,5 +1,6 @@
 ﻿using LoanWithUs.Domain;
 using LoanWithUs.Persistense.EF.ContextContainer;
+using Microsoft.EntityFrameworkCore;
 
 namespace LoanWithUs.Persistense.EF.Repository
 {
@@ -10,6 +11,16 @@ namespace LoanWithUs.Persistense.EF.Repository
         public LoanRepository(LoanWithUsContext context)
         {
             _context = context;
+        }
+
+        public Task<Loan> GetActiveLoan(int userId)
+        {
+            return _context.Loans.Where(m => m.RequesterId == userId).FirstOrDefaultAsync();
+        }
+
+        public Task<Loan> GetActiveLoanWithDependency(int userId)
+        {
+            return _context.Loans.Where(m => m.RequesterId == userId).Include(m=>m.LoanInstallments).Include(m=>m.ReciptFile).FirstOrDefaultAsync();
         }
 
         public async Task RegisterNewLoan(Loan loan)

@@ -26,7 +26,7 @@ namespace LoanWithUs.Domain
         //public Loan ActiveLoan { get; set; }
 
         #region LoanRequest
-        public ApplicantLoanRequest RequestNewLoan(string reason, Amount amount, LoanLadderInstallmentsCount installmentsCount, IApplicantLoanRequestDomainService _applicantLoanRequestDomainService, IDateTimeServiceProvider dateProvider)
+        public ApplicantLoanRequest RequestNewLoan(string reason,string description, Amount amount, LoanLadderInstallmentsCount installmentsCount, IApplicantLoanRequestDomainService _applicantLoanRequestDomainService, IDateTimeServiceProvider dateProvider)
         {
 
             if (this.UserConfirmation == null || !this.UserConfirmation.TotalConfirmation)
@@ -43,7 +43,7 @@ namespace LoanWithUs.Domain
                 throw new InvalidDomainInputException(Messages.ApplicantLoanRequestInvalidAmount);
             }
 
-            var request = new ApplicantLoanRequest(this, Supporter, CurrentLoanLadderFrame, installmentsCount, amount, reason, _applicantLoanRequestDomainService, dateProvider);
+            var request = new ApplicantLoanRequest(this, Supporter, CurrentLoanLadderFrame, installmentsCount, amount, reason,description, _applicantLoanRequestDomainService, dateProvider);
             if (LoanRequests == null)
             {
                 LoanRequests = new List<ApplicantLoanRequest>();
@@ -115,7 +115,11 @@ namespace LoanWithUs.Domain
             this.ApplicantLoanLadderHistory.Add(new ApplicantLoanLadder(CurrentLoanLadderFrameId, "نردبان یکم _ ثبت نام درخواستگر", dateProvider));
 
             RegisterationDate = dateProvider.GetDate();
+
+            UserConfirmation = UserConfirmation.NotConfirmedInstance();
+
         }
+
 
 
 

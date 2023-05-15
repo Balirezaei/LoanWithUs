@@ -28,7 +28,7 @@ namespace LoanWithUs.Persistense.EF.Repository
 
         public Task<ApplicantLoanRequest> FindApplicantLoanRequestForAdmin(int requestId)
         {
-            return _context.ApplicantLoanRequests.Where(m => m.Id == requestId).FirstOrDefaultAsync();
+            return _context.ApplicantLoanRequests.Where(m => m.Id == requestId).Include(m=>m.Supporter).FirstOrDefaultAsync();
         }
 
         public void Update(ApplicantLoanRequest loanRequest)
@@ -52,6 +52,12 @@ namespace LoanWithUs.Persistense.EF.Repository
                 .Include(m => m.Applicant.PersonalInformation)
                 .Include(m => m.Supporter.PersonalInformation)
                 ;
+        }
+
+        public Task<ApplicantLoanRequest> FindActiveApplicantLoanRequest(int applicantId)
+        {
+            var inprogressState = ApplicantLoanRequestState.ApplicantRequested.GetInprogressRequestState();
+            return _context.ApplicantLoanRequests.Where(m => m.ApplicantId == applicantId && inprogressState.Contains(m.LastState)).FirstOrDefaultAsync();
         }
     }
 }

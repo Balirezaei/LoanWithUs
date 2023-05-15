@@ -39,5 +39,16 @@ namespace LoanWithUs.RestApi.Controllers.Applicant
             cmd.ApplicantId = int.Parse(userId);
             return _mediator.Send(cmd);
         }
+
+        [HttpGet]
+        public Task<CurrentApplicantLoanRequestDetail> GetCurrentApplicantLoanRequestDetail()
+        {
+            var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
+
+            return _mediator.Send(new GetCurrentApplicantLoanRequestDetail
+            {
+                ApplicantId = int.Parse(userId)
+            });
+        }
     }
 }

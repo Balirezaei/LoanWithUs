@@ -24,7 +24,7 @@ namespace LoanWithUs.Domain.Test
             //Excersice
             Action comparison = () =>
             {
-                Applicant.RequestNewLoan("", LoanLadderFrameFactory.StepOne().Amount, new LoanLadderInstallmentsCount(6), dService, dateProvider);
+                Applicant.RequestNewLoan("","", LoanLadderFrameFactory.StepOne().Amount, new LoanLadderInstallmentsCount(6), dService, dateProvider);
             };
 
             //Assertion

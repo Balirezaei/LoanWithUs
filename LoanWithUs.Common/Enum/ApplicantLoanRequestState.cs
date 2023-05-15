@@ -17,4 +17,10 @@
         Paied = 6,
         Canceled = 7
     }
+    public enum SupporterDebitCreditType
+    {
+        InitAmount = 1,
+        ApplicantLoan = 2,
+        ApplicantLoanPayment = 3
+    }
 }

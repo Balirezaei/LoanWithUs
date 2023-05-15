@@ -214,6 +214,15 @@ namespace LoanWithUs.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to درخواستگر گرامی پس از تایید پروفایل کاربری امکان درخواست وام برای شما فراهم می باشد..
+        /// </summary>
+        public static string ApplicantLoanRequestWithoutTotalConfirmation {
+            get {
+                return ResourceManager.GetString("ApplicantLoanRequestWithoutTotalConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to درخواست شما نامعتبر است.
         /// </summary>
         public static string LoanRequestInvalidStateChange {

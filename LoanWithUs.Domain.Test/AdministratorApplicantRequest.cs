@@ -36,7 +36,7 @@ namespace LoanWithUs.Domain.Test
             _applicantDomainService.HasOpenRequest(default).ReturnsForAnyArgs(false);
             dateProvider = new DateTimeServiceProvider();
 
-            applicantLoanRequest = applicant.RequestNewLoan("Unit Test", new Common.DefinedType.Amount(1000000, Common.Enum.MoneyType.Toman), new LoanLadderInstallmentsCount(6), _applicantDomainService, dateProvider);
+            applicantLoanRequest = applicant.RequestNewLoan("Unit Test", "Unit Test", new Common.DefinedType.Amount(1000000, Common.Enum.MoneyType.Toman), new LoanLadderInstallmentsCount(6), _applicantDomainService, dateProvider);
             supporter.ConfirmApplicantLoanRequest(applicantLoanRequest,dateProvider);
 
         }
@@ -63,11 +63,11 @@ namespace LoanWithUs.Domain.Test
         [Fact]
         public void AfterAdminRejectSupporterCreditShouldBackToPreviousAmount()
         {
-            supporter.GetAvailableCredit().Should().Be((StaticDataForBegining.InitCreditForSupporter - LoanAmount).ToToamn());
+            supporter.GetAvailableCredit().Should().Be((StaticDataForBegining.InitCreditForSupporter - LoanAmount).ToToman());
 
             administrator.RejectApplicantLoanRequest(applicantLoanRequest, "Unit Test", dateProvider);
 
-            supporter.GetAvailableCredit().Should().Be(StaticDataForBegining.InitCreditForSupporter.ToToamn());
+            supporter.GetAvailableCredit().Should().Be(StaticDataForBegining.InitCreditForSupporter.ToToman());
         }
 
         [Fact]

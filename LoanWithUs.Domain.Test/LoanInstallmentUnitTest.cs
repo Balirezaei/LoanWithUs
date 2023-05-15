@@ -17,20 +17,33 @@ namespace LoanWithUs.Domain.Test
 
         private Applicant applicant;
         IDateTimeServiceProvider dateProvider;
+        private ApplicantLoanRequest applicantLoanRequest;
+        IApplicantLoanRequestDomainService domainService;
+
         public LoanInstallmentUnitTest()
         {
 
             dateProvider = new DateTimeServiceProvider();
             applicant = new ApplicantBuilder().Build();
+            domainService = Substitute.For<IApplicantLoanRequestDomainService>();
+            dateProvider = new DateTimeServiceProvider();
+            //supporter = new SupporterBuilder().Build();
         }
 
+        private Loan CreateLoan(int amount,int instalmentCount)
+        {
+            var loanRequest = applicant.RequestNewLoan("", "", new Amount(amount, Common.Enum.MoneyType.Toman), new LoanLadderInstallmentsCount(instalmentCount), domainService, dateProvider);
+            return new Loan(loanRequest, null, dateProvider);
+
+        }
         [Theory]
         [InlineData(1000000, 5, 200000, 15000)]
         [InlineData(2000000, 5, 400000, 30000)]
         [InlineData(4000000, 10, 400000, 60000)]
         public void TheInstalmentShouldWorkProperlyWithRoundPricingAndCount(int amount, int instalmentCount, int installmentExpect, int amountWithWage)
         {
-            var loan = new Loan(0, new Amount(amount, Common.Enum.MoneyType.Toman), applicant, instalmentCount, null, dateProvider);
+            //_administrator.
+            var loan=CreateLoan(amount, instalmentCount);
             loan.LoanInstallments.Should().HaveCount(c => c == instalmentCount);
             loan.LoanInstallments.Select(c => c.Amount).Last().Should().Be(installmentExpect);
             loan.LoanInstallments.Select(c => c.Amount).First().Should().Be(installmentExpect + amountWithWage);
@@ -45,8 +58,7 @@ namespace LoanWithUs.Domain.Test
         [InlineData(4000000, 24, 166666, 166682, 60000)]
         public void TheInstalmentShouldWorkProperlyWithNOTRoundPricingAndCount(int amount, int instalmentCount, int installmentExpect, int lastInstallmentExpect, int amountWithWage)
         {
-            var loan = new Loan(0, new Amount(amount, Common.Enum.MoneyType.Toman), applicant, instalmentCount, null, dateProvider);
-
+            var loan = CreateLoan(amount, instalmentCount);
             loan.LoanInstallments.Should().HaveCount(c => c == instalmentCount);
             loan.LoanInstallments.Select(c => c.Amount).ToArray()[0].Should().Be(installmentExpect + amountWithWage);
             loan.LoanInstallments.Select(c => c.Amount).ToArray()[1].Should().Be(installmentExpect);

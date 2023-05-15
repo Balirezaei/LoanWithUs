@@ -11,11 +11,11 @@ namespace LoanWithUs.Domain.Test.Utility
 
         public SupporterBuilder()
         {
-            InitAmount = StaticDataForBegining.InitCreditForSupporter.ToToamn();
+            InitAmount = StaticDataForBegining.InitCreditForSupporter.ToToman();
         }
         public SupporterBuilder WithInitAmount(int amount)
         {
-            this.InitAmount = amount.ToToamn();
+            this.InitAmount = amount.ToToman();
 
             return this;
         }

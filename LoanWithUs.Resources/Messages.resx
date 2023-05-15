@@ -168,6 +168,9 @@
   <data name="ApplicantLoanRequestWithOpenRequest" xml:space="preserve">
     <value>درخواستگر گرامی شما در حال حاضر امکان ثبت درخواست جدید برای شما وجود ندارد</value>
   </data>
+  <data name="ApplicantLoanRequestWithoutTotalConfirmation" xml:space="preserve">
+    <value>درخواستگر گرامی پس از تایید پروفایل کاربری امکان درخواست وام برای شما فراهم می باشد.</value>
+  </data>
   <data name="LoanRequestInvalidStateChange" xml:space="preserve">
     <value>درخواست شما نامعتبر است</value>
   </data>

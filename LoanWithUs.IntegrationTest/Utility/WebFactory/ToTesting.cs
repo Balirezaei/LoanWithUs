@@ -170,7 +170,7 @@ namespace LoanWithUs.IntegrationTest
             if (!context.ApplicantLoanRequests.Any())
             {
                 await ConfirmApplicant();
-                return await SendAsync(new ApplicantRequestLoanCommand() { ApplicantId = StaticDate.ApplicantId, Amount = 100000.ToToamn(), LoanLadderInstallmentsCount = 6, Reason = "Integratation Test " });
+                return await SendAsync(new ApplicantRequestLoanCommand() { ApplicantId = StaticDate.ApplicantId, Amount = 100000.ToToman(), LoanLadderInstallmentsCount = 6, Reason = "Integratation Test " });
             }
             else
             {

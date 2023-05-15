@@ -17,6 +17,7 @@ namespace LoanWithUs.Domain.Test
     {
         Applicant Applicant;
         private string reason = "UnitTest";
+        private string description = "UnitTest";
 
         public QualifiedApplicantLoanRequestTest()
         {
@@ -36,7 +37,7 @@ namespace LoanWithUs.Domain.Test
         private ApplicantLoanRequest RequestNewLoan(Amount amount, int installment, IApplicantLoanRequestDomainService _applicantDomainService)
         {
             IDateTimeServiceProvider dateProvider = new DateTimeServiceProvider();
-            return Applicant.RequestNewLoan(reason, amount, new LoanLadderInstallmentsCount(installment), _applicantDomainService, dateProvider);
+            return Applicant.RequestNewLoan(reason, description, amount, new LoanLadderInstallmentsCount(installment), _applicantDomainService, dateProvider);
         }
         [Fact]
         public void Applicant_Can_Request_Loan_In_First_Step_With_Sufficient_Supporter_Credit()

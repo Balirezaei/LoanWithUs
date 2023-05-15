@@ -24,7 +24,9 @@ namespace LoanWithUs.Domain
         public int RequesterId { get; private set; }
 
         public LoanWithUsFile ReciptFile { get; private set; }
+        public int SerialNumber { get; private set; }
 
+        public float DailyPenalty { get; private set; }
 
         /// <summary>
         /// تاریخ واریز وام
@@ -34,18 +36,29 @@ namespace LoanWithUs.Domain
         /// آیا وام به طور کامل تسویه شده است؟
         /// </summary>
         public bool IsSettled { get; set; }
-        public List<LoanInstallment> LoanInstallments { get; private set; }
+        public virtual List<LoanInstallment> LoanInstallments { get; private set; }
+        public virtual List<LoanRequiredDocument> LoanRequiredDocuments { get; set; }
         public float LoanWage { get; private set; }
 
-        public Loan(int requesterId, Amount amount, Applicant applicant, int installmentCount, LoanWithUsFile ReciptFile, IDateTimeServiceProvider dateProvider)
+        public Loan(ApplicantLoanRequest loanRequest, LoanWithUsFile ReciptFile, IDateTimeServiceProvider dateProvider)
         {
-            RequesterId = requesterId;
-            Amount = amount;
-            Requester = applicant;
+            RequesterId = loanRequest.ApplicantId;
+            Amount = loanRequest.Amount;
+            DailyPenalty = (float)Amount.amount / 1000;
+            Requester = loanRequest.Applicant;
             StartDate = dateProvider.GetDate();
             this.ReciptFile = ReciptFile;
             this.LoanWage = StaticDataForBegining.LoanWage;
-            this.LoanInstallments = GenerateLoanInstallment(installmentCount, dateProvider).ToList();
+            if (this.LoanRequiredDocuments == null)
+            {
+                this.LoanRequiredDocuments = new List<LoanRequiredDocument>();
+            }
+            this.LoanRequiredDocuments = new List<LoanRequiredDocument>()
+            {
+                new LoanRequiredDocument(LoanRequiredDocumentType.Supporter,loanRequest.Supporter.DisplayName(),null)
+            };
+
+            this.LoanInstallments = GenerateLoanInstallment(loanRequest.InstallmentsCount, dateProvider).ToList();
         }
 
 
@@ -88,10 +101,10 @@ namespace LoanWithUs.Domain
             }
         }
 
+
         /// <summary>
         /// پرداخت آخرین 
         /// </summary>
-        //TODO:....
         public void PaidLastByApplicant(IDateTimeServiceProvider dateProvider)
         {
             var installment = this.LoanInstallments.FirstOrDefault(m => m.PaiedDate == null);
@@ -111,4 +124,26 @@ namespace LoanWithUs.Domain
         }
 
     }
+
+    public class LoanRequiredDocument
+    {
+        public LoanRequiredDocumentType Type { get; set; }
+        public string Description { get; set; }
+
+        public virtual LoanWithUsFile? File { get; private set; }
+        public int? LoanWithUsFileId { get; set; }
+
+        internal LoanRequiredDocument(LoanRequiredDocumentType type, string description, LoanWithUsFile file)
+        {
+            Type = type;
+            Description = description;
+            File = file;
+        }
+
+        protected LoanRequiredDocument()
+        {
+        }
+    }
+   
+
 }

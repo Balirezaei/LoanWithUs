@@ -13,6 +13,7 @@ namespace LoanWithUs.ApplicationService.Contract.Applicant
     {
         public int ApplicantId { get; set; }
         public string Reason { get; set; }
+        public string Description { get; set; }
         public Amount Amount { get; set; }
         public int LoanLadderInstallmentsCount { get; set; }
     }
@@ -28,4 +29,5 @@ namespace LoanWithUs.ApplicationService.Contract.Applicant
     {
         public int ApplicantId { get; set; }
     }
+
 }

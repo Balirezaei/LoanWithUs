@@ -25,8 +25,23 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
 
             builder.HasOne(m => m.Supporter).WithMany().HasForeignKey(m => m.SupporterId).OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(m => m.Flows);
+            builder.OwnsMany(m => m.Flows, sa => {
+                sa
+                   .Property(e => e.State)
+                   .HasConversion(
+                   v => v.ToString(),
+                   v => (ApplicantLoanRequestState)Enum.Parse(typeof(ApplicantLoanRequestState), v));
+            });
 
+            //builder.OwnsMany(m => m.AcceptedApplicantLoanRequests, sa =>
+            //{
+            //    sa.Property(x => x.Amount)
+            //            .HasColumnName("Amount").HasMaxLength(500)
+            //            .HasConversion(
+            //                v => JsonConvert.SerializeObject(v),
+            //                v => JsonConvert.DeserializeObject<Amount>(v));
+
+            //});
             builder
                     .Property(e => e.LastState)
                     .HasConversion(

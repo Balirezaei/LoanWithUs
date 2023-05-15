@@ -65,7 +65,7 @@ namespace LoanWithUs.Domain
         public void RejectApplicantLoanRequest(ApplicantLoanRequest loanRequest, string reason, IDateTimeServiceProvider dateProvider)
         {
             loanRequest.AdminResponse(false, reason, dateProvider);
-            loanRequest.Supporter.CloseAcceptedLoanRequest(loanRequest);
+            loanRequest.Supporter.RejectAcceptedLoanRequest(loanRequest);
         }
 
         public Loan PaiedApplicantLoanRequest(ApplicantLoanRequest loanRequest, LoanWithUsFile receipt, IDateTimeServiceProvider dateProvider)

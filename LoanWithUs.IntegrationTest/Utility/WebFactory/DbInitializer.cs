@@ -16,7 +16,7 @@ namespace LoanWithUs.IntegrationTest.Utility.WebFactory
                 var admin = context.Administrators.First(m => m.Id == 1);
                 var domainServiceSupporter = NSubstitute.Substitute.For<ISupporterDomainService>();
                 var dateProvider = new DateTimeServiceProvider();
-                var supporter = admin.DefineNewSupporter(StaticDate.SupporterNationalCode, new MobileNumber(StaticDate.SupporterMobileNumber), StaticDataForBegining.InitCreditForSupporter.ToToamn(), domainServiceSupporter, dateProvider);
+                var supporter = admin.DefineNewSupporter(StaticDate.SupporterNationalCode, new MobileNumber(StaticDate.SupporterMobileNumber), StaticDataForBegining.InitCreditForSupporter.ToToman(), domainServiceSupporter, dateProvider);
                 context.Supporters.Add(supporter);
                 supporter.UpdatePersonalInfo("supporter", "supporter");
                 context.SaveChanges();

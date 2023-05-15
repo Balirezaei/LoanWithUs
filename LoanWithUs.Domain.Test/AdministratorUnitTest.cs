@@ -26,7 +26,7 @@ namespace LoanWithUs.Domain.Test
             var suporterMobileNumber = new MobileNumber("09121231212");
             var domainSupporter = Substitute.For<ISupporterDomainService>();
 
-            var supporet = admin.DefineNewSupporter(suporterNationalCode, suporterMobileNumber, StaticDataForBegining.InitCreditForSupporter.ToToamn(), domainSupporter, dateProvider);
+            var supporet = admin.DefineNewSupporter(suporterNationalCode, suporterMobileNumber, StaticDataForBegining.InitCreditForSupporter.ToToman(), domainSupporter, dateProvider);
 
             supporet.IdentityInformation.MobileNumber.Should().Be(suporterMobileNumber);
             supporet.IdentityInformation.NationalCode.Should().Be(suporterNationalCode);
@@ -43,7 +43,7 @@ namespace LoanWithUs.Domain.Test
 
             var action = () =>
             {
-                admin.DefineNewSupporter(suporterNationalCode, suporterMobileNumber, StaticDataForBegining.InitCreditForSupporter.ToToamn(), domainSupporter, dateProvider);
+                admin.DefineNewSupporter(suporterNationalCode, suporterMobileNumber, StaticDataForBegining.InitCreditForSupporter.ToToman(), domainSupporter, dateProvider);
             };
 
             action.Should().Throw<InvalidDomainInputException>();

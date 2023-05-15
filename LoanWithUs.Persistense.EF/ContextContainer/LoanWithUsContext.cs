@@ -16,6 +16,10 @@ namespace LoanWithUs.Persistense.EF.ContextContainer
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasSequence<int>("Sequence-TrackingNumber").IncrementsBy(1).StartsAt(1000);
+            modelBuilder.HasSequence<int>("Sequence-LoanSerialNumber").IncrementsBy(1).StartsAt(1000);
+
+
+
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);      
             base.OnModelCreating(modelBuilder);
         }

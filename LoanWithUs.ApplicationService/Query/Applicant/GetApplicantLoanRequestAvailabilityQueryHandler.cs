@@ -27,14 +27,25 @@ namespace LoanWithUs.ApplicationService.Query.Applicant
 
             var loanRequestAvailibility = new ApplicantLoanRequestAvailability();
 
+            if (applicant.UserConfirmation == null || !applicant.UserConfirmation.TotalConfirmation)
+            {
+                loanRequestAvailibility.CanRequestALoan = false;
+                loanRequestAvailibility.NotAvailableResonType = NotAvailableResonType.NotConfirmedProfile;
+                loanRequestAvailibility.Description = Messages.ApplicantLoanRequestWithoutTotalConfirmation;
+                return loanRequestAvailibility;
+            }
+
             if ((await _applicantDomainService.HasOpenRequest(applicant)))
             {
                 loanRequestAvailibility.CanRequestALoan = false;
+                loanRequestAvailibility.NotAvailableResonType = NotAvailableResonType.HasOpenRequest;
                 loanRequestAvailibility.Description = Messages.ApplicantLoanRequestWithOpenRequest;
                 return loanRequestAvailibility;
             }
-            else if ((await _applicantDomainService.HasNotSettelledLoan(applicant))) {
+            else if ((await _applicantDomainService.HasNotSettelledLoan(applicant)))
+            {
                 loanRequestAvailibility.CanRequestALoan = false;
+                loanRequestAvailibility.NotAvailableResonType = NotAvailableResonType.HasNotSettelledLoan;
                 loanRequestAvailibility.Description = Messages.ApplicantLoanRequestWithOpenLoan;
                 return loanRequestAvailibility;
             }
@@ -59,7 +70,7 @@ namespace LoanWithUs.ApplicationService.Query.Applicant
                         MaxLoanAmount = applicant.CurrentLoanLadderFrame.Amount.amount,
                         Installments = applicant.CurrentLoanLadderFrame.AvalableInstallments.Select(m => m.Count).ToArray()
                     };
-                }                
+                }
                 return loanRequestAvailibility;
             }
 

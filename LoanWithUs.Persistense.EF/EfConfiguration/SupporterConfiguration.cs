@@ -1,4 +1,5 @@
 ﻿using LoanWithUs.Common.DefinedType;
+using LoanWithUs.Common.Enum;
 using LoanWithUs.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -46,15 +47,44 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
 
             builder.OwnsOne(o => o.SupporterCredit, sa =>
             {
-                //sa.OwnsOne(x => x.Money).Property(m => m.Type);
-                sa.Property(x => x.InitialAmount)
-                        .HasColumnName("Amount")
+
+                sa.OwnsMany(x => x.Details, a =>
+                {
+                    a.Property(e => e.Type)
+                   .HasConversion(
+                   v => v.ToString(),
+                   v => (SupporterDebitCreditType)Enum.Parse(typeof(SupporterDebitCreditType), v));
+
+
+                    a.Property(x => x.Debit).HasConversion(
+                            v => JsonConvert.SerializeObject(v),
+                            v => JsonConvert.DeserializeObject<Amount>(v));
+
+
+                    a.Property(x => x.Credit).HasConversion(
+                         v => JsonConvert.SerializeObject(v),
+                         v => JsonConvert.DeserializeObject<Amount>(v));
+
+                });
+
+                sa.Property(x => x.CurrentBalance)
+                        .HasColumnName("CurrentBalance")
                         .HasConversion(
                             v => JsonConvert.SerializeObject(v),
                             v => JsonConvert.DeserializeObject<Amount>(v));
 
-                        sa.ToTable("SupporterCredit");
-                        });
+                sa.Property(x => x.InitialAmount)
+.HasColumnName("InitialAmount")
+.HasConversion(
+v => JsonConvert.SerializeObject(v),
+v => JsonConvert.DeserializeObject<Amount>(v));
+
+                sa.ToTable("SupporterCredit");
+            });
+
+
+
+
 
             //orderConfiguration.OwnsOne(p => p.OrderDetails, cb =>
             //{

@@ -13,7 +13,7 @@ namespace LoanWithUs.Common.ExtentionMethod
         {
             return val == 0;
         }
-        public static Amount ToToamn(this int val)
+        public static Amount ToToman(this int val)
         {
             return new Amount(val, Enum.MoneyType.Toman);
         }

@@ -9,6 +9,7 @@ namespace LoanWithUs.Domain
     {
         protected LoanInstallment()
         {
+
         }
 
         public int Amount { get; private set; }
@@ -19,6 +20,7 @@ namespace LoanWithUs.Domain
             Step = step;
             StartDate = startDate;
             EndDate = endDate;
+            UniqueIdentity = Guid.NewGuid();
         }
         public int Id { get; private set; }
         public int Step { get; private set; }
@@ -26,7 +28,8 @@ namespace LoanWithUs.Domain
         public DateTime EndDate { get; private set; }
         public DateTime? PaiedDate { get; private set; }
         public int PenaltyDay { get; private set; }
-
+        public int PenaltyFee { get; private set; }
+        public Guid UniqueIdentity { get; private set; }
 
         //TODO:....
         public void PaidByApplicant(IDateTimeServiceProvider dateProvider)

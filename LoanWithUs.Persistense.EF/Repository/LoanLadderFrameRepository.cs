@@ -35,5 +35,10 @@ namespace LoanWithUs.Persistense.EF.Repository
         {
             _context.LoanLadderFrames.Update(loanLadderFrame);
         }
+
+        public Task<LoanLadderFrame> GetNextStep(LoanLadderFrame currentladder)
+        {
+            return _context.LoanLadderFrames.FirstOrDefaultAsync(m => m.Step > currentladder.Step);
+        }
     }
 }

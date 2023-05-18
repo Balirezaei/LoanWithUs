@@ -1,5 +1,4 @@
-﻿using LoanWithUs.ApplicationService.Contract;
-using LoanWithUs.ApplicationService.Contract.Applicant;
+﻿using LoanWithUs.ApplicationService.Contract.Applicant;
 using LoanWithUs.Common;
 using LoanWithUs.Domain;
 using LoanWithUs.Exceptions;

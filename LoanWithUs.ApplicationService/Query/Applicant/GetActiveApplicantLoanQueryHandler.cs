@@ -22,25 +22,16 @@ namespace LoanWithUs.ApplicationService.Query.Applicant
 
         public async Task<ActiveApplicantLoan> Handle(GetActiveApplicantLoan request, CancellationToken cancellationToken)
         {
-            var activeLoan = await _loanRepository.GetActiveLoan(request.ApplicantId);
+            var activeLoan = await _loanRepository.GetActiveLoanWithDependency(request.ApplicantId);
+            var result= _mapper.Map<ActiveApplicantLoan>(activeLoan);
+            //result.Installments.Where(m =>  m.PaiedDate == null && m.EndDateForPay < _dateProvider.GetDate())
+            //          m.PenaltyDay > 0).Select(m =>
+            //{
+            //    m.PenaltyAmont = (activeLoan.DailyPenalty * m.PenaltyDay).ToStringSplit3Digit();
+            //    return m;
+            //});
 
-            return new ActiveApplicantLoan
-            {
-                Amount = activeLoan.Amount.amount.ToStringSplit3Digit(),
-                ReceiptFile = _mapper.Map<FileDto>(activeLoan.ReciptFile),
-                StartDate = activeLoan.StartDate.M2S(),
-                SupporterFullName = activeLoan.LoanRequiredDocuments.FirstOrDefault(m => m.Type == Common.LoanRequiredDocumentType.Supporter).Description,
-                Installments = activeLoan.LoanInstallments.Select(m => new ApplicantLoanRequestInstallmentDto
-                {
-                    Amount = m.Amount.ToStringSplit3Digit(),
-                    EndDateForPay = m.EndDate.M2S(),
-                    StartDateForPay = m.StartDate.M2S(),
-                    IsPaid = m.PaiedDate != null,
-                    Step = m.Step,
-                    PaidDate = m.PaiedDate != null ? m.PaiedDate.Value.M2S() : "",
-                    ReadyToPay = m.PaiedDate == null && _dateProvider.GetDate() > m.StartDate
-                }).ToList()
-            };
+            return result;
         }
     }
 }

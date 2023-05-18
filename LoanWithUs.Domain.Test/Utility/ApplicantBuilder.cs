@@ -24,11 +24,6 @@ namespace LoanWithUs.Domain.Test.Utility
             _applicantDomainService.IsMobileReservedWithAllUserType(default, default).ReturnsForAnyArgs(false);
             var loanLadderApplicantDomainService = Substitute.For<ILoanLadderFrameDomainService>();
             var stepOne = LoanLadderFrameFactory.StepOne();
-            //new LoanLadderFrameBuilder(loanLadderApplicantDomainService)
-            //           .WithTitle("نردبان اول")
-            //           .WithStep(1)
-            //           .WithTomanAmount(1000000)
-            //           .Build(1);
             _applicantDomainService.InitLoaderForApplicant().Returns(stepOne);
             dateProvider = new DateTimeServiceProvider();
             supporter = new SupporterBuilder().Build();

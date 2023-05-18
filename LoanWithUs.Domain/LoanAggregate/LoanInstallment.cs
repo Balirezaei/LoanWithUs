@@ -32,14 +32,23 @@ namespace LoanWithUs.Domain
         public Guid UniqueIdentity { get; private set; }
 
         //TODO:....
-        public void PaidByApplicant(IDateTimeServiceProvider dateProvider)
+        internal void PaidByApplicant(IDateTimeServiceProvider dateProvider)
         {
             PaiedDate = dateProvider.GetDate();
-            //توسط دامین ایونت بعد از پرداخت موفق از زرین پال تایید میشود
-            if (dateProvider.GetDate() > EndDate)
+            ////توسط دامین ایونت بعد از پرداخت موفق از زرین پال تایید میشود
+            //if (dateProvider.GetDate() > EndDate)
+            //{
+            //    //TODO: مکانیزمی بابت جریمه کاربران در نظر گرفته شود
+            //    PenaltyDay = (EndDate - dateProvider.GetDate().Date).Days;
+            //}
+        }
+
+        internal void CalculatePenalty(IDateTimeServiceProvider dateProvider,int penaltyAmount)
+        {
+            if (PaiedDate == null && (dateProvider.GetDate().Date -EndDate.Date).Days>0)
             {
-                //TODO: مکانیزمی بابت جریمه کاربران در نظر گرفته شود
-                PenaltyDay = (EndDate - dateProvider.GetDate().Date).Days;
+                PenaltyDay = (dateProvider.GetDate().Date - EndDate.Date).Days;
+                PenaltyFee = PenaltyDay * penaltyAmount;
             }
         }
     }

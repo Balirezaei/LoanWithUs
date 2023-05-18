@@ -82,6 +82,31 @@ namespace LoanWithUs.Common.ExtentionMethod
                 var farsiDay = Convert.ToString(jc.GetDayOfMonth(convDate));
                 farsiDay = farsiDay.PadLeft(2, '0');
                 farsiMonth = farsiMonth.PadLeft(2, '0');
+                var returnValue = farsiYear + "/" + farsiMonth + "/" + farsiDay;
+                return returnValue;
+            }
+            catch
+            {
+                return "1300/01/01";
+            }
+        }
+
+        public static String M2SWithTime(this DateTime convDate)
+        {
+            var jc = new PersianCalendar();
+            if (convDate.ToString(CultureInfo.InvariantCulture) == "12:00:00 AM")
+            {
+                return "1300/01/01";
+            }
+            try
+            {
+                var farsiMinute = Convert.ToString(jc.GetMinute(convDate));
+                var farsiHour = Convert.ToString(jc.GetHour(convDate));
+                var farsiYear = Convert.ToString(jc.GetYear(convDate));
+                var farsiMonth = Convert.ToString(jc.GetMonth(convDate));
+                var farsiDay = Convert.ToString(jc.GetDayOfMonth(convDate));
+                farsiDay = farsiDay.PadLeft(2, '0');
+                farsiMonth = farsiMonth.PadLeft(2, '0');
                 var returnValue = farsiYear + "/" + farsiMonth + "/" + farsiDay + " " + farsiHour.PadLeft(2, '0') + ":" + farsiMinute.PadLeft(2, '0');
                 return returnValue;
             }

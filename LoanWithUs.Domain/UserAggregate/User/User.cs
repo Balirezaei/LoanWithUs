@@ -5,7 +5,7 @@ namespace LoanWithUs.Domain
     /// <summary>
     /// کلاس پایه پشتیبان و درخواستگر
     /// </summary>
-    public class User
+    public class User : AggregateRoot
     {
         public int Id { get; protected set; }
         /// <summary>
@@ -50,7 +50,7 @@ namespace LoanWithUs.Domain
 
         public string DisplayName()
         {
-            if (this.PersonalInformation!=null)
+            if (this.PersonalInformation != null)
             {
                 return $"{this.PersonalInformation.FirstName} {this.PersonalInformation.LastName}";
             }

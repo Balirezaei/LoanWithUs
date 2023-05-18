@@ -34,5 +34,10 @@ namespace LoanWithUs.DomainService
         {
             return applicantReadRepository.CheckUserNationalCodeAvailibilityWithAllUserType(currentUser, nationalCode);
         }
+
+        public Task<LoanLadderFrame> NextLadderForApplicant(LoanLadderFrame currentLadder)
+        {
+            return _loanLadderFrameRepository.GetNextStep(currentLadder);
+        }
     }
 }

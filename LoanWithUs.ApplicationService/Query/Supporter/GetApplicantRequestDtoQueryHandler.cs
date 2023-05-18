@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using LoanWithUs.ApplicationService.Contract;
-using LoanWithUs.Common.Enum;
 using LoanWithUs.Domain;
 using LoanWithUs.Resources;
 using MediatR;

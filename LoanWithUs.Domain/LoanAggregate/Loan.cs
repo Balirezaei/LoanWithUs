@@ -1,5 +1,6 @@
 ﻿using LoanWithUs.Common;
 using LoanWithUs.Common.DefinedType;
+using LoanWithUs.Exceptions;
 
 namespace LoanWithUs.Domain
 {
@@ -23,10 +24,10 @@ namespace LoanWithUs.Domain
         public virtual User Requester { get; private set; }
         public int RequesterId { get; private set; }
 
-        public LoanWithUsFile ReciptFile { get; private set; }
+        public virtual LoanWithUsFile ReciptFile { get; private set; }
         public int SerialNumber { get; private set; }
 
-        public float DailyPenalty { get; private set; }
+        public int DailyPenalty { get; private set; }
 
         /// <summary>
         /// تاریخ واریز وام
@@ -40,11 +41,15 @@ namespace LoanWithUs.Domain
         public virtual List<LoanRequiredDocument> LoanRequiredDocuments { get; set; }
         public float LoanWage { get; private set; }
 
-        public Loan(ApplicantLoanRequest loanRequest, LoanWithUsFile ReciptFile, IDateTimeServiceProvider dateProvider)
+        internal Loan(ApplicantLoanRequest loanRequest, LoanWithUsFile ReciptFile, IDateTimeServiceProvider dateProvider)
         {
+            if (loanRequest.LastState!=Common.Enum.ApplicantLoanRequestState.Paied)
+            {
+                throw new DomainException("عملیات غیر مجاز");
+            }
             RequesterId = loanRequest.ApplicantId;
             Amount = loanRequest.Amount;
-            DailyPenalty = (float)Amount.amount / 1000;
+            DailyPenalty = Amount.amount / 1000;
             Requester = loanRequest.Applicant;
             StartDate = dateProvider.GetDate();
             this.ReciptFile = ReciptFile;
@@ -55,26 +60,37 @@ namespace LoanWithUs.Domain
             }
             this.LoanRequiredDocuments = new List<LoanRequiredDocument>()
             {
-                new LoanRequiredDocument(LoanRequiredDocumentType.Supporter,loanRequest.Supporter.DisplayName(),null)
+                new LoanRequiredDocument(LoanRequiredDocumentType.Supporter,new SupporterUserType("Supporter","پشتیبان",loanRequest.Supporter.DisplayName()),null)
             };
 
             this.LoanInstallments = GenerateLoanInstallment(loanRequest.InstallmentsCount, dateProvider).ToList();
         }
 
-
+        public List<LoanInstallment> GetLoanInstallmentsWithPenaltyCalculation(IDateTimeServiceProvider dateProvider)
+        {
+            foreach (var item in LoanInstallments.Where(m => m.PaiedDate == null && (dateProvider.GetDate().Date - m.EndDate.Date).Days > 0))
+            {
+                item.CalculatePenalty(dateProvider, this.DailyPenalty);
+            }
+            return this.LoanInstallments;
+        }
         private IEnumerable<LoanInstallment> GenerateLoanInstallment(int installmentCount, IDateTimeServiceProvider dateProvider)
         {
             float wage = this.LoanWage;
             int count = installmentCount;
             int price = this.Amount.amount;
-            int firstMonthWage = (int)(price * wage);
+            int lastMonthWage = (int)(price * wage);
             if ((price % count) == 0)
             {
-
                 for (int i = 0; i < count; i++)
                 {
-                    var amount = (price / count) + firstMonthWage;
-                    firstMonthWage = 0;
+                    var amount = (price / count);
+                    if (i==(count-1))
+                    {
+                        amount += lastMonthWage;
+                        lastMonthWage = 0;
+                    }
+                   
                     var startDate = dateProvider.GetDate().AddMonths(i + 1).AddDays(1).Date;
                     var endDate = startDate.AddDays(3).Date.AddHours(23);
                     yield return new LoanInstallment(amount, (i + 1), startDate, endDate);
@@ -89,13 +105,13 @@ namespace LoanWithUs.Domain
                     if (i == count - 1)
                     {
                         var remain = price - (amount * (i));
-                        amount = remain;
+                        amount = remain + lastMonthWage;
+                        lastMonthWage = 0;
                     }
-                    var amountToSave = amount + firstMonthWage;
-                    firstMonthWage = 0;
+                   
                     var startDate = dateProvider.GetDate().AddMonths(i + 1).AddDays(1).Date;
                     var endDate = startDate.AddDays(3).Date.AddHours(23);
-                    yield return new LoanInstallment(amountToSave, (i + 1), startDate, endDate);
+                    yield return new LoanInstallment(amount, (i + 1), startDate, endDate);
                 }
 
             }
@@ -105,35 +121,50 @@ namespace LoanWithUs.Domain
         /// <summary>
         /// پرداخت آخرین 
         /// </summary>
-        public void PaidLastByApplicant(IDateTimeServiceProvider dateProvider)
+        public void PaidInstallmentByApplicant(Guid uniqueIdentityy, IApplicantDomainService domainService, IDateTimeServiceProvider dateProvider)
         {
-            var installment = this.LoanInstallments.FirstOrDefault(m => m.PaiedDate == null);
+            var installment = this.LoanInstallments.FirstOrDefault(m => m.PaiedDate == null && m.UniqueIdentity == uniqueIdentityy);
             installment.PaidByApplicant(dateProvider);
+            /// <summary>
+            /// تسویه حساب وام 
+            /// </summary>
             if (this.LoanInstallments.All(m => m.PaiedDate != null))
             {
-                LoanSettlement();
+                this.IsSettled = true;
+                if (this.Requester.GetType().Name == "Applicant")
+                {
+                    ((Applicant)this.Requester).MoveToNextLadderAfterLoanSettel(domainService, dateProvider);
+                }
             }
         }
 
-        /// <summary>
-        /// تسویه حساب وام با توجه به قواعد خاص
-        /// </summary>
-        public void LoanSettlement()
-        {
-            //TODO:....
-        }
+      
+        
 
     }
+    public class SupporterUserType
+    {
+        public SupporterUserType(string userType, string userTypeTitle, string userFullName)
+        {
+            UserType = userType;
+            UserTypeTitle = userTypeTitle;
+            UserFullName = userFullName;
+        }
 
+        public string UserType { get; set; }
+        public string UserTypeTitle { get; set; }
+        public string UserFullName { get; set; }
+
+    }
     public class LoanRequiredDocument
     {
         public LoanRequiredDocumentType Type { get; set; }
-        public string Description { get; set; }
+        public SupporterUserType Description { get; set; }
 
         public virtual LoanWithUsFile? File { get; private set; }
         public int? LoanWithUsFileId { get; set; }
 
-        internal LoanRequiredDocument(LoanRequiredDocumentType type, string description, LoanWithUsFile file)
+        internal LoanRequiredDocument(LoanRequiredDocumentType type, SupporterUserType description, LoanWithUsFile file)
         {
             Type = type;
             Description = description;
@@ -143,7 +174,8 @@ namespace LoanWithUs.Domain
         protected LoanRequiredDocument()
         {
         }
+
     }
-   
+
 
 }

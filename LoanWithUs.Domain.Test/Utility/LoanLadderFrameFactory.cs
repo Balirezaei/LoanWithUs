@@ -16,5 +16,23 @@ namespace LoanWithUs.Domain.Test.Utility
                        .Build(1);
             return stepOne;
         }
+
+        public static LoanLadderFrame StepForth()
+        {
+
+            var loanLadderApplicantDomainService = Substitute.For<ILoanLadderFrameDomainService>();
+            var stepOne = new LoanLadderFrameBuilder(loanLadderApplicantDomainService)
+                       .WithTitle("نردبان اول")
+                       .WithStep(1)
+                       .WithTomanAmount(16000000)
+                       .With6MoInstallment()
+                       .WithCustomeInstallment(5)
+                       .WithCustomeInstallment(10)
+                       .WithCustomeInstallment(12)
+                       .WithCustomeInstallment(24)
+
+                       .Build(1);
+            return stepOne;
+        }
     }
 }

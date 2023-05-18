@@ -26,14 +26,14 @@ namespace LoanWithUs.Domain
         //public Loan ActiveLoan { get; set; }
 
         #region LoanRequest
-        public ApplicantLoanRequest RequestNewLoan(string reason,string description, Amount amount, LoanLadderInstallmentsCount installmentsCount, IApplicantLoanRequestDomainService _applicantLoanRequestDomainService, IDateTimeServiceProvider dateProvider)
+        public ApplicantLoanRequest RequestNewLoan(string reason, string description, Amount amount, LoanLadderInstallmentsCount installmentsCount, IApplicantLoanRequestDomainService _applicantLoanRequestDomainService, IDateTimeServiceProvider dateProvider)
         {
 
             if (this.UserConfirmation == null || !this.UserConfirmation.TotalConfirmation)
                 throw new DomainException(Messages.ApplicantLoanRequestNotConfirmedInfo);
 
             var supporterCredit = Supporter.GetAvailableCredit();
-            if (supporterCredit < CurrentLoanLadderFrame.Amount)
+            if (supporterCredit < amount)
             {
                 throw new DomainException(Messages.ApplicantLoanRequestInsufficientSupporterCredit);
             }
@@ -43,7 +43,7 @@ namespace LoanWithUs.Domain
                 throw new InvalidDomainInputException(Messages.ApplicantLoanRequestInvalidAmount);
             }
 
-            var request = new ApplicantLoanRequest(this, Supporter, CurrentLoanLadderFrame, installmentsCount, amount, reason,description, _applicantLoanRequestDomainService, dateProvider);
+            var request = new ApplicantLoanRequest(this, Supporter, CurrentLoanLadderFrame, installmentsCount, amount, reason, description, _applicantLoanRequestDomainService, dateProvider);
             if (LoanRequests == null)
             {
                 LoanRequests = new List<ApplicantLoanRequest>();
@@ -150,6 +150,18 @@ namespace LoanWithUs.Domain
         internal void ConfirmInfo()
         {
             this.UserConfirmation = new UserConfirmation(true, true, true, true, true);
+        }
+
+
+        public void MoveToNextLadderAfterLoanSettel(IApplicantDomainService domainService, IDateTimeServiceProvider dateProvider)
+        {
+            var next = domainService.NextLadderForApplicant(this.CurrentLoanLadderFrame).Result;
+
+            if (next!=null)
+            {
+                this.CurrentLoanLadderFrame = next;
+                this.ApplicantLoanLadderHistory.Add(new ApplicantLoanLadder(next.Id, "وام تسویه شده", dateProvider));
+            }
         }
     }
 

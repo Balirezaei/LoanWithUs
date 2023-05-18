@@ -13,4 +13,9 @@ namespace LoanWithUs.ViewModel
         public int Amount { get; set; }
         public int LoanLadderInstallmentsCount { get; set; }
     }
+    public class ApplicantInstallmentPaymentVm
+    {
+        public Guid UniqueIdentity { get; set; }
+
+    }
 }

@@ -1,14 +1,9 @@
-﻿using LoanWithUs.Common.DefinedType;
+﻿using LoanWithUs.Common;
+using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace LoanWithUs.Persistense.EF.EfConfiguration
 {
     public class LoanConfiguration : IEntityTypeConfiguration<Loan>
@@ -31,8 +26,17 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
             builder.OwnsMany(m => m.LoanRequiredDocuments, sa =>
             {
                 sa.HasOne(z => z.File).WithMany()
-                .HasForeignKey(z=>z.LoanWithUsFileId)
+                .HasForeignKey(z => z.LoanWithUsFileId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+                sa.Property(e => e.Type).HasMaxLength(30)
+                .HasConversion(v => v.ToString(), v => (LoanRequiredDocumentType)Enum.Parse(typeof(LoanRequiredDocumentType), v));
+
+                sa.Property(e => e.Description).HasMaxLength(100).HasConversion(
+                            v => JsonConvert.SerializeObject(v),
+                            v => JsonConvert.DeserializeObject<SupporterUserType>(v)); ;
+                
+
             });
             //Sequence-LoanSerialNumber
 

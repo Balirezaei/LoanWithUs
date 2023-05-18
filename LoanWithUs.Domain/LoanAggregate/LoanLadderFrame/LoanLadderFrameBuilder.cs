@@ -95,6 +95,14 @@ namespace LoanWithUs.Domain
             return this;
         }
 
+        public ILoanLadderFrameInstallmentBuilder WithCustomeInstallment(int installment)
+        {
+            if (!_loanLadderInstallments.Any(m => m.Count == installment))
+            {
+                _loanLadderInstallments.Add(new LoanLadderInstallmentsCount(installment));
+            }
+            return this;
+        }
     }
 
 }

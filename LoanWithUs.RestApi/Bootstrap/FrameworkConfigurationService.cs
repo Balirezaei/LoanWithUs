@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Common;
+﻿using AutoMapper;
+using LoanWithUs.Common;
 using LoanWithUs.Domain;
 using LoanWithUs.FileService;
 using LoanWithUs.Mapper;
@@ -18,10 +19,27 @@ namespace LoanWithUs.RestApi.Bootstrap
             var ssoConfig = ssoConfigurationSection.Get<FileSettings>();
             services.AddSingleton(ssoConfig);
 
-            services.AddAutoMapper(typeof(BasicInfoProfile).Assembly);
+            //services.AddAutoMapper(typeof(BasicInfoProfile).Assembly);
 
             services.AddScoped<IDateTimeServiceProvider, DateTimeServiceProvider>();
-            
+            //services.AddAutoMapper(provider => new MapperConfiguration(cfg =>
+            //{
+
+            //    cfg.AddProfile(new LoanProfile(new DateTimeServiceProvider()));
+
+
+            //}).CreateMapper());
+
+
+
+            services.AddAutoMapper(
+                (serviceProvider, mapperConfiguration) =>
+                    mapperConfiguration.AddProfile(new LoanProfile(new DateTimeServiceProvider()))
+                    ,
+                typeof(BasicInfoProfile).Assembly
+            );
+
+
             //services.AddAutoMapper(new[] { typeof(BasicInfoProfile), typeof(ApplicantProfile),typeof(SupporterProfile) });
             return services;
 

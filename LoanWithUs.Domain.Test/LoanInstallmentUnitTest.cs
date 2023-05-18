@@ -18,22 +18,40 @@ namespace LoanWithUs.Domain.Test
         private Applicant applicant;
         IDateTimeServiceProvider dateProvider;
         private ApplicantLoanRequest applicantLoanRequest;
-        IApplicantLoanRequestDomainService domainService;
 
         public LoanInstallmentUnitTest()
         {
 
             dateProvider = new DateTimeServiceProvider();
-            applicant = new ApplicantBuilder().Build();
-            domainService = Substitute.For<IApplicantLoanRequestDomainService>();
+            var _applicantDomainService = Substitute.For<IApplicantDomainService>();
+            _applicantDomainService.IsMobileReservedWithAllUserType(default, default).ReturnsForAnyArgs(false);
+            var stepOne = LoanLadderFrameFactory.StepForth();
+            _applicantDomainService.InitLoaderForApplicant().Returns(stepOne);
+            applicant = new ApplicantBuilder().WithApplicantDomainService(_applicantDomainService).Build();
+
+
             dateProvider = new DateTimeServiceProvider();
             //supporter = new SupporterBuilder().Build();
         }
-
-        private Loan CreateLoan(int amount,int instalmentCount)
+        private IApplicantLoanRequestDomainService GetApplicantLoanRequestDomainService(bool validateFrame, bool notSettelledLoan, bool openRequest)
         {
-            var loanRequest = applicant.RequestNewLoan("", "", new Amount(amount, Common.Enum.MoneyType.Toman), new LoanLadderInstallmentsCount(instalmentCount), domainService, dateProvider);
-            return new Loan(loanRequest, null, dateProvider);
+            var _applicantDomainService = Substitute.For<IApplicantLoanRequestDomainService>();
+            _applicantDomainService.ValidateFrameByApplicant(default, default).ReturnsForAnyArgs(validateFrame);
+            _applicantDomainService.HasNotSettelledLoan(default).ReturnsForAnyArgs(notSettelledLoan);
+            _applicantDomainService.HasOpenRequest(default).ReturnsForAnyArgs(openRequest);
+            return _applicantDomainService;
+        }
+
+        private Loan CreateLoan(int amount, int instalmentCount)
+        {
+            var supporter = new SupporterBuilder().Build();
+
+            var admin = new AdministratorBuilder().Build();
+            admin.ConfirmApplicant(applicant);
+            var loanRequest = applicant.RequestNewLoan("", "", new Amount(amount, Common.Enum.MoneyType.Toman), new LoanLadderInstallmentsCount(instalmentCount), GetApplicantLoanRequestDomainService(true, false, false), dateProvider);
+            supporter.ConfirmApplicantLoanRequest(loanRequest, dateProvider);
+            admin.ConfirmApplicantLoanRequest(loanRequest, dateProvider);
+            return admin.PaiedApplicantLoanRequest(loanRequest, new LoanWithUsFile("", "", "", "", FileType.DepositReceipt), dateProvider);
 
         }
         [Theory]
@@ -43,10 +61,10 @@ namespace LoanWithUs.Domain.Test
         public void TheInstalmentShouldWorkProperlyWithRoundPricingAndCount(int amount, int instalmentCount, int installmentExpect, int amountWithWage)
         {
             //_administrator.
-            var loan=CreateLoan(amount, instalmentCount);
+            var loan = CreateLoan(amount, instalmentCount);
             loan.LoanInstallments.Should().HaveCount(c => c == instalmentCount);
-            loan.LoanInstallments.Select(c => c.Amount).Last().Should().Be(installmentExpect);
-            loan.LoanInstallments.Select(c => c.Amount).First().Should().Be(installmentExpect + amountWithWage);
+            loan.LoanInstallments.Select(c => c.Amount).First().Should().Be(installmentExpect);
+            loan.LoanInstallments.Select(c => c.Amount).Last().Should().Be(installmentExpect + amountWithWage);
         }
 
         [Theory]
@@ -60,9 +78,8 @@ namespace LoanWithUs.Domain.Test
         {
             var loan = CreateLoan(amount, instalmentCount);
             loan.LoanInstallments.Should().HaveCount(c => c == instalmentCount);
-            loan.LoanInstallments.Select(c => c.Amount).ToArray()[0].Should().Be(installmentExpect + amountWithWage);
-            loan.LoanInstallments.Select(c => c.Amount).ToArray()[1].Should().Be(installmentExpect);
-            loan.LoanInstallments.Select(c => c.Amount).Last().Should().Be(lastInstallmentExpect);
+            loan.LoanInstallments.Select(c => c.Amount).ToArray()[0].Should().Be(installmentExpect);
+            loan.LoanInstallments.Select(c => c.Amount).Last().Should().Be(lastInstallmentExpect + amountWithWage);
         }
 
     }

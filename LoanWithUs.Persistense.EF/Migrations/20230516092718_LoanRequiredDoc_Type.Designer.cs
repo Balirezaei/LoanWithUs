@@ -4,6 +4,7 @@ using LoanWithUs.Persistense.EF.ContextContainer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoanWithUs.Persistense.EF.Migrations
 {
     [DbContext(typeof(LoanWithUsContext))]
-    partial class LoanWithUsContextModelSnapshot : ModelSnapshot
+    [Migration("20230516092718_LoanRequiredDoc_Type")]
+    partial class LoanRequiredDoc_Type
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,7 +82,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
                             MobileNumber = "09124444444",
                             NationalCode = "0099887766",
                             Password = "o4r8d5bV0uH4wxMOIP+8SG8plc4dLZ4iUsgbUonSDL+y1wEWURrhqJEeK7qpyViSZMpVZOhDWbtiEPt00fZr2vWfjKDgEIA8982GNs+Atr2PRpV3+8epUbP6egn4ifS1UsGV3iiZJj3cdMLczNkvBAV05BKi97L+OVQaj4b741gsrDw5p2oa2CE6BLAMAcFfxBpLSuYnLfycfQJlQ7nxP10eSCpeLEpnuX+YqextxzkL1510HPkpJxHspruuijuT3LFMrhqWnNr0e7YuJlft3354QYLkGXAIn2zJYEo/ppfpVXe7IAI9zx7FsLPgXD3z62gEjJHiF+TjeegmDuQ5CA==",
-                            RegisterationDate = new DateTime(2023, 5, 18, 12, 18, 38, 136, DateTimeKind.Local).AddTicks(3216),
+                            RegisterationDate = new DateTime(2023, 5, 16, 12, 57, 17, 550, DateTimeKind.Local).AddTicks(5160),
                             UserName = "admin"
                         });
                 });
@@ -504,8 +506,8 @@ namespace LoanWithUs.Persistense.EF.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Amount");
 
-                    b.Property<int>("DailyPenalty")
-                        .HasColumnType("int");
+                    b.Property<float>("DailyPenalty")
+                        .HasColumnType("real");
 
                     b.Property<bool>("IsSettled")
                         .HasColumnType("bit");
@@ -843,8 +845,7 @@ namespace LoanWithUs.Persistense.EF.Migrations
 
                             b1.Property<string>("Description")
                                 .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)");
+                                .HasColumnType("nvarchar(max)");
 
                             b1.Property<int?>("LoanWithUsFileId")
                                 .HasColumnType("int");

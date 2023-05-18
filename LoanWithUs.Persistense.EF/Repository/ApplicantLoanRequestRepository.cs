@@ -28,7 +28,10 @@ namespace LoanWithUs.Persistense.EF.Repository
 
         public Task<ApplicantLoanRequest> FindApplicantLoanRequestForAdmin(int requestId)
         {
-            return _context.ApplicantLoanRequests.Where(m => m.Id == requestId).Include(m=>m.Supporter).FirstOrDefaultAsync();
+            return _context.ApplicantLoanRequests.Where(m => m.Id == requestId)
+                .Include(m=>m.Supporter)
+                .ThenInclude(m=>m.PersonalInformation)
+                .FirstOrDefaultAsync();
         }
 
         public void Update(ApplicantLoanRequest loanRequest)

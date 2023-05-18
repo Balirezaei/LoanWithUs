@@ -3,6 +3,7 @@
     public interface ILoanLadderFrameInstallmentBuilder
     {
 
+        ILoanLadderFrameInstallmentBuilder WithCustomeInstallment(int installment);
         ILoanLadderFrameInstallmentBuilder With6MoInstallment();
         ILoanLadderFrameInstallmentBuilder With36MoInstallment();
         ILoanLadderFrameInstallmentBuilder With24MoInstallment();

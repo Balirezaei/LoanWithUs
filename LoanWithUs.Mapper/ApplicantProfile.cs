@@ -15,11 +15,15 @@ namespace LoanWithUs.Mapper
                 ;
 
             CreateMap<RegisteredApplicantGridVm, RegisteredApplicantGridContract>();
+            
             CreateMap<Applicant, RegisteredApplicantDto>()
                    .ForMember(m => m.FullName, opt => opt.MapFrom(src => src.PersonalInformation.FirstName + " " + src.PersonalInformation.LastName))
                    .ForMember(m => m.MobileNumber, opt => opt.MapFrom(src => src.IdentityInformation.MobileNumber))
                    .ForMember(m => m.NationalCode, opt => opt.MapFrom(src => src.IdentityInformation.NationalCode))
                 ;
+
+            CreateMap<ApplicantPersonalInformationVm, ApplicantPersonalInformationCommand>();
+
 
         }
     }

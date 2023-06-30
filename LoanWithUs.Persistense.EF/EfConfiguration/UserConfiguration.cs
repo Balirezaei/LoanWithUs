@@ -71,7 +71,7 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
              sa =>
              {
                  sa.Property(p => p.FatherFullName).HasMaxLength(150).IsRequired(false).HasColumnName("FatherFullName");
-                 sa.Property(p => p.MatherFullName).HasMaxLength(150).IsRequired(false).HasColumnName("MatherFullName");
+                 sa.Property(p => p.MotherFullName).HasMaxLength(150).IsRequired(false).HasColumnName("MatherFullName");
                  sa.Property(p => p.FirstName).HasMaxLength(20).IsRequired(true).HasColumnName("FirstName");
                  sa.Property(p => p.LastName).HasMaxLength(20).IsRequired(true).HasColumnName("LastName");
                  sa.Property(p => p.Job).HasMaxLength(50).IsRequired(false).HasColumnName("Job");

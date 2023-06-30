@@ -23,7 +23,7 @@ namespace LoanWithUs.IntegrationTest.InSqlTest
         [Fact]
         public async Task Ladders_Have_One_Step_On_Db_Init()
         {
-            var loanFrame = await _toSqlTesting.GetAsync<LoanLadderFrame>(_ => true);
+            var loanFrame = await _toSqlTesting.GetAsync<LoanLadderFrame>(m=>m.Amount.amount>10);
 
             loanFrame.Count().Should().Be(1);
         }

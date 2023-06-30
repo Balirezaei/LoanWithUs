@@ -5,7 +5,7 @@
         protected PersonalInformation() { }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
-        public string MatherFullName { get; private set; }
+        public string MotherFullName { get; private set; }
         public string FatherFullName { get; private set; }
         public DateTime BirthDate { get; private set; }
         public string IdentityNumber { get; private set; }
@@ -18,6 +18,21 @@
         {
             FirstName = firstName;
             LastName = lastName;
+        }
+        public PersonalInformation(string firstName, string lastName,  string motherFullName, string fatherFullName, DateTime birthDate, 
+            string identityNumber, string job, bool isMale, bool isMarried, int childrenCount, int minimumIncome)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            MotherFullName = motherFullName;
+            FatherFullName = fatherFullName;
+            BirthDate = birthDate;
+            IdentityNumber = identityNumber;
+            Job = job;
+            IsMale = isMale;
+            IsMarried = isMarried;
+            ChildrenCount = childrenCount;
+            MinimumIncome = minimumIncome;
         }
     }
 

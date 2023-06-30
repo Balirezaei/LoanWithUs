@@ -56,6 +56,7 @@ namespace LoanWithUs.Domain
 
             return SupporterCredit.CurrentBalance - totalConfirmedRequest;
         }
+
         // TODO: Concurrency
         public void ConfirmApplicantLoanRequest(ApplicantLoanRequest loanRequest, IDateTimeServiceProvider dateProvider)
         {
@@ -186,7 +187,6 @@ namespace LoanWithUs.Domain
         {
         }
     }
-
 
 
     //TODO : Complete The model

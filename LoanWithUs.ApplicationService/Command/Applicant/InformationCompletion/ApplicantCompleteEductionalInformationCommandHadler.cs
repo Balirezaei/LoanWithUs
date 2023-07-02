@@ -33,34 +33,5 @@ namespace LoanWithUs.ApplicationService.Command
             return new ApplicantCompleteInformationCommandResult() { Message="عملیات با موفقیت انجام شد."};
         }
     }
-
-    public class ApplicantPersonalInformationCommandHadler : IRequestHandler<ApplicantPersonalInformationCommand, ApplicantCompleteInformationCommandResult>
-    {
-        private readonly IApplicantRepository _applicantRepository;
-        private readonly IApplicantReadRepository _applicantReadRepository;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IApplicantDomainService _applicantDomainService;
-
-        public ApplicantPersonalInformationCommandHadler(IApplicantRepository applicantRepository, IUnitOfWork unitOfWork, IApplicantReadRepository applicantReadRepository, IApplicantDomainService applicantDomainService)
-        {
-            _applicantRepository = applicantRepository;
-            _unitOfWork = unitOfWork;
-            _applicantReadRepository = applicantReadRepository;
-            _applicantDomainService = applicantDomainService;
-        }
-
-        public async Task<ApplicantCompleteInformationCommandResult> Handle(ApplicantPersonalInformationCommand request, CancellationToken cancellationToken)
-        {
-            var applicant = await _applicantReadRepository.FindApplicantByIdIncludeEducationalInformation(request.ApplicantId);
-            if (applicant == null)
-                throw new NotFoundException("چنین درخواستگری موجود نیست!");
-
-            //applicant.UpdatePersonalInformation(request.LastEducationLevel, request.EducationalSubject);
-            _applicantRepository.Update(applicant);
-            await _unitOfWork.CommitAsync();
-
-            return new ApplicantCompleteInformationCommandResult() { Message = "عملیات با موفقیت انجام شد." };
-        }
-    }
     
 }

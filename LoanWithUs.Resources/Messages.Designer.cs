@@ -223,6 +223,15 @@ namespace LoanWithUs.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to امکان تغییر اطلاعات پس از تایید اطلاعات شما توسط مدیر سامانه وجود ندارد، در صورت نیاز به تغییر درخواست بروزرسانی اطلاعات را بدهید..
+        /// </summary>
+        public static string ExceptionOnUpdateConfirmedApplicant {
+            get {
+                return ResourceManager.GetString("ExceptionOnUpdateConfirmedApplicant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to درخواست شما نامعتبر است.
         /// </summary>
         public static string LoanRequestInvalidStateChange {

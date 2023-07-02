@@ -4,6 +4,7 @@ using LoanWithUs.Common.Enum;
 using LoanWithUs.Common.ExtentionMethod;
 using LoanWithUs.Exceptions;
 using LoanWithUs.Resources;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LoanWithUs.Domain
 {
@@ -11,7 +12,7 @@ namespace LoanWithUs.Domain
     /// <summary>
     /// درخواستگر
     /// </summary>
-    public class Applicant : User
+    public partial class Applicant : User
     {
         protected Applicant() { }
 
@@ -111,8 +112,10 @@ namespace LoanWithUs.Domain
             CurrentLoanLadderFrame = domainService.InitLoaderForApplicant().Result;
             CurrentLoanLadderFrameId = domainService.InitLoaderForApplicant().Result.Id;
 
-            this.ApplicantLoanLadderHistory = new List<ApplicantLoanLadder>();
-            this.ApplicantLoanLadderHistory.Add(new ApplicantLoanLadder(CurrentLoanLadderFrameId, "نردبان یکم _ ثبت نام درخواستگر", dateProvider));
+            this.ApplicantLoanLadderHistory = new List<ApplicantLoanLadder>
+            {
+                new ApplicantLoanLadder(CurrentLoanLadderFrameId, "نردبان یکم _ ثبت نام درخواستگر", dateProvider)
+            };
 
             RegisterationDate = dateProvider.GetDate();
 
@@ -120,71 +123,26 @@ namespace LoanWithUs.Domain
 
         }
 
-        public class PersonalInformationBuilder {
-            private string firstName;
-            private string lastName;
-            private string motherFullName;
-            private string fatherFullName;
-            private DateTime birthDate;
-            private string identityNumber;
-            private string job;
-            private bool isMale;
-            private bool isMarried;
-            private int childrenCount;
-            private int minimumIncom;
-
-            public PersonalInformationBuilder WithNameAndGender(string firstName, string lastName,bool isMale)
+        public void UpdatePersonalInformation(PersonalInformation personalInformation)
+        {
+            if (PersonalInformation == null)
             {
-                this.firstName = firstName;
-                this.lastName = lastName;
-                this.isMale=isMale;
-                return this;
+                PersonalInformation = personalInformation;
             }
-
-            public PersonalInformationBuilder WithParentName(string motherFullName, string fatherFullName) {
-
-                this.motherFullName = motherFullName;
-                this.fatherFullName = fatherFullName;
-                return this;
-            }
-            public PersonalInformationBuilder WithMarriageInfo(bool isMarried,int childrenCount)
-            {
-                this.isMarried = isMarried;
-                this.childrenCount = childrenCount;
-                return this;
-            }
-            public PersonalInformationBuilder WithJobInfo(string job,int minimumIncome)
-            {
-                this.job = job;
-                this.minimumIncom = minimumIncome;
-                return this;
-            }
-            public PersonalInformation Builder()
-            {
-            //    string firstName, string lastName,  string motherFullName, string fatherFullName, DateTime birthDate, 
-            //string identityNumber, string job, bool isMale, bool isMarried, int childrenCount, int minimumIncome
-                return new PersonalInformation(firstName, lastName, motherFullName, fatherFullName, birthDate, identityNumber, job, isMale, isMarried, childrenCount, minimumIncom);
-            }
-        }
-
-        public void UpdatePersonalInformation(PersonalInformation personalInformation) { 
-                if (EducationalInformation == null)
-         {
-        //   ,
-        //    
-        // 
-        // 
-        // 
-        // 
-        // 
-        // IsMale 
-        //  
-        // 
-        // 
-    }
             else
             {
-
+                PersonalInformation.Update(
+                                            personalInformation.FirstName,
+                                            personalInformation.LastName,
+                                            personalInformation.MotherFullName,
+                                            personalInformation.FatherFullName,
+                                            personalInformation.BirthDate,
+                                            personalInformation.IdentityNumber,
+                                            personalInformation.Job,
+                                            personalInformation.IsMale,
+                                            personalInformation.IsMarried,
+                                            personalInformation.ChildrenCount,
+                                            personalInformation.MinimumIncome);
             }
         }
 
@@ -222,7 +180,7 @@ namespace LoanWithUs.Domain
         {
             var next = domainService.NextLadderForApplicant(this.CurrentLoanLadderFrame).Result;
 
-            if (next!=null)
+            if (next != null)
             {
                 this.CurrentLoanLadderFrame = next;
                 this.ApplicantLoanLadderHistory.Add(new ApplicantLoanLadder(next.Id, "وام تسویه شده", dateProvider));

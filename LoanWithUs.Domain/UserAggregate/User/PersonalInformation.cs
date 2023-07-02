@@ -19,7 +19,22 @@
             FirstName = firstName;
             LastName = lastName;
         }
-        public PersonalInformation(string firstName, string lastName,  string motherFullName, string fatherFullName, DateTime birthDate, 
+        internal PersonalInformation(string firstName, string lastName,  string motherFullName, string fatherFullName, DateTime birthDate, 
+            string identityNumber, string job, bool isMale, bool isMarried, int childrenCount, int minimumIncome)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            MotherFullName = motherFullName;
+            FatherFullName = fatherFullName;
+            BirthDate = birthDate;
+            IdentityNumber = identityNumber;
+            Job = job;
+            IsMale = isMale;
+            IsMarried = isMarried;
+            ChildrenCount = childrenCount;
+            MinimumIncome = minimumIncome;
+        }
+        internal void Update(string firstName, string lastName, string motherFullName, string fatherFullName, DateTime birthDate,
             string identityNumber, string job, bool isMale, bool isMarried, int childrenCount, int minimumIncome)
         {
             FirstName = firstName;
@@ -35,5 +50,6 @@
             MinimumIncome = minimumIncome;
         }
     }
+ 
 
 }

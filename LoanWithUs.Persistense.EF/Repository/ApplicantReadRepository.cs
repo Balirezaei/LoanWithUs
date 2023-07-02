@@ -60,7 +60,11 @@ namespace LoanWithUs.Persistense.EF.Repository
         {
             return _context.Applicants.Where(m => m.Id == id).Include(m=>m.CurrentLoanLadderFrame).SingleOrDefaultAsync();
         }
-
+        public Task<Applicant> FindApplicantByIdIncludePersonalInformationAndConfirmation(int id)
+        {
+            return _context.Applicants.Where(m => m.Id == id).Include(m => m.UserConfirmation).SingleOrDefaultAsync();
+        }
+        
         public Task<Applicant> FindFullApplicantAggregateById(int id)
         {
             return _context.Applicants.Where(m => m.Id == id)

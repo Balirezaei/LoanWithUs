@@ -171,6 +171,9 @@
   <data name="ApplicantLoanRequestWithoutTotalConfirmation" xml:space="preserve">
     <value>درخواستگر گرامی پس از تایید پروفایل کاربری امکان درخواست وام برای شما فراهم می باشد.</value>
   </data>
+  <data name="ExceptionOnUpdateConfirmedApplicant" xml:space="preserve">
+    <value>امکان تغییر اطلاعات پس از تایید اطلاعات شما توسط مدیر سامانه وجود ندارد، در صورت نیاز به تغییر درخواست بروزرسانی اطلاعات را بدهید.</value>
+  </data>
   <data name="LoanRequestInvalidStateChange" xml:space="preserve">
     <value>درخواست شما نامعتبر است</value>
   </data>

@@ -11,14 +11,12 @@ namespace LoanWithUs.ApplicationService.Command
         private readonly IApplicantRepository _applicantRepository;
         private readonly IApplicantReadRepository _applicantReadRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IApplicantDomainService _applicantDomainService;
 
-        public ApplicantPersonalInformationCommandHadler(IApplicantRepository applicantRepository, IUnitOfWork unitOfWork, IApplicantReadRepository applicantReadRepository, IApplicantDomainService applicantDomainService)
+        public ApplicantPersonalInformationCommandHadler(IApplicantRepository applicantRepository, IUnitOfWork unitOfWork, IApplicantReadRepository applicantReadRepository)
         {
             _applicantRepository = applicantRepository;
             _unitOfWork = unitOfWork;
             _applicantReadRepository = applicantReadRepository;
-            _applicantDomainService = applicantDomainService;
         }
 
         public async Task<ApplicantCompleteInformationCommandResult> Handle(ApplicantPersonalInformationCommand request, CancellationToken cancellationToken)

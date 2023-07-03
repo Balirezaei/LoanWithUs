@@ -30,6 +30,7 @@ namespace LoanWithUs.Domain
         Task<Applicant> FindApplicantByIdIncludePersonalInfo(int id);
         Task<Applicant> FindFullApplicantAggregateById(int id);
         Task<Applicant> FindApplicantByIdIncludeEducationalInformation(int id);
+        Task<Applicant> FindApplicantByIdIncludeBankAccount(int id);
         Task<Applicant> FindApplicantByIdIncludePersonalInformationAndConfirmation(int id);
         Task<Applicant> FindApplicantByIdForLoanRequest(int id);
         IQueryable<Applicant> GetAllApplicantBySupporter(int supporterId);

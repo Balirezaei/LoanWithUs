@@ -23,4 +23,22 @@ namespace LoanWithUs.ViewModel
         public int MinimumIncome { get; set; }
 
     }
+
+    public class ApplicantBanckAccountInformationVm
+    {
+        public string ShabaNumber { get;  set; }
+        public string BankCartNumber { get;  set; }
+        public BankType BankType { get;  set; }
+        public bool IsActive { get; set; }
+
+    }
+
+    public class ApplicantActiveBanckAccountInformationVm
+    {
+        public string ShabaNumber { get;  set; }
+    }
+    public class ApplicantRemoveBanckAccountInformationVm
+    {
+        public string ShabaNumber { get;  set; }
+    }
 }

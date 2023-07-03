@@ -223,6 +223,24 @@ namespace LoanWithUs.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to امکان ثبت تنها سه حساب بانکی به ازای هر درخواستگر وجود دارد.
+        /// </summary>
+        public static string ExceptionOnExtraBanckAccount {
+            get {
+                return ResourceManager.GetString("ExceptionOnExtraBanckAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to شماره کارت یا شماره شبای ارسالی تکراری می باشد..
+        /// </summary>
+        public static string ExceptionOnRepetetiveBanck {
+            get {
+                return ResourceManager.GetString("ExceptionOnRepetetiveBanck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to امکان تغییر اطلاعات پس از تایید اطلاعات شما توسط مدیر سامانه وجود ندارد، در صورت نیاز به تغییر درخواست بروزرسانی اطلاعات را بدهید..
         /// </summary>
         public static string ExceptionOnUpdateConfirmedApplicant {

@@ -4,7 +4,6 @@ using LoanWithUs.Common.Enum;
 using LoanWithUs.Common.ExtentionMethod;
 using LoanWithUs.Exceptions;
 using LoanWithUs.Resources;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace LoanWithUs.Domain
 {
@@ -158,15 +157,54 @@ namespace LoanWithUs.Domain
             }
         }
 
-        public void UpdateBankInformation(string shabaNumber, string cardNumber, BankType bankType)
+        public void AddBankInformation(string shabaNumber, string cardNumber, BankType bankType, bool isActive)
         {
-            var bankIformation = new BankAccountInformation(shabaNumber, cardNumber, bankType);
             if (BankAccountInformations == null)
             {
                 BankAccountInformations = new List<BankAccountInformation>();
             }
-            BankAccountInformations.Add(bankIformation);
 
+            if (this.BankAccountInformations.Count > 2)
+            {
+                throw new DomainException(Messages.ExceptionOnExtraBanckAccount);
+            }
+
+            if (this.BankAccountInformations.Any(m => m.IsActive))
+            {
+                isActive = false;
+            }
+
+
+            if (this.BankAccountInformations.Any(m => m.ShabaNumber == shabaNumber || m.BankCartNumber == cardNumber))
+            {
+                throw new DomainException(Messages.ExceptionOnRepetetiveBanck);
+            }
+
+            var bankIformation = new BankAccountInformation(shabaNumber, cardNumber, bankType, isActive);
+            BankAccountInformations.Add(bankIformation);
+        }
+
+        public void RemoveBanckAccount(string shabaNumber)
+        {
+            var banckAccount = this.BankAccountInformations.First(m => m.ShabaNumber == shabaNumber);
+            if (banckAccount != null)
+            {
+                this.BankAccountInformations.Remove(banckAccount);
+            }
+        }
+        public void ActiveCurrentBanckAccount(string shabaNumber)
+        {
+            foreach (var item in this.BankAccountInformations)
+            {
+                if (item.ShabaNumber==shabaNumber)
+                {
+                    item.IsActive=true;
+                }
+                else
+                {
+                    item.IsActive = false;
+                }
+            }  
         }
 
 

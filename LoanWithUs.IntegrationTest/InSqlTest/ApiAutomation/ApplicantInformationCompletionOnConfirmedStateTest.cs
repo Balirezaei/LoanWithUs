@@ -1,9 +1,12 @@
 ﻿using FluentAssertions;
+using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.IntegrationTest.Utility.WebFactory;
 using LoanWithUs.ViewModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net;
+using System.Security.Claims;
 
 namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
 {
@@ -53,5 +56,7 @@ namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
             result.Title.Should().Be(Resources.Messages.ExceptionOnUpdateConfirmedApplicant);
         }
 
+
+     
     }
 }

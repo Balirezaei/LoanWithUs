@@ -56,5 +56,31 @@ namespace LoanWithUs.RestApi.Controllers.Applicant
             return Ok(res);
         }
 
+        [HttpPost]
+        public Task<ApplicantCompleteInformationCommandResult> AddBanckAccount(ApplicantBanckAccountInformationVm vm)
+        {
+            var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
+            var cmd = _mapper.Map<ApplicantAddBankInformationCommand>(vm);
+            cmd.ApplicantId = int.Parse(userId);
+            return _mediator.Send(cmd);
+        }
+
+        [HttpPost]
+        public Task<ApplicantCompleteInformationCommandResult> DeleteBanckAccount(ApplicantRemoveBanckAccountInformationVm vm)
+        {
+            var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
+            var cmd = _mapper.Map<ApplicantRemoveBankAccountCommand>(vm);
+            cmd.ApplicantId = int.Parse(userId);
+            return _mediator.Send(cmd);
+        }
+        [HttpPost]
+        public Task<ApplicantCompleteInformationCommandResult> ActiveBanckAccount(ApplicantActiveBanckAccountInformationVm vm)
+        {
+            var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
+            var cmd = _mapper.Map<ApplicantActiveCurrentBanckAccountCommand>(vm);
+            cmd.ApplicantId = int.Parse(userId);
+            return _mediator.Send(cmd);
+        }
+
     }
 }

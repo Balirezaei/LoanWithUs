@@ -62,7 +62,10 @@ namespace LoanWithUs.Persistense.EF.Repository
         }
         public Task<Applicant> FindApplicantByIdIncludePersonalInformationAndConfirmation(int id)
         {
-            return _context.Applicants.Where(m => m.Id == id).Include(m => m.UserConfirmation).SingleOrDefaultAsync();
+            return _context.Applicants.Where(m => m.Id == id)
+                .Include(m=>m.PersonalInformation)
+                .Include(m => m.UserConfirmation)
+                .SingleOrDefaultAsync();
         }
         
         public Task<Applicant> FindFullApplicantAggregateById(int id)
@@ -92,6 +95,11 @@ namespace LoanWithUs.Persistense.EF.Repository
         Task<Applicant> IApplicantReadRepository.FindApplicantById(int id)
         {
             return _context.Applicants.Where(m => m.Id == id).FirstOrDefaultAsync();
+        }
+
+        public Task<Applicant> FindApplicantByIdIncludeBankAccount(int id)
+        {
+            return _context.Applicants.Where(m => m.Id == id).Include(m=>m.BankAccountInformations).Include(m => m.UserConfirmation).SingleOrDefaultAsync();
         }
     }
 }

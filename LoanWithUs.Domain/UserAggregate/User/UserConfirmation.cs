@@ -23,5 +23,8 @@
             PostalCodeConfirmation = postalCodeConfirmation;
             TotalConfirmation = personalInformationConfirmation && userBanckAccountConfirmation && mobileConfirmation && homePhoneConfirmation && postalCodeConfirmation;
         }
+         
     }
-}
+
+   
+    }

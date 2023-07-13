@@ -27,4 +27,17 @@ namespace LoanWithUs.ApplicationService.Contract
         public int MinimumIncome { get; set; }
 
     }
+
+    public class ApplicantAddressInformationCommand : IRequest<ApplicantCompleteInformationCommandResult>
+    {
+        public int ApplicantId { get; set; }
+        public int ProvinceId { get; set; }
+        public int CityId { get; set; }
+        public string PostalCode { get; set; }
+        public string HomeAddress { get; set; }
+        public string HomePhone { get; set; }
+        public string WorkAddress { get; set; }
+        public string WorkPhone { get; set; }
+
+    }
 }

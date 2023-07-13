@@ -2,6 +2,7 @@
 using LoanWithUs.Domain;
 using LoanWithUs.IntegrationTest.Utility.WebFactory;
 using LoanWithUs.Persistense.EF.ContextContainer;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace LoanWithUs.IntegrationTest.InSqlTest
         [Fact]
         public async Task Ladders_Have_One_Step_On_Db_Init()
         {
-            var loanFrame = await _toSqlTesting.GetAsync<LoanLadderFrame>(m=>m.Amount.amount>10);
+            var loanFrame = await _toSqlTesting.GetAsync<LoanLadderFrame>(m => m.Amount.amount > 10);
 
             loanFrame.Count().Should().Be(1);
         }
@@ -43,6 +44,7 @@ namespace LoanWithUs.IntegrationTest.InSqlTest
 
             stepOneDuplicate.Should().Throw<Exception>();
         }
+        
 
     }
 }

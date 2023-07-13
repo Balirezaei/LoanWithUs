@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LoanWithUs.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace LoanWithUs.Domain
 {
-    public  class City
+    public  class City: BasicInfo
     {
         protected City() { }
-        public int Id { get; set; }
+
         public string Title { get; set; }
         public int? ProvinceId { get; set; }
         public City? Province { get; set; }
-        public List<City> Cities { get; set; }
-        //public List<AddressInformation> CityAddressInformations { get; set; }
-        //public List<AddressInformation> ProvinceAddressInformations { get; set; }
+        public ICollection<City> Cities { get; set; }
+        //public ICollection<AddressInformation> CityAddressInformations { get; set; }
+        //public ICollection<AddressInformation> ProvinceAddressInformations { get; set; }
         /// <summary>
         /// پیش شماره تلفن ثابت
         /// </summary>

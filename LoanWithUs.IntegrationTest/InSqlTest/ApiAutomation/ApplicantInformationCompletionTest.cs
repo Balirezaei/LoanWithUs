@@ -1,10 +1,12 @@
 ﻿using FluentAssertions;
 using LoanWithUs.ApplicationService.Contract;
+using LoanWithUs.ApplicationService.Contract.Applicant;
 using LoanWithUs.Domain;
 using LoanWithUs.IntegrationTest.Utility.WebFactory;
 using LoanWithUs.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,26 +70,39 @@ namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
 
         }
 
+        [Theory]
+        [InlineData("FirstName", "ورود نام اجباری است.")]
+        [InlineData("LastName", "ورود نام خانوادگی اجباری است.")]
+        public async Task ApplicantShouldApplyValidationOnPersonalInformationCommand(string fieldName,string errorMessage)
+        {
+            //Fixture Setup
+            var vm = new ApplicantPersonalInformationVm
+            {
 
-        //[HttpPost]
-        //public Task<ApplicantCompleteInformationCommandResult> AddBanckAccount(ApplicantBanckAccountInformationVm vm)
-        //{
-        //    var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
-        //    var cmd = _mapper.Map<ApplicantAddBankInformationCommand>(vm);
-        //    cmd.ApplicantId = int.Parse(userId);
-        //    return _mediator.Send(cmd);
-        //}
+                FirstName = "FirstName",
+                LastName = "LastName",
+                IsMarried = false,
+                BirthDate = DateTime.Now.AddYears(30).Date,
+                MinimumIncome = 10000000,
+                ChildrenCount = 0,
+                Job = "Develop",
+                FatherFullName = "FatherFullName",
+                MotherFullName = "MotherFullName",
+                IdentityNumber = "12121",
+                IsMale = false,
+            };
 
-        //[HttpPost]
-        //public Task<ApplicantCompleteInformationCommandResult>  vm)
-        //{
-        //    var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
-        //    var cmd = _mapper.Map<ApplicantRemoveBankAccountCommand>(vm);
-        //    cmd.ApplicantId = int.Parse(userId);
-        //    return _mediator.Send(cmd);
-        //}
-        //[HttpPost]
-        //public Task<ApplicantCompleteInformationCommandResult>  vm)
+            vm.GetType().GetProperty(fieldName).SetValue(vm, null);
+            //Exersice
+            var response = await _toTesting.CallPostApi<ApplicantPersonalInformationVm>(vm, "/InformationCompletion/UpdateApplicantPersonalInformation");
+
+            //Verification
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            var responseText = await response.Content.ReadAsStringAsync();
+            responseText.Should().Contain("validation errors ");
+            responseText.Should().Contain(errorMessage);
+
+        }
 
         [Fact]
         public async Task ApplicantCanAddBanckAccount_On_Happy_Path()
@@ -190,7 +205,7 @@ namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
             };
 
             var response = await _toTesting.CallPostApi<ApplicantActiveBanckAccountInformationVm>(activeVm
-                       , 
+                       ,
                        "/InformationCompletion/ActiveBanckAccount");
 
 
@@ -212,6 +227,65 @@ namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
                       },
                       "/InformationCompletion/DeleteBanckAccount");
         }
+
+        [Fact]
+        public async Task UpdateUserDocument()
+        {
+            var file = await _toTesting.WithMockFile();
+
+            //UpdateDocumnets(List < ApplicantDocumentsVm > vm)
+            var vm = new List<ApplicantDocumentsVm>
+            {
+              new ApplicantDocumentsVm  {FileId = file.Id }
+            };
+            var response = await _toTesting.CallPostApi<List<ApplicantDocumentsVm>>(vm, "/InformationCompletion/UpdateDocumnets");
+
+            //Verification
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var applicant = await _toTesting.FindAsync<Applicant>(_toTesting.CurrentUser.UserId);
+
+            applicant.UserDocuments.Count().Should().Be(1);
+
+            //TearDawn
+            vm = new List<ApplicantDocumentsVm>();
+            await _toTesting.CallPostApi<List<ApplicantDocumentsVm>>(vm, "/InformationCompletion/UpdateDocumnets");
+        }
+
+        [Fact]
+        public async Task GetCityWithoutProvince_Should_Return_Provinces()
+        {
+            var response = await _toTesting.CallGetApi("/InformationCompletion/GetAllProvince");
+
+            var responseText = await response.Content.ReadAsStringAsync();
+            
+            //Verification
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var cities = JsonConvert.DeserializeObject<List<CityDto>>(responseText);
+
+            cities.Any(m => m.ProvinceId != null).Should().BeFalse();
+            cities.Count().Should().NotBe(0);
+        }
+
+        [Fact]
+        public async Task GetCityWithProvince_Should_Return_City()
+        {
+
+            var provinceId = 8;//Tehran On DB Migration
+            var response = await _toTesting.CallGetApi($"/InformationCompletion/GetAllCityWithProvince?provinceId={provinceId}");
+
+            //Verification
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var responseText = await response.Content.ReadAsStringAsync();
+
+            var cities = JsonConvert.DeserializeObject<List<CityDto>>(responseText);
+
+            cities.All(m=>m.ProvinceId==provinceId).Should().BeTrue();
+            cities.Count().Should().NotBe(0);
+        }
+
+
 
     }
 }

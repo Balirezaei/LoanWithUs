@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.Common.Enum;
+using LoanWithUs.Domain;
 using LoanWithUs.ViewModel;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace LoanWithUs.RestApi.Controllers.Applicant
@@ -36,7 +37,7 @@ namespace LoanWithUs.RestApi.Controllers.Applicant
             });
             return res;
         }
-        
+
         [HttpPost]
         public Task<ApplicantCompleteInformationCommandResult> UpdateApplicantPersonalInformation(ApplicantPersonalInformationVm vm)
         {
@@ -82,5 +83,38 @@ namespace LoanWithUs.RestApi.Controllers.Applicant
             return _mediator.Send(cmd);
         }
 
+
+        [HttpPost]
+        public Task<ApplicantCompleteInformationCommandResult> UpdateDocumnets(List<ApplicantDocumentsVm> vm)
+        {
+            var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
+            var cmd = new ApplicantDocumentsUpdateCommand
+            {
+                ApplicantId = int.Parse(userId),
+                FileId = vm.Select(m => m.FileId).ToArray(),
+            };
+            return _mediator.Send(cmd);
+        }
+
+        [HttpGet]
+        public Task<List<CityDto>> GetAllProvince()
+        {
+            return _mediator.Send(new GetCityQuery());
+        }
+
+        [HttpGet]
+        public Task<List<CityDto>> GetAllCityWithProvince(int provinceId)
+        {
+            return _mediator.Send(new GetCityQuery() { ParentProvince = provinceId });
+        }
+
+        [HttpPost]
+        public Task UpdateAddressInformation(ApplicantAddressInformationVm vm)
+        {
+            var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
+            var cmd = _mapper.Map<ApplicantAddressInformationCommand>(vm);
+            cmd.ApplicantId = int.Parse(userId);
+            return _mediator.Send(cmd);
+        }
     }
 }

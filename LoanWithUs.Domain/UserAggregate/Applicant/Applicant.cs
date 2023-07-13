@@ -7,7 +7,6 @@ using LoanWithUs.Resources;
 
 namespace LoanWithUs.Domain
 {
-
     /// <summary>
     /// درخواستگر
     /// </summary>
@@ -22,6 +21,21 @@ namespace LoanWithUs.Domain
         public virtual Supporter Supporter { get; private set; }
         public int SupporterId { get; private set; }
         public virtual List<ApplicantLoanRequest> LoanRequests { get; set; }
+        //public List<ApplicantConfirmationRequest> ConfirmationRequests { get; set; }
+
+        //public void RequestToCheckInformation(IDateTimeServiceProvider dateProvider)
+        //{
+        //    if (ConfirmationRequests == null)
+        //    {
+        //        ConfirmationRequests = new List<ApplicantConfirmationRequest>();
+        //    }
+        //    if (ConfirmationRequests.Any(m => m.IsProccessed == false))
+        //    {
+        //        throw new DomainException("درخواست شما در دست بررسی می باشد ،");
+        //    }
+        //    ConfirmationRequests.Add(new ApplicantConfirmationRequest(dateProvider.GetDate()));
+        //}
+
 
         //public Loan ActiveLoan { get; set; }
 
@@ -196,15 +210,15 @@ namespace LoanWithUs.Domain
         {
             foreach (var item in this.BankAccountInformations)
             {
-                if (item.ShabaNumber==shabaNumber)
+                if (item.ShabaNumber == shabaNumber)
                 {
-                    item.IsActive=true;
+                    item.IsActive = true;
                 }
                 else
                 {
                     item.IsActive = false;
                 }
-            }  
+            }
         }
 
 
@@ -222,6 +236,27 @@ namespace LoanWithUs.Domain
             {
                 this.CurrentLoanLadderFrame = next;
                 this.ApplicantLoanLadderHistory.Add(new ApplicantLoanLadder(next.Id, "وام تسویه شده", dateProvider));
+            }
+        }
+
+        public void UpdateApplicantDucuments(List<LoanWithUsFile> files)
+        {
+            this.UserDocuments.Clear();
+            this.UserDocuments = files.Select(m =>
+            {
+                return new UserDocument(m);
+            }).ToList();
+        }
+
+        public void UpdateAddressInformation(AddressInformation addressInformation)
+        {
+            if (this.AddressInformation==null)
+            {
+                this.AddressInformation = addressInformation;
+            }
+            else
+            {
+                this.AddressInformation.UpdateByNewValue(addressInformation);
             }
         }
     }

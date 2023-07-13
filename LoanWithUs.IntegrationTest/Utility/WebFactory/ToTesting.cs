@@ -149,6 +149,18 @@ namespace LoanWithUs.IntegrationTest
             foreach (var entry in changedEntriesCopy)
                 entry.State = EntityState.Detached;
         }
+        public virtual async Task<LoanWithUsFile> WithMockFile()
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<LoanWithUsContext>();
+            var file = new LoanWithUsFile("/moq", "testFile.jpg", ".jpg", "/moq/testFile.jpg", FileType.UserNationalCard);
+
+            await context.LoanWithUsFiles.AddAsync(file);
+
+            await context.SaveChangesAsync();
+
+            return file;
+        }
 
         public virtual async Task<UserLogin> WithMockAdminAttempdToLogin()
         {

@@ -28,6 +28,7 @@ namespace LoanWithUs.IntegrationTest.InSqlTest.ApiAutomation
         public async Task ApplicantCanNotChangePersonalInformationAfterAdminConfirmation()
         {
             await _toTesting.ConfirmApplicant();
+            
             //Fixture Setup
             var vm = new ApplicantPersonalInformationVm
             {

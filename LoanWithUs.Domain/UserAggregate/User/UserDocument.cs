@@ -3,7 +3,12 @@
     public class UserDocument
     {
         protected UserDocument() { }
-        public DocumentType DocumentType { get; set; }
+
+        internal UserDocument(LoanWithUsFile file)
+        {
+            File = file;
+        }
+
         public LoanWithUsFile File { get; set; }
 
     }

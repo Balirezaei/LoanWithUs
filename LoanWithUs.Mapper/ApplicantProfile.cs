@@ -27,7 +27,8 @@ namespace LoanWithUs.Mapper
             CreateMap<ApplicantBanckAccountInformationVm, ApplicantAddBankInformationCommand>();
             CreateMap<ApplicantRemoveBanckAccountInformationVm, ApplicantRemoveBankAccountCommand>();
             CreateMap<ApplicantActiveBanckAccountInformationVm, ApplicantActiveCurrentBanckAccountCommand>();
-
+            CreateMap<ApplicantAddressInformationVm, ApplicantAddressInformationCommand>();
+             
 
         }
     }

@@ -3,12 +3,7 @@ using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.IntegrationTest.Utility.WebFactory;
 using LoanWithUs.ViewModel;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LoanWithUs.IntegrationTest
 {

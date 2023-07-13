@@ -7,7 +7,7 @@ using LoanWithUs.Resources;
 
 namespace LoanWithUs.Domain.Test
 {
-    public class UpdateBankInformationTest
+    public class ApplicantUpdateBankInformationTest
     {
         //[Fact]
         //public void applicant_update_bank_information_create_exception_on_null_data()

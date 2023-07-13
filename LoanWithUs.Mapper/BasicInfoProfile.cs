@@ -20,7 +20,8 @@ namespace LoanWithUs.Mapper
                 .ForMember(desc => desc.ParentId, opt => opt.MapFrom(o => o.RequiredParentLoanId))
                 ;
 
-
+             
+            CreateMap< City, CityDto>();
             CreateMap<FileDto, LoanWithUsFile>();
 
 

@@ -4,4 +4,8 @@
     {
 
     }
+    public class BasicInfo
+    {
+        public int Id { get; set; }
+    }
 }

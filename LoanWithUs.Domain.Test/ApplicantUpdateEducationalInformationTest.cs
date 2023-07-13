@@ -5,7 +5,16 @@ using LoanWithUs.Exceptions;
 
 namespace LoanWithUs.Domain.Test
 {
-    public class UpdateEducationalInformationTest
+    public class ApplicantGeneralTest
+    {
+        [Fact]
+        public void Applicant_Can_Request_To_Check_his_Information()
+        {
+
+        }
+    }
+
+    public class ApplicantUpdateEducationalInformationTest
     {
         [Fact]
         public void Applicant_Update_EducationalInformation_should_Throw_Exception_OnNullInput()

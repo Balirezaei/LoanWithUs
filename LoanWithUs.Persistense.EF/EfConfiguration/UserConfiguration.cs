@@ -41,19 +41,20 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
             //sa =>
             //{
 
-            //    //sa.HasOne(c => c.Province).WithMany().HasForeignKey(a => a.CountryCode);
-            //    ////sa.WithOwner().HasForeignKey().
             //    sa.HasOne(p => p.Province)
-            //    .WithMany()
-            //    .HasForeignKey(p => p.ProvinceId)
-            //    .OnDelete(DeleteBehavior.NoAction);
+            //        .WithMany(m => m.ProvinceAddressInformations)
+            //        .HasForeignKey(p => p.ProvinceId)
+            //        .OnDelete(DeleteBehavior.NoAction);
 
-            //    //sa.HasOne(p => p.City)
-            //    //   .WithMany(p => p.CityAddressInformations)
-            //    //   .HasForeignKey(p => p.CityId)
-            //    //   .OnDelete(DeleteBehavior.NoAction);
+
+            //    sa.HasOne(p => p.City)
+            //       .WithMany(p => p.CityAddressInformations)
+            //       .HasForeignKey(p => p.CityId)
+            //       .OnDelete(DeleteBehavior.NoAction);
+
             //}
             //).ToTable("AddressInformation");
+
 
 
             //modelBuilder.Entity<Company>().OwnsOne<Address>(c => c.Address, a => {

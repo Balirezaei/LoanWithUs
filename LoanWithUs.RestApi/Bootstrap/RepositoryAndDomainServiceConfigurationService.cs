@@ -24,7 +24,12 @@ namespace LoanWithUs.RestApi.Bootstrap
             services.AddScoped<IApplicantLoanRequestDomainService, ApplicantLoanRequestDomainService>();
             services.AddScoped<IApplicantLoanRequestRepository, ApplicantLoanRequestRepository>();
             services.AddScoped<ILoanRepository, LoanRepository>();
-            
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+
+
+
             return services;
         }
     }

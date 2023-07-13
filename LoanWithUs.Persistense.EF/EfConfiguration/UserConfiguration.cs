@@ -1,4 +1,5 @@
-﻿using LoanWithUs.Common.DefinedType;
+﻿using LoanWithUs.Common;
+using LoanWithUs.Common.DefinedType;
 using LoanWithUs.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -81,6 +82,11 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
 
             builder.OwnsMany(m => m.UserDocuments).ToTable("UserDocument");
             builder.OwnsMany(m => m.BankAccountInformations).ToTable("AccountInformation");
+            builder.OwnsMany(m => m.BankAccountInformations, sa =>
+            {
+                sa.Property(z => z.BankType).HasMaxLength(30).HasConversion(v => v.ToString(), v => (BankType)Enum.Parse(typeof(BankType), v));
+
+            });
             builder.OwnsMany(m => m.UserLogins).ToTable("UserLogin");
 
         }

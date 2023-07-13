@@ -5,25 +5,25 @@ namespace LoanWithUs.Common
     public enum BankType
     {
         [Display(Name = "ملی")]
-        Melli = 1,
+        Melli,
         [Display(Name = "صادرات")]
-        Saderat = 2,
+        Saderat,
         [Display(Name = "تجارت")]
-        Tejarat = 3,
+        Tejarat,
         [Display(Name = "ملت")]
-        Mellat = 4,
+        Mellat,
         [Display(Name = "مسکن")]
-        Maskan = 5,
+        Maskan,
         [Display(Name = "قرض الحسنه رسالت")]
-        Resalat = 6,
+        Resalat,
         [Display(Name = "شهر")]
-        Sahr = 7,
+        Sahr,
         [Display(Name = "سامان")]
-        Saman = 8,
+        Saman,
         [Display(Name = "آینده")]
-        Ayandeh = 9,
+        Ayandeh,
         [Display(Name = "پاسارگاد")]
-        Pasargad = 10,
+        Pasargad,
 
         //        {text:"دکترا",value:"1"},
         //{text:"کارشناسی ارشد یا فوق لیسانس",value:"2"},

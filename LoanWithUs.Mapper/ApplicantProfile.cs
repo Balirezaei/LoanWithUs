@@ -10,12 +10,21 @@ namespace LoanWithUs.Mapper
         public ApplicantProfile()
         {
             CreateMap<Applicant, ApplicantDto>()
-                .ForMember(m => m.EducationalSubject, opt => opt.MapFrom(src => src.EducationalInformation != null ? src.EducationalInformation.EducationalSubject : null))
-                .ForMember(m => m.LastEducationLevel, opt => opt.MapFrom(src => src.EducationalInformation != null ? src.EducationalInformation.LastEducationLevel : 0))
+                .ForMember(m=>m.ApplicantEductionalInformation,opt=>opt.MapFrom(src=>src.EducationalInformation))
+                .ForMember(m=>m.ApplicantPersonalInformation, opt=>opt.MapFrom(src=>src.PersonalInformation))
+                .ForMember(m=>m.ApplicantAddressInformation, opt=>opt.MapFrom(src=>src.AddressInformation))
+                .ForMember(m=>m.ApplicantAddBankInformations, opt => opt.MapFrom(src=>src.BankAccountInformations))
+                
                 ;
 
+            CreateMap<EducationalInformation, ApplicantEductionalInformationDto>();
+            CreateMap<PersonalInformation, ApplicantPersonalInformationDto>();
+            CreateMap<AddressInformation, ApplicantAddressInformationDto>();
+            CreateMap<BankAccountInformation, ApplicantAddBankInformationDto>();
+
+
             CreateMap<RegisteredApplicantGridVm, RegisteredApplicantGridContract>();
-            
+
             CreateMap<Applicant, RegisteredApplicantDto>()
                    .ForMember(m => m.FullName, opt => opt.MapFrom(src => src.PersonalInformation.FirstName + " " + src.PersonalInformation.LastName))
                    .ForMember(m => m.MobileNumber, opt => opt.MapFrom(src => src.IdentityInformation.MobileNumber))
@@ -28,7 +37,7 @@ namespace LoanWithUs.Mapper
             CreateMap<ApplicantRemoveBanckAccountInformationVm, ApplicantRemoveBankAccountCommand>();
             CreateMap<ApplicantActiveBanckAccountInformationVm, ApplicantActiveCurrentBanckAccountCommand>();
             CreateMap<ApplicantAddressInformationVm, ApplicantAddressInformationCommand>();
-             
+
 
         }
     }

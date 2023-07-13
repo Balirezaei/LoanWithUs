@@ -3,17 +3,18 @@ using MediatR;
 
 namespace LoanWithUs.ApplicationService.Contract
 {
-    public class ApplicantCompleteEductionalInformationCommand : IRequest<ApplicantCompleteInformationCommandResult>
+    public class ApplicantEductionalInformationDto
     {
-        public int ApplicantId { get; set; }
         public EducationLevel LastEducationLevel { get; set; }
         public string EducationalSubject { get; set; }
-
     }
-
-    public class ApplicantPersonalInformationCommand : IRequest<ApplicantCompleteInformationCommandResult>
+    public class ApplicantCompleteEductionalInformationCommand : ApplicantEductionalInformationDto, IRequest<ApplicantCompleteInformationCommandResult>
     {
         public int ApplicantId { get; set; }
+    
+
+    }
+    public class ApplicantPersonalInformationDto {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MotherFullName { get; set; }
@@ -25,12 +26,14 @@ namespace LoanWithUs.ApplicationService.Contract
         public bool IsMarried { get; set; }
         public int ChildrenCount { get; set; }
         public int MinimumIncome { get; set; }
-
     }
-
-    public class ApplicantAddressInformationCommand : IRequest<ApplicantCompleteInformationCommandResult>
+    public class ApplicantPersonalInformationCommand : ApplicantPersonalInformationDto, IRequest<ApplicantCompleteInformationCommandResult>
     {
         public int ApplicantId { get; set; }
+    }
+
+    public class ApplicantAddressInformationDto
+    {
         public int ProvinceId { get; set; }
         public int CityId { get; set; }
         public string PostalCode { get; set; }
@@ -38,6 +41,11 @@ namespace LoanWithUs.ApplicationService.Contract
         public string HomePhone { get; set; }
         public string WorkAddress { get; set; }
         public string WorkPhone { get; set; }
+    }
+
+    public class ApplicantAddressInformationCommand : ApplicantAddressInformationDto, IRequest<ApplicantCompleteInformationCommandResult>
+    {
+        public int ApplicantId { get; set; }
 
     }
 }

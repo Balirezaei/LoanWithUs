@@ -6,6 +6,7 @@ using LoanWithUs.RestApi.Filter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration Configuration = builder.Configuration;
@@ -18,6 +19,9 @@ builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ApiExceptionFilterAttribute>();
     options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+}).AddJsonOptions(opt =>
+{
+    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
 //.AddFluentValidation(x => x.AutomaticValidationEnabled = false)

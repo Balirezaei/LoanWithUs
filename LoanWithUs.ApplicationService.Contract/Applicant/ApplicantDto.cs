@@ -7,8 +7,13 @@ namespace LoanWithUs.ApplicationService.Contract
 {
     public class ApplicantDto
     {
-        public EducationLevel LastEducationLevel { get; set; }
-        public string EducationalSubject { get; set; }
+        //public EducationLevel LastEducationLevel { get; set; }
+        //public string EducationalSubject { get; set; }
+        public ApplicantEductionalInformationDto ApplicantEductionalInformation { get; set; }
+        public ApplicantPersonalInformationDto ApplicantPersonalInformation { get; set; }
+        public ApplicantAddressInformationDto ApplicantAddressInformation { get; set; }
+        public List<ApplicantAddBankInformationDto> ApplicantAddBankInformations { get; set; }
+
     }
 
     public class GetApplicantDashboardQuery : IRequest<ApplicantDashboard>

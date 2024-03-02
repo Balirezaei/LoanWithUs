@@ -39,6 +39,11 @@
 
             return this;
         }
+        public PersonalInformationBuilder WithIdentityNumber(string identityNumber)
+        {
+            this.identityNumber=identityNumber;
+            return this;
+        }
         public PersonalInformationBuilder WithJobInfo(string job, int minimumIncome)
         {
             this.job = job;

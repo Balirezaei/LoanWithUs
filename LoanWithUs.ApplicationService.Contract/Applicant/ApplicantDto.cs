@@ -12,7 +12,8 @@ namespace LoanWithUs.ApplicationService.Contract
         public ApplicantEductionalInformationDto ApplicantEductionalInformation { get; set; }
         public ApplicantPersonalInformationDto ApplicantPersonalInformation { get; set; }
         public ApplicantAddressInformationDto ApplicantAddressInformation { get; set; }
-        public List<ApplicantAddBankInformationDto> ApplicantAddBankInformations { get; set; }
+        public List<ApplicantBankInformationDto> ApplicantBankInformations { get; set; }
+        public List<FileDto> ApplicantDocuments { get; set; }
 
     }
 

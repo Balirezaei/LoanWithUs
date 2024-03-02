@@ -13,7 +13,8 @@ namespace LoanWithUs.Mapper
         public BasicInfoProfile()
         {
             CreateMap<LoanWithUsFile, FileDto>();
-
+            CreateMap<LoanWithUsFile, CreateFileCommandResult>();
+            
             CreateMap<LoanLadderFrame, LoanLadderFrameDto>()
                 .ForMember(desc => desc.Amount, opt => opt.MapFrom(o => $"{o.Amount.amount.ToStringSplit3Digit()} {o.Amount.moneyType.GetDisplayName()}"))
                 .ForMember(desc => desc.Installments, opt => opt.MapFrom(o => string.Join(',', o.AvalableInstallments.Select(z => z.Count).ToArray())))

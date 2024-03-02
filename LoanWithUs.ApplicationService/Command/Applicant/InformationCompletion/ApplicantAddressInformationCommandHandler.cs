@@ -36,7 +36,7 @@ namespace LoanWithUs.ApplicationService.Command
             var city = await _cityRepository.GetByPredicate(m => m.Id == request.CityId).Include(m => m.Province).FirstOrDefaultAsync();
 
             var addressInformation = new AddressInformationBuilder()
-                .WithHomeInfo(request.PostalCode, request.HomePhone, request.HomePhone)
+                .WithHomeInfo(request.PostalCode, request.HomeAddress, request.HomePhone)
                 .WithCity(city)
                 .WithWorkInfo(request.WorkAddress, request.WorkPhone)
                 .Build();

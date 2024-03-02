@@ -109,7 +109,7 @@ namespace LoanWithUs.Domain
             Flows.Add(new ApplicantLoanRequestFlow(this.LastState, Messages.ApplicantCancelTheRequest, dateProvider));
         }
 
-        public Loan PaiedRequest(LoanWithUsFile receipt, IDateTimeServiceProvider dateProvider)
+        public Loan PaiedRequest(LoanWithUsFile receipt,float loanWage, IDateTimeServiceProvider dateProvider)
         {
             //Check Previous State
             if (LastState != ApplicantLoanRequestState.ReadyToPay)
@@ -123,7 +123,7 @@ namespace LoanWithUs.Domain
                 Flows = new List<ApplicantLoanRequestFlow>();
             }
             Flows.Add(new ApplicantLoanRequestFlow(LastState, String.Format(Messages.AdminAcceptLoanRequest, this.Amount.amount.ToStringSplit3Digit()), dateProvider));
-            return new Loan(this, receipt, dateProvider);
+            return new Loan(this, receipt,loanWage, dateProvider);
         }
 
         public int Id { get; set; }

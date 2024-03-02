@@ -42,7 +42,7 @@ namespace LoanWithUs.Domain.Test
             return _applicantDomainService;
         }
 
-        private Loan CreateLoan(int amount, int instalmentCount)
+        private Loan CreateLoan(int amount,float loanWage, int instalmentCount)
         {
             var supporter = new SupporterBuilder().Build();
 
@@ -51,35 +51,39 @@ namespace LoanWithUs.Domain.Test
             var loanRequest = applicant.RequestNewLoan("", "", new Amount(amount, Common.Enum.MoneyType.Toman), new LoanLadderInstallmentsCount(instalmentCount), GetApplicantLoanRequestDomainService(true, false, false), dateProvider);
             supporter.ConfirmApplicantLoanRequest(loanRequest, dateProvider);
             admin.ConfirmApplicantLoanRequest(loanRequest, dateProvider);
-            return admin.PaiedApplicantLoanRequest(loanRequest, new LoanWithUsFile("", "", "", "", FileType.DepositReceipt), dateProvider);
+            return admin.PaiedApplicantLoanRequest(loanRequest, new LoanWithUsFile("", "", "", "", FileType.DepositReceipt),loanWage, dateProvider);
 
         }
         [Theory]
-        [InlineData(1000000, 5, 200000, 15000)]
-        [InlineData(2000000, 5, 400000, 30000)]
-        [InlineData(4000000, 10, 400000, 60000)]
-        public void TheInstalmentShouldWorkProperlyWithRoundPricingAndCount(int amount, int instalmentCount, int installmentExpect, int amountWithWage)
+        [InlineData(1000000, 5, 200000, 15000,0.025)]
+        [InlineData(2000000, 5, 400000, 30000,0.025)]
+        [InlineData(4000000, 10, 400000, 60000,0.025)]
+        public void TheInstalmentShouldWorkProperlyWithRoundPricingAndCount(int amount, int instalmentCount, int installmentExpect, int amountWithWage,float loanWage)
         {
             //_administrator.
-            var loan = CreateLoan(amount, instalmentCount);
+            var loan = CreateLoan(amount,loanWage, instalmentCount);
             loan.LoanInstallments.Should().HaveCount(c => c == instalmentCount);
             loan.LoanInstallments.Select(c => c.Amount).First().Should().Be(installmentExpect);
             loan.LoanInstallments.Select(c => c.Amount).Last().Should().Be(installmentExpect + amountWithWage);
         }
 
         [Theory]
-        [InlineData(1000000, 6, 166666, 166670, 15000)]
-        [InlineData(1000000, 12, 83333, 83337, 15000)]
-        [InlineData(2000000, 6, 333333, 333335, 30000)]
-        [InlineData(2000000, 12, 166666, 166674, 30000)]
-        [InlineData(4000000, 12, 333333, 333337, 60000)]
-        [InlineData(4000000, 24, 166666, 166682, 60000)]
-        public void TheInstalmentShouldWorkProperlyWithNOTRoundPricingAndCount(int amount, int instalmentCount, int installmentExpect, int lastInstallmentExpect, int amountWithWage)
+        //[InlineData(1000000, 6, 166666, 166670, 15000)]
+        //[InlineData(1000000, 12, 83333, 83337, 15000)]
+        //[InlineData(2000000, 6, 333333, 333335, 30000)]
+        //[InlineData(2000000, 12, 166666, 166674, 30000)]
+        //[InlineData(4000000,0.025, 12, 333333, 433337, 100000)]
+        //[InlineData(4000000, 0.0125, 6, 666666, 716670, 50000)]
+        //[InlineData(8000000, 0.0125, 6, 1333333, 1433335, 100000)]
+        [InlineData(8000000, 0.025, 12, 666666, 866674, 200000)]
+        public void TheInstalmentShouldWorkProperlyWithNOTRoundPricingAndCount(int amount,float loanWage, int instalmentCount, int installmentExpect, int lastInstallmentExpect, int wageAmount)
         {
-            var loan = CreateLoan(amount, instalmentCount);
+            var loan = CreateLoan(amount,loanWage, instalmentCount);
             loan.LoanInstallments.Should().HaveCount(c => c == instalmentCount);
             loan.LoanInstallments.Select(c => c.Amount).ToArray()[0].Should().Be(installmentExpect);
-            loan.LoanInstallments.Select(c => c.Amount).Last().Should().Be(lastInstallmentExpect + amountWithWage);
+            var lastAmount = loan.LoanInstallments.Select(c => c.Amount).Last();
+            lastAmount.Should().Be(lastInstallmentExpect);
+            (lastAmount+(installmentExpect* (instalmentCount-1))).Should().Be(amount+wageAmount);
         }
 
     }

@@ -5,17 +5,17 @@ namespace LoanWithUs.Common
     public enum EducationLevel
     {
         [Display(Name= "دکترا")]
-        Doctorate=1,
+        Doctorate,
         [Display(Name = "کارشناسی ارشد یا فوق لیسانس")]
-        Master =2,
+        Master,
         [Display(Name = "کارشناسی یا لیسانس")]
-        Bachelor =3,
+        Bachelor,
         [Display(Name = "فوق دیپلم یا کاردانی")]
-        AdvancedDiploma=4,
+        AdvancedDiploma,
         [Display(Name = "دوره ی متوسطه دوم یا دیپلم")]
-        diploma = 5,
+        Diploma,
         [Display(Name = "دوره ی متوسطه اول یا سیکل")]
-        FirstHighSchool =6,
+        FirstHighSchool,
 
     }
 }

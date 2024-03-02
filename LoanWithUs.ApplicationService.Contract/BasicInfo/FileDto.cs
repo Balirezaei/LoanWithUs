@@ -1,4 +1,5 @@
 ﻿using LoanWithUs.Common;
+using LoanWithUs.Common.ExtentionMethod;
 
 namespace LoanWithUs.ApplicationService.Contract
 {
@@ -9,5 +10,9 @@ namespace LoanWithUs.ApplicationService.Contract
         public string Path { get; set; }
         public string FileName { get; set; }
         public FileType FileType { get; set; }
+        public string FileTypeDescription
+        {
+            get { return this.FileType.GetDisplayName(); }
+        }
     }
 }

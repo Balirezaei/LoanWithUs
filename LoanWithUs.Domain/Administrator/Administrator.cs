@@ -68,13 +68,13 @@ namespace LoanWithUs.Domain
             loanRequest.Supporter.RejectAcceptedLoanRequest(loanRequest);
         }
 
-        public Loan PaiedApplicantLoanRequest(ApplicantLoanRequest loanRequest, LoanWithUsFile receipt, IDateTimeServiceProvider dateProvider)
+        public Loan PaiedApplicantLoanRequest(ApplicantLoanRequest loanRequest, LoanWithUsFile receipt,float loanWage, IDateTimeServiceProvider dateProvider)
         {
             if (receipt == null)
             {
                 throw new InvalidDomainInputException("ورود تصویر فیش واریزی اجباریست.");
             }
-            return loanRequest.PaiedRequest(receipt, dateProvider);
+            return loanRequest.PaiedRequest(receipt,loanWage, dateProvider);
         }
 
     }

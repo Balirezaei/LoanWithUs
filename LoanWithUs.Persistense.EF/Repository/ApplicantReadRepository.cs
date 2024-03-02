@@ -76,6 +76,7 @@ namespace LoanWithUs.Persistense.EF.Repository
                 .Include(m => m.BankAccountInformations)
                 .Include(m => m.IdentityInformation)
                 .Include(m => m.PersonalInformation)
+                .Include(m => m.UserDocuments).ThenInclude(m=>m.File)
                 .FirstOrDefaultAsync();
         }
 
@@ -104,7 +105,9 @@ namespace LoanWithUs.Persistense.EF.Repository
 
         public Task<Applicant> FindApplicantByIdIncludeDocumentsConfirmation(int id)
         {
-            return _context.Applicants.Where(m => m.Id == id).Include(m => m.UserDocuments).Include(m => m.UserConfirmation).SingleOrDefaultAsync();
+            return _context.Applicants.Where(m => m.Id == id)
+                .Include(m => m.UserDocuments).ThenInclude(m => m.File)
+                .Include(m => m.UserConfirmation).SingleOrDefaultAsync();
         }
 
         public Task<Applicant> FindApplicantByIdIncludeAddressInformation(int id)

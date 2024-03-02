@@ -74,7 +74,7 @@ namespace LoanWithUs.Domain.Test
         public void After_Admin_Paied_Applicant_Loan_Request_Loan_Is_Create()
         {
             administrator.ConfirmApplicantLoanRequest(applicantLoanRequest, dateProvider);
-            var loan=administrator.PaiedApplicantLoanRequest(applicantLoanRequest, new LoanWithUsFile("", "", "", "", FileType.DepositReceipt), dateProvider);
+            var loan=administrator.PaiedApplicantLoanRequest(applicantLoanRequest, new LoanWithUsFile("", "", "", "", FileType.DepositReceipt), StaticDataForBegining.LoanWage, dateProvider);
             loan.Should().NotBeNull();
             loan.LoanInstallments.Count().Should().Be(applicantLoanRequest.InstallmentsCount);
         }

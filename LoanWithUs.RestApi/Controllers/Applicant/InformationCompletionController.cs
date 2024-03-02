@@ -74,6 +74,7 @@ namespace LoanWithUs.RestApi.Controllers.Applicant
             cmd.ApplicantId = int.Parse(userId);
             return _mediator.Send(cmd);
         }
+
         [HttpPost]
         public Task<ApplicantCompleteInformationCommandResult> ActiveBanckAccount(ApplicantActiveBanckAccountInformationVm vm)
         {
@@ -85,7 +86,7 @@ namespace LoanWithUs.RestApi.Controllers.Applicant
 
 
         [HttpPost]
-        public Task<ApplicantCompleteInformationCommandResult> UpdateDocumnets(List<ApplicantDocumentsVm> vm)
+        public Task<ApplicantUpdateDocumentsResult> UpdateDocumnets(List<ApplicantDocumentsVm> vm)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
             var cmd = new ApplicantDocumentsUpdateCommand

@@ -15,6 +15,7 @@ namespace LoanWithUs.IntegrationTest.InMemoryTests.CommandHandlerAutomation
         public SupporterApplicantResistrationApiTests(ToMemoryTestingBySupporterRole toMemoryTesting)
         {
             _toMemoryTesting = toMemoryTesting;
+
         }
 
         [Fact]

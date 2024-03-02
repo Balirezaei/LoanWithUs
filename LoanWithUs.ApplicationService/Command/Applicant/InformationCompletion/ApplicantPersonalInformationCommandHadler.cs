@@ -37,6 +37,7 @@ namespace LoanWithUs.ApplicationService.Command
                   .WithMarriageInfo(request.IsMarried, request.ChildrenCount)
                   .WithJobInfo(request.Job, request.MinimumIncome)
                   .WithBirthDate(request.BirthDate)
+                  .WithIdentityNumber(request.IdentityNumber)
                   .Build();
 
             applicant.UpdatePersonalInformation(newPersonalInfo);

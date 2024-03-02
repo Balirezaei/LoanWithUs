@@ -37,36 +37,6 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
                sa.HasIndex(p => p.MobileNumber).IsUnique();
            });
 
-
-            //builder.OwnsOne(m => m.AddressInformation,
-            //sa =>
-            //{
-
-            //    sa.HasOne(p => p.Province)
-            //        .WithMany(m => m.ProvinceAddressInformations)
-            //        .HasForeignKey(p => p.ProvinceId)
-            //        .OnDelete(DeleteBehavior.NoAction);
-
-
-            //    sa.HasOne(p => p.City)
-            //       .WithMany(p => p.CityAddressInformations)
-            //       .HasForeignKey(p => p.CityId)
-            //       .OnDelete(DeleteBehavior.NoAction);
-
-            //}
-            //).ToTable("AddressInformation");
-
-
-
-            //modelBuilder.Entity<Company>().OwnsOne<Address>(c => c.Address, a => {
-            //    a.HasOne<Country>(c => c.Country).WithMany().HasForeignKey(a => a.CountryCode);
-            //});
-            //        builder.OwnsOne<AddressInformation>(z => z.AddressInformation, x => { x.WithOwner().HasForeignKey()})
-            //        builder.OwnsOne<AddressInformation>(
-            //subBuilder =>
-            //{
-            //    subBuilder.WithOwner().HasForeignKey("ApplicationUserId");
-            //});
             builder.OwnsOne(m => m.PersonalInformation).ToTable("PersonalInformation");
 
             builder.OwnsOne(o => o.PersonalInformation,
@@ -85,6 +55,12 @@ namespace LoanWithUs.Persistense.EF.EfConfiguration
             builder.OwnsMany(m => m.BankAccountInformations, sa =>
             {
                 sa.Property(z => z.BankType).HasMaxLength(30).HasConversion(v => v.ToString(), v => (BankType)Enum.Parse(typeof(BankType), v));
+
+            });
+
+            builder.OwnsOne(m => m.EducationalInformation, sa =>
+            {
+                sa.Property(z => z.LastEducationLevel).HasMaxLength(30).HasConversion(v => v.ToString(), v => (EducationLevel)Enum.Parse(typeof(EducationLevel), v));
 
             });
             builder.OwnsMany(m => m.UserLogins).ToTable("UserLogin");

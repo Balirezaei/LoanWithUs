@@ -241,16 +241,27 @@ namespace LoanWithUs.Domain
 
         public void UpdateApplicantDucuments(List<LoanWithUsFile> files)
         {
-            this.UserDocuments.Clear();
-            this.UserDocuments = files.Select(m =>
+            //this.UserDocuments.Clear();
+            //this.UserDocuments = files.Select(m =>
+            //{
+            //    return new UserDocument(m);
+            //}).ToList();
+            foreach (var file in files)
             {
-                return new UserDocument(m);
-            }).ToList();
+                if (this.UserDocuments.Any(m => m.File.FileType == file.FileType))
+                {
+                    var first = this.UserDocuments.First(m => m.File.FileType == file.FileType);
+
+                    this.UserDocuments.Remove(first);
+                }
+                this.UserDocuments.Add(new UserDocument(file));
+            }
+
         }
 
         public void UpdateAddressInformation(AddressInformation addressInformation)
         {
-            if (this.AddressInformation==null)
+            if (this.AddressInformation == null)
             {
                 this.AddressInformation = addressInformation;
             }

@@ -1,4 +1,5 @@
-﻿using LoanWithUs.ApplicationService.Contract;
+﻿using AutoMapper;
+using LoanWithUs.ApplicationService.Contract;
 using LoanWithUs.Common;
 using LoanWithUs.Domain;
 using MediatR;
@@ -11,13 +12,15 @@ namespace LoanWithUs.ApplicationService.Command
         private readonly IFileRepository _fileRepository;
         private readonly IFileService _fileService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public CreateFileCommandHandler(FileSettings fileSettings, IFileRepository fileRepository, IUnitOfWork unitOfWork, IFileService fileService)
+        public CreateFileCommandHandler(FileSettings fileSettings, IFileRepository fileRepository, IUnitOfWork unitOfWork, IFileService fileService, IMapper mapper)
         {
             _fileSettings = fileSettings;
             _fileRepository = fileRepository;
             _unitOfWork = unitOfWork;
             _fileService = fileService;
+            _mapper = mapper;
         }
 
         public async Task<CreateFileCommandResult> Handle(CreateFileCommand request, CancellationToken cancellationToken)
@@ -29,13 +32,7 @@ namespace LoanWithUs.ApplicationService.Command
             await _fileService.WriteFile(request.File, filePath);
             await _fileRepository.Create(file);
             await _unitOfWork.CommitAsync();
-            return new CreateFileCommandResult()
-            {
-                Id = file.Id,
-                Url = url,
-                Path = filePath,
-                Name = name
-            };
+            return _mapper.Map<CreateFileCommandResult>(file);
         }
     }
 }

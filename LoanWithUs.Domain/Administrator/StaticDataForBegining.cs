@@ -14,7 +14,7 @@
         {
             get
             {
-                return (float)0.015;
+                return (float)0.025;
             }
         }
 

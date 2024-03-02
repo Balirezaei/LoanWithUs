@@ -41,7 +41,7 @@ namespace LoanWithUs.Domain
         public virtual List<LoanRequiredDocument> LoanRequiredDocuments { get; set; }
         public float LoanWage { get; private set; }
 
-        internal Loan(ApplicantLoanRequest loanRequest, LoanWithUsFile ReciptFile, IDateTimeServiceProvider dateProvider)
+        internal Loan(ApplicantLoanRequest loanRequest, LoanWithUsFile ReciptFile,float loanWage, IDateTimeServiceProvider dateProvider)
         {
             if (loanRequest.LastState!=Common.Enum.ApplicantLoanRequestState.Paied)
             {
@@ -53,7 +53,7 @@ namespace LoanWithUs.Domain
             Requester = loanRequest.Applicant;
             StartDate = dateProvider.GetDate();
             this.ReciptFile = ReciptFile;
-            this.LoanWage = StaticDataForBegining.LoanWage;
+            this.LoanWage = loanWage;
             if (this.LoanRequiredDocuments == null)
             {
                 this.LoanRequiredDocuments = new List<LoanRequiredDocument>();
